@@ -26,7 +26,7 @@ export function AlpineLookbookSpread() {
         {/* Left Column: Full-Height Hero Visual (7 Cols) */}
         <div className="lg:col-span-7 group relative aspect-editorial-tall lg:aspect-auto lg:min-h-[620px] overflow-hidden bg-[#111] p-8 sm:p-12 flex flex-col justify-end text-white">
           <Image
-            src="https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1600"
+            src="https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=1600"
             alt="Alpine Altitude Campaign Shot"
             fill
             sizes="(max-width: 1024px) 100vw, 60vw"
@@ -60,7 +60,7 @@ export function AlpineLookbookSpread() {
           {/* Card 1: Cashmere & Tailored Outerwear */}
           <div className="group relative flex-1 min-h-[290px] overflow-hidden bg-[#111] p-6 sm:p-8 flex flex-col justify-end text-white">
             <Image
-              src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=85&w=1000"
+              src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1000"
               alt="Cashmere Overcoat Editorial"
               fill
               sizes="(max-width: 1024px) 100vw, 40vw"

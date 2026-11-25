@@ -12,7 +12,7 @@ export interface SocialPost {
 export const SOCIAL_GALLERY: SocialPost[] = [
   {
     id: "soc-1",
-    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=800",
     handle: "@vallis_archive",
     location: "Lofoten Islands, Norway",
     taggedProduct: {
@@ -22,7 +22,7 @@ export const SOCIAL_GALLERY: SocialPost[] = [
   },
   {
     id: "soc-2",
-    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=80&w=800",
     handle: "@studio_cold",
     location: "Zurich, Switzerland",
     taggedProduct: {

@@ -8,10 +8,22 @@ import { CheckCircle2 } from "lucide-react";
 export function NewsletterSection() {
   const [email, setEmail] = React.useState("");
   const [submitted, setSubmitted] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email && email.includes("@")) {
+      setSubmitting(true);
+      try {
+        await fetch("/api/newsletter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, frequency: "weekly" }),
+        });
+      } catch {
+        // graceful local fallback
+      }
+      setSubmitting(false);
       setSubmitted(true);
     }
   };

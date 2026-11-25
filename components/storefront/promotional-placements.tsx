@@ -10,7 +10,7 @@ export function PromotionalPlacements() {
         {/* Placement 1: Urban Winter Commute */}
         <div className="group relative aspect-editorial-wide md:aspect-[16/10] overflow-hidden bg-charcoal p-8 sm:p-12 flex flex-col justify-end text-canvas border border-canvas-muted">
           <Image
-            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=1200"
+            src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1200"
             alt="Urban Winter Commute"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
