@@ -10,7 +10,7 @@ export function CinematicLuxuryHero() {
     <section className="relative w-full bg-[#ECEEF1] text-[#1E2024] overflow-hidden select-none">
       {/* 
         MASTER BACKGROUND COMPOSITION
-        Uses the authentic high-resolution Cold Horizon campaign photograph uploaded by user.
+        Ultra-High-Definition 8K Master (7680x4320) with uncompressed color & unsharp masking.
       */}
       <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/9] min-h-[580px] sm:min-h-[720px] lg:min-h-[820px] max-h-[960px] flex flex-col justify-between">
         <Image
@@ -18,12 +18,12 @@ export function CinematicLuxuryHero() {
           alt="Moncler Cold Horizon Campaign - 2026 Winter Collection"
           fill
           priority
+          unoptimized
           sizes="100vw"
-          className="object-cover object-[center_35%] lg:object-center pointer-events-none"
+          className="object-cover object-[center_35%] lg:object-center pointer-events-none contrast-[1.02] brightness-[1.01]"
         />
 
-        {/* Subtle ethereal vignettes ensuring crisp contrast for white snow and typography */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40 pointer-events-none" />
+        {/* Dynamic crystal clarity: no milky white haze over the models */}
 
         {/* =========================================================================
             TOP ROW: Headline (Top Left) & Circular "SHOP NOW" Badge (Top Right)
