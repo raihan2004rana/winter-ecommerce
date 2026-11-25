@@ -1,65 +1,186 @@
-import Link from "next/link";
-import { NavigationBar } from "@/components/design-system/navigation-bar";
-import { CampaignHeroBanner } from "@/components/design-system/editorial-banner";
-import { Button } from "@/components/ui/button";
+"use client";
 
-export default function HomePage() {
+import * as React from "react";
+import { AnnouncementBar } from "@/components/storefront/announcement-bar";
+import { NavigationHeader } from "@/components/storefront/navigation-header";
+import { SearchModal } from "@/components/storefront/search-modal";
+import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
+import { HeroSection } from "@/components/storefront/hero-section";
+import { FeaturedCollections } from "@/components/storefront/featured-collections";
+import { BestSellersSection } from "@/components/storefront/bestsellers-section";
+import { NewArrivalsSection } from "@/components/storefront/new-arrivals-section";
+import { SplitCraftBanner } from "@/components/design-system/editorial-banner";
+import { FlashSaleSection } from "@/components/storefront/flash-sale-section";
+import { CategoryGridSection } from "@/components/storefront/category-grid-section";
+import { PromotionalPlacements } from "@/components/storefront/promotional-placements";
+import { BrandStorySection } from "@/components/storefront/brand-story-section";
+import { CustomerReviewsSection } from "@/components/storefront/customer-reviews-section";
+import { NewsletterSection } from "@/components/storefront/newsletter-section";
+import { SocialInspirationSection } from "@/components/storefront/social-inspiration-section";
+import { SiteFooter } from "@/components/storefront/site-footer";
+import { Product } from "@/data/products";
+
+export default function StorefrontHomePage() {
+  // Global Storefront State
+  const [activeCurrency, setActiveCurrency] = React.useState<"USD" | "EUR" | "GBP" | "CAD">("USD");
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const [isCartOpen, setIsCartOpen] = React.useState(false);
+
+  // Initial demo shopping bag with 2 items
+  const [cartItems, setCartItems] = React.useState<CartItem[]>([
+    {
+      id: "prod-001",
+      title: "Nordic Expedition Down Parka",
+      price: 685,
+      size: "M",
+      color: "Obsidian Slate",
+      image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=80&w=600",
+      quantity: 1,
+    },
+    {
+      id: "prod-006",
+      title: "Brushed Cashmere Ribbed Scarf",
+      price: 185,
+      size: "One Size",
+      color: "Pine Green",
+      image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=80&w=600",
+      quantity: 1,
+    },
+  ]);
+
+  const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+  // Handle adding garments to cart from any section
+  const handleAddToCart = (product: Product, size: string) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === product.id && item.size === size);
+      if (existing) {
+        return prev.map((item) =>
+          item.id === product.id && item.size === size
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [
+        ...prev,
+        {
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          size,
+          color: product.colorways[0]?.name || "Standard",
+          image: product.primaryImage,
+          quantity: 1,
+        },
+      ];
+    });
+    setIsCartOpen(true);
+  };
+
+  const handleUpdateQuantity = (id: string, delta: number) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) => {
+          if (item.id === id) {
+            const newQty = item.quantity + delta;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
+          }
+          return item;
+        })
+        .filter((item): item is CartItem => item !== null)
+    );
+  };
+
+  const handleRemoveItem = (id: string) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-canvas text-charcoal">
-      <NavigationBar />
-      
+    <div className="min-h-screen flex flex-col bg-canvas text-charcoal font-sans selection:bg-forest selection:text-canvas">
+      {/* 1. Configurable Announcement Bar */}
+      <AnnouncementBar
+        activeCurrency={activeCurrency}
+        onCurrencyChange={(curr) => setActiveCurrency(curr)}
+      />
+
+      {/* 2 & 3. Premium Responsive Navigation with Mega Menu */}
+      <NavigationHeader
+        cartCount={totalCartCount}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenSearch={() => setIsSearchOpen(true)}
+      />
+
+      {/* Interactive Search Overlay Modal */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        currency={activeCurrency}
+        onSelectProduct={(p) => handleAddToCart(p, p.sizes[0] || "M")}
+      />
+
+      {/* Slide-Over Shopping Bag Drawer */}
+      <MiniCartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        currency={activeCurrency}
+        items={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+      />
+
       <main className="flex-1">
-        {/* Editorial Campaign Hero */}
-        <CampaignHeroBanner
-          title="HIGH COLD ARCHIVAL SERIES"
-          subtitle="A study in thermal equilibrium. Hand-crafted down parkas, shearling outerwear, and cashmere mid-layers built for -30°C expeditions and quiet urban winters."
-          eyebrow="Season 2026/27 Drop 01"
-          ctaText="Explore Collection"
-          imageUrl="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=1920"
+        {/* 4 & 5. Editorial Hero Section & Primary/Secondary CTAs */}
+        <HeroSection />
+
+        {/* 6. Featured Winter Collections */}
+        <FeaturedCollections />
+
+        {/* 7. Best-Selling Products */}
+        <BestSellersSection
+          currency={activeCurrency}
+          onAddToCart={handleAddToCart}
         />
 
-        {/* Design System Access Banner */}
-        <section className="max-w-7xl mx-auto px-6 py-16 sm:py-24 border-b border-canvas-muted">
-          <div className="max-w-3xl space-y-6">
-            <span className="editorial-caps text-forest font-semibold">
-              Design System Foundation Active
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-charcoal font-normal tracking-tight">
-              Quiet Luxury Editorial Design System
-            </h2>
-            <p className="text-sm text-charcoal-600 leading-relaxed">
-              We have established the complete, human-curated visual design architecture for VALLIS & ORE. 
-              Review the color tokens, typography scale, spacing rhythm, button states, product card variations, 
-              and promotional banners on our dedicated showcase.
-            </p>
-            <div className="pt-2 flex items-center space-x-4">
-              <Link href="/design-system">
-                <Button variant="forest" size="lg">
-                  View Design System Showcase →
-                </Button>
-              </Link>
-              <Link href="/design-system#cards">
-                <Button variant="outline" size="lg">
-                  Inspect Product Cards
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* 8. New Arrivals with Tab Filters */}
+        <NewArrivalsSection
+          currency={activeCurrency}
+          onAddToCart={handleAddToCart}
+        />
+
+        {/* 9. Seasonal Promotional Banner (Split Craft & Material Philosophy) */}
+        <SplitCraftBanner
+          title="RESPONSIBLE DOWN & THERMAL INTEGRITY"
+          description="Every down cluster is 100% certified under the Responsible Down Standard (RDS). Packed with 850 fill power for maximum warmth-to-weight ratio without unnecessary bulk."
+          ctaText="Explore Material Philosophy"
+        />
+
+        {/* 10. Limited-Time Offer / Flash Sale Section with Live Countdown */}
+        <FlashSaleSection
+          currency={activeCurrency}
+          onAddToCart={handleAddToCart}
+        />
+
+        {/* 11. Featured Category Sections */}
+        <CategoryGridSection />
+
+        {/* 12. Promotional Advertisement Placements */}
+        <PromotionalPlacements />
+
+        {/* 13. Brand Story Section */}
+        <BrandStorySection />
+
+        {/* 14. Customer Reviews */}
+        <CustomerReviewsSection />
+
+        {/* 15. Newsletter Subscription */}
+        <NewsletterSection />
+
+        {/* 16. Instagram / Social Inspiration Section */}
+        <SocialInspirationSection />
       </main>
 
-      <footer className="border-t border-canvas-muted bg-canvas-subtle py-12 px-6 text-center text-xs text-charcoal-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 VALLIS & ORE International. All rights reserved.</p>
-          <div className="flex space-x-6 text-2xs uppercase tracking-widest text-charcoal-600">
-            <span>New York</span>
-            <span>London</span>
-            <span>Paris</span>
-            <span>Stockholm</span>
-            <span>Zurich</span>
-          </div>
-        </div>
-      </footer>
+      {/* 17. Complete Footer with Policies and Customer Support */}
+      <SiteFooter />
     </div>
   );
 }
