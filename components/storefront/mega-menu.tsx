@@ -21,33 +21,37 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
       <div className="max-w-7xl mx-auto px-6 sm:px-12 py-10 grid grid-cols-12 gap-8 text-charcoal">
         {/* Column 1: Outerwear & Coats */}
         <div className="col-span-3 space-y-4">
-          <span className="editorial-caps text-forest font-semibold block border-b border-canvas-muted pb-2">
-            Outerwear & Down
-          </span>
+          <Link
+            href="/category/jackets-coats"
+            onClick={onClose}
+            className="editorial-caps text-forest font-semibold block border-b border-canvas-muted pb-2 hover:text-black transition-colors"
+          >
+            Outerwear & Down →
+          </Link>
           <ul className="space-y-2.5 text-xs text-charcoal-700">
             <li>
-              <Link href="#outerwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/nordic-expedition-down-parka" onClick={onClose} className="hover:text-forest transition-colors block">
                 Sub-Zero Expedition Parkas (-30°C)
               </Link>
             </li>
             <li>
-              <Link href="#outerwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/classic-winter-down-coat" onClick={onClose} className="hover:text-forest transition-colors block">
                 Tailored Double-Faced Wool Coats
               </Link>
             </li>
             <li>
-              <Link href="#outerwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/thermal-insulated-shell-coat" onClick={onClose} className="hover:text-forest transition-colors block">
                 3-Layer GORE Alpine Hard Shells
               </Link>
             </li>
             <li>
-              <Link href="#outerwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/ultra-lightweight-down-jacket" onClick={onClose} className="hover:text-forest transition-colors block">
                 Lightweight Quilted Down Vests
               </Link>
             </li>
             <li>
-              <Link href="#outerwear" onClick={onClose} className="hover:text-forest transition-colors block">
-                Storm Transit Trench Shells
+              <Link href="/products/belted-longline-down-coat" onClick={onClose} className="hover:text-forest transition-colors block">
+                Belted Longline Down Parkas
               </Link>
             </li>
           </ul>
@@ -55,32 +59,36 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
 
         {/* Column 2: Knitwear & Mid-Layers */}
         <div className="col-span-3 space-y-4">
-          <span className="editorial-caps text-forest font-semibold block border-b border-canvas-muted pb-2">
-            Knitwear & Layers
-          </span>
+          <Link
+            href="/category/sweaters-hoodies"
+            onClick={onClose}
+            className="editorial-caps text-forest font-semibold block border-b border-canvas-muted pb-2 hover:text-black transition-colors"
+          >
+            Knitwear & Layers →
+          </Link>
           <ul className="space-y-2.5 text-xs text-charcoal-700">
             <li>
-              <Link href="#knitwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/pure-cashmere-crewneck-sweater" onClick={onClose} className="hover:text-forest transition-colors block">
                 100% Mongolian Cashmere Sweaters
               </Link>
             </li>
             <li>
-              <Link href="#knitwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/heavyweight-merino-cable-knit" onClick={onClose} className="hover:text-forest transition-colors block">
                 Heavyweight 450 GSM Merino Knits
               </Link>
             </li>
             <li>
-              <Link href="#knitwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/thermal-cashmere-turtleneck" onClick={onClose} className="hover:text-forest transition-colors block">
                 Thermal Cashmere Turtlenecks
               </Link>
             </li>
             <li>
-              <Link href="#knitwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/category/sweaters-hoodies" onClick={onClose} className="hover:text-forest transition-colors block">
                 Polartec High-Pile Sherpa Fleece
               </Link>
             </li>
             <li>
-              <Link href="#knitwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/category/sweaters-hoodies" onClick={onClose} className="hover:text-forest transition-colors block">
                 Hydrophobic Base Layer Tops
               </Link>
             </li>
@@ -89,33 +97,37 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
 
         {/* Column 3: Footwear & Accessories */}
         <div className="col-span-3 space-y-4">
-          <span className="editorial-caps text-forest font-semibold block border-b border-canvas-muted pb-2">
-            Footwear & Gear
-          </span>
+          <Link
+            href="/category/boots-accessories"
+            onClick={onClose}
+            className="editorial-caps text-forest font-semibold block border-b border-canvas-muted pb-2 hover:text-black transition-colors"
+          >
+            Footwear & Gear →
+          </Link>
           <ul className="space-y-2.5 text-xs text-charcoal-700">
             <li>
-              <Link href="#footwear" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/shearling-lined-alpine-boots" onClick={onClose} className="hover:text-forest transition-colors block">
                 Shearling-Lined Alpine Boots
               </Link>
             </li>
             <li>
-              <Link href="#footwear" onClick={onClose} className="hover:text-forest transition-colors block">
-                Vibram Arctic Grip Ice Walkers
+              <Link href="/products/merino-ribbed-balaclava-beanie" onClick={onClose} className="hover:text-forest transition-colors block">
+                Merino Ribbed Beanies & Balaclavas
               </Link>
             </li>
             <li>
-              <Link href="#accessories" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/products/thistle-brushed-cashmere-scarf" onClick={onClose} className="hover:text-forest transition-colors block">
                 Thistle-Brushed Cashmere Scarves
               </Link>
             </li>
             <li>
-              <Link href="#accessories" onClick={onClose} className="hover:text-forest transition-colors block">
+              <Link href="/category/boots-accessories" onClick={onClose} className="hover:text-forest transition-colors block">
                 Deerskin PrimaLoft Gold Gloves
               </Link>
             </li>
             <li>
-              <Link href="#accessories" onClick={onClose} className="hover:text-forest transition-colors block">
-                Merino Ribbed Beanies & Balaclavas
+              <Link href="/category/boots-accessories" onClick={onClose} className="hover:text-forest transition-colors block">
+                Vibram Arctic Grip Ice Walkers
               </Link>
             </li>
           </ul>
@@ -142,7 +154,7 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
               Sub-Zero Expedition Parkas
             </h4>
             <Link
-              href="#outerwear"
+              href="/category/jackets-coats"
               onClick={onClose}
               className="text-2xs uppercase tracking-widest text-forest font-medium hover:underline block pt-1"
             >

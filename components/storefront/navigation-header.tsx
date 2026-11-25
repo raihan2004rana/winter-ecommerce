@@ -41,32 +41,46 @@ export function NavigationHeader({
           </Link>
         </div>
 
-        {/* Center: Navigation Links (WINTER 26, WOMEN, MAN) */}
-        <div className="hidden lg:flex items-center space-x-10 text-xs uppercase tracking-widest font-medium text-[#222]">
+        {/* Center: Navigation Links (SHOP ALL, WOMEN, MAN, NEW, SALE) */}
+        <div className="hidden lg:flex items-center space-x-9 text-xs uppercase tracking-widest font-medium text-[#222]">
           <div
             className="relative"
             onMouseEnter={() => setMegaMenuOpen(true)}
           >
             <button
               onClick={() => setMegaMenuOpen(!megaMenuOpen)}
-              className="hover:text-black py-2 tracking-widest transition-colors font-medium"
+              className="hover:text-black py-2 tracking-widest transition-colors font-medium flex items-center space-x-1"
             >
-              WINTER 26
+              <span>WINTER 26</span>
             </button>
           </div>
 
           <Link
-            href="#our-collection"
+            href="/collections/women"
             className="hover:text-black py-2 tracking-widest transition-colors"
           >
             WOMEN
           </Link>
 
           <Link
-            href="#our-collection"
+            href="/collections/men"
             className="hover:text-black py-2 tracking-widest transition-colors"
           >
             MAN
+          </Link>
+
+          <Link
+            href="/products"
+            className="hover:text-black py-2 tracking-widest transition-colors"
+          >
+            SHOP ALL
+          </Link>
+
+          <Link
+            href="/collections/sale"
+            className="text-[#B91C1C] font-semibold hover:text-black py-2 tracking-widest transition-colors"
+          >
+            SALE
           </Link>
         </div>
 
@@ -125,30 +139,65 @@ export function NavigationHeader({
         <div className="lg:hidden border-t border-[#EAEAEA] bg-white px-6 py-6 space-y-4">
           <nav className="flex flex-col space-y-3 text-xs uppercase tracking-widest font-medium text-[#222]">
             <Link
-              href="#our-collection"
+              href="/products"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-black"
             >
-              WINTER 26
+              SHOP ALL PRODUCTS
             </Link>
             <Link
-              href="#our-collection"
+              href="/collections/women"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-black"
             >
-              WOMEN COLLECTION
+              WOMEN&apos;S COLLECTION
             </Link>
             <Link
-              href="#our-collection"
+              href="/collections/men"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-black"
             >
-              MEN COLLECTION
+              MEN&apos;S COLLECTION
+            </Link>
+            <Link
+              href="/category/jackets-coats"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-1 hover:text-black"
+            >
+              JACKETS & COATS
+            </Link>
+            <Link
+              href="/category/sweaters-hoodies"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-1 hover:text-black"
+            >
+              SWEATERS & HOODIES
+            </Link>
+            <Link
+              href="/category/boots-accessories"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-1 hover:text-black"
+            >
+              BOOTS & ACCESSORIES
+            </Link>
+            <Link
+              href="/collections/new-arrivals"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-1 hover:text-black"
+            >
+              NEW ARRIVALS
+            </Link>
+            <Link
+              href="/collections/sale"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-1 text-[#B91C1C] font-semibold hover:text-black"
+            >
+              WINTER ARCHIVE SALE
             </Link>
             <Link
               href="#account"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 text-black font-semibold"
+              className="py-1 text-black font-semibold pt-2 border-t border-[#EAEAEA]"
             >
               MY ACCOUNT
             </Link>

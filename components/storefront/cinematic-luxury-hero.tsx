@@ -56,24 +56,18 @@ export function CinematicLuxuryHero({
 
             {/* High-Contrast Campaign Action Buttons */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
-              <button
-                onClick={onShopWomen || (() => {
-                  const el = document.getElementById("core-apparel");
-                  el?.scrollIntoView({ behavior: "smooth" });
-                })}
-                className="bg-white hover:bg-[#EAEAEA] text-black px-8 py-3.5 text-xs uppercase tracking-widest font-semibold transition-all shadow-md hover:shadow-lg"
+              <Link
+                href="/collections/women"
+                className="bg-white hover:bg-[#EAEAEA] text-black px-8 py-3.5 text-xs uppercase tracking-widest font-semibold transition-all shadow-md hover:shadow-lg inline-block text-center"
               >
                 Shop Women&apos;s Collection
-              </button>
-              <button
-                onClick={onShopMen || (() => {
-                  const el = document.getElementById("core-apparel");
-                  el?.scrollIntoView({ behavior: "smooth" });
-                })}
-                className="border border-white/60 hover:border-white bg-black/40 hover:bg-white hover:text-black text-white px-8 py-3.5 text-xs uppercase tracking-widest font-semibold transition-all backdrop-blur-sm"
+              </Link>
+              <Link
+                href="/collections/men"
+                className="border border-white/60 hover:border-white bg-black/40 hover:bg-white hover:text-black text-white px-8 py-3.5 text-xs uppercase tracking-widest font-semibold transition-all backdrop-blur-sm inline-block text-center"
               >
                 Shop Men&apos;s Collection
-              </button>
+              </Link>
             </div>
           </div>
 

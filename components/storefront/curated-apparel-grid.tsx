@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { REFERENCE_COLLECTION_PRODUCTS, Product } from "@/data/products";
 import { Heart, ChevronDown } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
@@ -170,9 +171,11 @@ export function CuratedApparelGrid({
                     )}
                   </div>
 
-                  <h3 className="font-sans text-xs sm:text-sm font-semibold text-[#111] group-hover:text-[#555] transition-colors line-clamp-1">
-                    {product.title}
-                  </h3>
+                  <Link href={`/products/${product.slug}`}>
+                    <h3 className="font-sans text-xs sm:text-sm font-semibold text-[#111] group-hover:text-forest transition-colors line-clamp-1 hover:underline underline-offset-2">
+                      {product.title}
+                    </h3>
+                  </Link>
 
                   <div className="flex items-center space-x-2">
                     <span className="font-mono text-xs sm:text-sm font-bold text-[#111]">

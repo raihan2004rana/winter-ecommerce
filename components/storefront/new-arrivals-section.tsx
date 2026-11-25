@@ -13,17 +13,17 @@ export function NewArrivalsSection({
   currency,
   onAddToCart,
 }: NewArrivalsSectionProps) {
-  const [activeTab, setActiveTab] = React.useState<"all" | "down" | "parkas" | "boots">("all");
+  const [activeTab, setActiveTab] = React.useState<"all" | "jackets-coats" | "sweaters-hoodies" | "boots-accessories">("all");
 
   const filteredProducts = activeTab === "all"
     ? PRODUCTS_CATALOG.slice(0, 4)
     : PRODUCTS_CATALOG.filter((p) => p.category === activeTab).slice(0, 4);
 
-  const tabs: Array<{ key: "all" | "down" | "parkas" | "boots"; label: string }> = [
+  const tabs: Array<{ key: "all" | "jackets-coats" | "sweaters-hoodies" | "boots-accessories"; label: string }> = [
     { key: "all", label: "All Arrivals" },
-    { key: "down", label: "Down Jackets" },
-    { key: "parkas", label: "Parkas" },
-    { key: "boots", label: "Winter Boots" },
+    { key: "jackets-coats", label: "Jackets & Down" },
+    { key: "sweaters-hoodies", label: "Knitwear & Hoodies" },
+    { key: "boots-accessories", label: "Boots & Gear" },
   ];
 
   return (

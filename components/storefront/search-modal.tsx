@@ -129,13 +129,14 @@ export function SearchModal({
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredProducts.map((p) => (
-                <div
+                <Link
                   key={p.id}
+                  href={`/products/${p.slug}`}
                   onClick={() => {
                     onSelectProduct?.(p);
                     onClose();
                   }}
-                  className="group cursor-pointer border border-canvas-muted bg-canvas-elevated p-3 space-y-2 transition-all duration-300 hover:border-charcoal hover:shadow-editorial"
+                  className="group cursor-pointer border border-canvas-muted bg-canvas-elevated p-3 space-y-2 transition-all duration-300 hover:border-charcoal hover:shadow-editorial block"
                 >
                   <div className="relative aspect-editorial-tall w-full overflow-hidden bg-canvas-subtle">
                     <Image
@@ -161,7 +162,7 @@ export function SearchModal({
                       {formatCurrency(p.price, currency)}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
