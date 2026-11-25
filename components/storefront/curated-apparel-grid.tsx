@@ -21,7 +21,7 @@ const STUDIO_REFERENCE_COLLECTION = [
     price: 249.0,
     categoryKey: "waterproof",
     isRestock: false,
-    image: "https://images.unsplash.com/photo-1544022613-e87ce7526edb?auto=format&fit=crop&q=85&w=800", // Mint/Teal puffer jacket
+    image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=800", // Mint/Teal puffer jacket
     colorways: [{ name: "Glacial Mint", hex: "#7BB5B4" }],
     sizes: ["S", "M", "L", "XL"],
   },
