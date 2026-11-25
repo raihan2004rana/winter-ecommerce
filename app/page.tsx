@@ -1,60 +1,48 @@
 "use client";
 
 import * as React from "react";
-import { AnnouncementBar } from "@/components/storefront/announcement-bar";
-import { NavigationHeader } from "@/components/storefront/navigation-header";
+import { WardrobeExactHeader } from "@/components/storefront/wardrobe-exact-header";
+import { WardrobeExactHero } from "@/components/storefront/wardrobe-exact-hero";
+import { WardrobeExactBestSellers } from "@/components/storefront/wardrobe-exact-best-sellers";
+import { WardrobeExactCategories } from "@/components/storefront/wardrobe-exact-categories";
+import { WardrobeExactUgc } from "@/components/storefront/wardrobe-exact-ugc";
+import { WardrobeExactPromo } from "@/components/storefront/wardrobe-exact-promo";
+import { WardrobeExactJournal } from "@/components/storefront/wardrobe-exact-journal";
+import { WardrobeExactInstagram } from "@/components/storefront/wardrobe-exact-instagram";
+import { WardrobeExactFooter } from "@/components/storefront/wardrobe-exact-footer";
+
 import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
-
-// Framer Wardrobe Elevated Structure Components
-import { WardrobeElevatedHero } from "@/components/storefront/wardrobe-hero";
-import { WardrobeBestSellers } from "@/components/storefront/wardrobe-best-sellers";
-import { WardrobeCategoryGrid } from "@/components/storefront/wardrobe-category-grid";
-import { WardrobeUgcSocial } from "@/components/storefront/wardrobe-ugc-social";
-import { WardrobePromoCountdown } from "@/components/storefront/wardrobe-promo-countdown";
-import { WardrobeJournalSection } from "@/components/storefront/wardrobe-journal-section";
-import { WardrobeTrustPillars } from "@/components/storefront/wardrobe-trust-pillars";
-
-// Supporting Editorial & Brand Heritage
-import { AlpineLookbookSpread } from "@/components/storefront/alpine-lookbook-spread";
-import { BrandStorySection } from "@/components/storefront/brand-story-section";
-import { CustomerReviewsSection } from "@/components/storefront/customer-reviews-section";
-import { NewsletterSection } from "@/components/storefront/newsletter-section";
-import { SocialInspirationSection } from "@/components/storefront/social-inspiration-section";
-import { SiteFooter } from "@/components/storefront/site-footer";
 import { Product } from "@/data/products";
 
 export default function StorefrontHomePage() {
-  // Global Storefront State
-  const [activeCurrency, setActiveCurrency] = React.useState<"USD" | "EUR" | "GBP" | "CAD">("USD");
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
 
-  // Initial demo shopping bag with 2 items
+  // Cart state
   const [cartItems, setCartItems] = React.useState<CartItem[]>([
     {
-      id: "ref-001",
-      title: "Thermal Insulated Shell Coat",
-      price: 249,
+      id: "mens-active-tank",
+      title: "Mens Active Tank",
+      price: 40.0,
       size: "M",
-      color: "Glacial Mint",
-      image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=600",
+      color: "Navy",
+      image: "/images/wardrobe/8RwNEkUBdMbEJWp4v6iW3kWzQjQ.png",
       quantity: 1,
     },
     {
-      id: "ref-002",
-      title: "Classic Winter Down Coat",
-      price: 349,
+      id: "mens-court-polo",
+      title: "Mens Court Polo",
+      price: 49.0,
       size: "L",
-      color: "Chestnut Brown",
-      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
+      color: "Black",
+      image: "/images/wardrobe/pZNT9DG83xrRFjY0hhUxzQMVnTQ.png",
       quantity: 1,
     },
   ]);
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  // Handle adding garments to cart from any section
   const handleAddToCart = (product: Product, size: string) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === product.id && item.size === size);
@@ -101,105 +89,65 @@ export default function StorefrontHomePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#111] font-sans selection:bg-[#111] selection:text-white">
-      {/* 1. Configurable Announcement Bar */}
-      <AnnouncementBar
-        activeCurrency={activeCurrency}
-        onCurrencyChange={(curr) => setActiveCurrency(curr)}
-      />
-
-      {/* 2. Premium Luxury Navigation Header (WARDROBE / MONCLER Style) */}
-      <NavigationHeader
+      {/* 1. Header (WARDROBE logo, Women, Men, Journal, About, Cart Pill) */}
+      <WardrobeExactHeader
         cartCount={totalCartCount}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
-      {/* Interactive Search Overlay Modal */}
+      {/* Interactive Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        currency={activeCurrency}
+        currency="USD"
         onSelectProduct={(p) => handleAddToCart(p, p.sizes[0] || "M")}
       />
 
-      {/* Slide-Over Shopping Bag Drawer */}
+      {/* Slide-Over Cart Drawer */}
       <MiniCartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
-        currency={activeCurrency}
+        currency="USD"
         items={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
       />
 
       <main className="flex-1">
-        {/* =========================================================================
-            SECTION 1: HERO — "Designed for colder days" + 8K MASTER CAMPAIGN
-            Exact Wardrobe structure elevated with 8K Moncler Cold Horizon canvas!
-        ========================================================================== */}
-        <WardrobeElevatedHero onShopClick={() => setIsCartOpen(true)} />
+        {/* 2. Hero Section: "Designed for colder days" Hoodie Rack Banner */}
+        <WardrobeExactHero />
 
-        {/* =========================================================================
-            SECTION 2: BEST SELLERS (Wardrobe Framer 4-Column Studio Showcase)
-        ========================================================================== */}
-        <WardrobeBestSellers
-          currency={activeCurrency}
+        {/* 3. Section 2: Best sellers (4-column cards with full-width Add to Cart buttons) */}
+        <WardrobeExactBestSellers
+          title="Best sellers"
           onAddToCart={handleAddToCart}
         />
 
-        {/* =========================================================================
-            SECTION 3: SHOP BY CATEGORY (Women, Men, Jackets, Accessories)
-        ========================================================================== */}
-        <WardrobeCategoryGrid />
+        {/* 4. Section 3: Shop by category (50/50 Split Women & Men with red tags) */}
+        <WardrobeExactCategories />
 
-        {/* =========================================================================
-            SECTION 4: AS SEEN ON SOCIAL / UGC
-        ========================================================================== */}
-        <WardrobeUgcSocial />
+        {/* 5. Section 4: Second Best sellers collection row */}
+        <WardrobeExactBestSellers
+          title="Best sellers"
+          onAddToCart={handleAddToCart}
+        />
 
-        {/* =========================================================================
-            SECTION 5: BLACK FRIDAY DEALS / SEASONAL COUNTDOWN BANNER
-        ========================================================================== */}
-        <WardrobePromoCountdown />
+        {/* 6. Section 5: As seen on you (Coverflow / 3D Fan Carousel) */}
+        <WardrobeExactUgc />
 
-        {/* =========================================================================
-            SECTION 6: THE JOURNAL — "Get dressed, feel better"
-        ========================================================================== */}
-        <WardrobeJournalSection />
+        {/* 7. Section 6: Black Friday deals are live (50/50 Split Promo + Digital Timer) */}
+        <WardrobeExactPromo />
 
-        {/* =========================================================================
-            SECTION 7: ALPINE LOOKBOOK ARCHIVE
-        ========================================================================== */}
-        <AlpineLookbookSpread />
+        {/* 8. Section 7: Get dressed, feel better (3-Column Journal Articles) */}
+        <WardrobeExactJournal />
 
-        {/* =========================================================================
-            SECTION 8: BRAND STORY & ATELIER HERITAGE
-        ========================================================================== */}
-        <BrandStorySection />
-
-        {/* =========================================================================
-            SECTION 9: TRUST & SERVICE PILLARS (Free Shipping, 30-Day Returns, Trusted)
-        ========================================================================== */}
-        <WardrobeTrustPillars />
-
-        {/* =========================================================================
-            SECTION 10: VERIFIED CUSTOMER REVIEWS
-        ========================================================================== */}
-        <CustomerReviewsSection />
-
-        {/* =========================================================================
-            SECTION 11: NEWSLETTER & VIP ACCESS (10% Off First Order)
-        ========================================================================== */}
-        <NewsletterSection />
-
-        {/* =========================================================================
-            SECTION 12: INSTAGRAM COMMUNITY FEED
-        ========================================================================== */}
-        <SocialInspirationSection />
+        {/* 9. Section 8: Follow us on Instagram (4-Column Photo Grid) */}
+        <WardrobeExactInstagram />
       </main>
 
-      {/* International Store Footer */}
-      <SiteFooter />
+      {/* 10. Footer (3 Guarantee Pillars + WARDROBE Newsletter, Links & Payments) */}
+      <WardrobeExactFooter />
     </div>
   );
 }
