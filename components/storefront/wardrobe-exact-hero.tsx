@@ -9,34 +9,40 @@ export function WardrobeExactHero() {
   return (
     <section className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] max-h-[860px] overflow-hidden bg-[#EAE8E4]">
       {/* 
-        Exact Background: The rack of white, cream, amber & forest green hoodies 
-        downloaded directly from wardrobe.framer.ai
+        Hero Background: High-Definition Master of the Hoodies Rack (uploaded by user)
       */}
       <Image
-        src="/images/wardrobe/2pHclH4j3tjoC6auh86yE9bePZE.png"
+        src="/images/wardrobe/hero-hoodies-hd.jpg"
         alt="Designed for colder days - Wardrobe Collection"
         fill
         priority
         unoptimized
         sizes="100vw"
-        className="object-cover object-[center_30%] pointer-events-none"
+        className="object-cover object-[center_35%] pointer-events-none"
       />
 
-      {/* Gentle left vignette ensuring pristine contrast for white text */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent pointer-events-none" />
+      {/* Enhanced contrast vignette ensuring bold white text pops cleanly */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-transparent pointer-events-none" />
 
       {/* Hero Content Box (Matching Exact Framer Positioning) */}
       <div className="relative z-10 max-w-[1500px] h-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
         <div className="max-w-xl space-y-4 pt-12 sm:pt-16">
           {/* Red Pill: NEW DROP */}
           <div>
-            <span className="inline-block bg-[#E11D48] text-white text-[0.68rem] sm:text-xs font-mono font-bold tracking-wider uppercase px-3 py-1 rounded-full shadow-xs">
+            <span className="inline-block bg-[#E11D48] text-white text-[0.68rem] sm:text-xs font-mono font-bold tracking-wider uppercase px-3 py-1 rounded-full shadow-md">
               NEW DROP
             </span>
           </div>
 
-          {/* Signature Headline in Instrument Serif */}
-          <h1 className="font-editorial text-4xl sm:text-6xl lg:text-[4.75rem] font-normal text-white leading-[1.04] tracking-tight drop-shadow-md">
+          {/* Signature Headline in Bold Editorial Serif */}
+          <h1
+            className="font-editorial text-5xl sm:text-7xl lg:text-[5.5rem] font-bold text-white leading-[0.98] tracking-tight"
+            style={{
+              fontWeight: 700,
+              WebkitTextStroke: "0.8px currentColor",
+              textShadow: "0 4px 24px rgba(0, 0, 0, 0.75), 0 1px 4px rgba(0, 0, 0, 0.9)",
+            }}
+          >
             Designed for colder days
           </h1>
 
