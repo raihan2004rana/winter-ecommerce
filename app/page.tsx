@@ -5,13 +5,18 @@ import { AnnouncementBar } from "@/components/storefront/announcement-bar";
 import { NavigationHeader } from "@/components/storefront/navigation-header";
 import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
-import { CinematicLuxuryHero } from "@/components/storefront/cinematic-luxury-hero";
-import { CuratedApparelGrid } from "@/components/storefront/curated-apparel-grid";
-import { TechnicalAnatomySection } from "@/components/storefront/technical-anatomy-section";
+
+// Framer Wardrobe Elevated Structure Components
+import { WardrobeElevatedHero } from "@/components/storefront/wardrobe-hero";
+import { WardrobeBestSellers } from "@/components/storefront/wardrobe-best-sellers";
+import { WardrobeCategoryGrid } from "@/components/storefront/wardrobe-category-grid";
+import { WardrobeUgcSocial } from "@/components/storefront/wardrobe-ugc-social";
+import { WardrobePromoCountdown } from "@/components/storefront/wardrobe-promo-countdown";
+import { WardrobeJournalSection } from "@/components/storefront/wardrobe-journal-section";
+import { WardrobeTrustPillars } from "@/components/storefront/wardrobe-trust-pillars";
+
+// Supporting Editorial & Brand Heritage
 import { AlpineLookbookSpread } from "@/components/storefront/alpine-lookbook-spread";
-import { SplitCraftBanner } from "@/components/design-system/editorial-banner";
-import { FlashSaleSection } from "@/components/storefront/flash-sale-section";
-import { PromotionalPlacements } from "@/components/storefront/promotional-placements";
 import { BrandStorySection } from "@/components/storefront/brand-story-section";
 import { CustomerReviewsSection } from "@/components/storefront/customer-reviews-section";
 import { NewsletterSection } from "@/components/storefront/newsletter-section";
@@ -41,7 +46,7 @@ export default function StorefrontHomePage() {
       title: "Classic Winter Down Coat",
       price: 349,
       size: "L",
-      color: "Sienna Brown",
+      color: "Chestnut Brown",
       image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
       quantity: 1,
     },
@@ -102,7 +107,7 @@ export default function StorefrontHomePage() {
         onCurrencyChange={(curr) => setActiveCurrency(curr)}
       />
 
-      {/* 2. Premium Luxury Navigation (MONCLER, WINTER 26, WOMEN, MAN, MY ACCOUNT) */}
+      {/* 2. Premium Luxury Navigation Header (WARDROBE / MONCLER Style) */}
       <NavigationHeader
         cartCount={totalCartCount}
         onOpenCart={() => setIsCartOpen(true)}
@@ -129,49 +134,43 @@ export default function StorefrontHomePage() {
 
       <main className="flex-1">
         {/* =========================================================================
-            SECTION 1: CINEMATIC HIGH-FASHION WINTER HERO
+            SECTION 1: HERO — "Designed for colder days" + 8K MASTER CAMPAIGN
+            Exact Wardrobe structure elevated with 8K Moncler Cold Horizon canvas!
         ========================================================================== */}
-        <CinematicLuxuryHero />
+        <WardrobeElevatedHero onShopClick={() => setIsCartOpen(true)} />
 
         {/* =========================================================================
-            SECTION 2: CORE APPAREL SYSTEM (STUDIO 4-COLUMN SHOWCASE)
+            SECTION 2: BEST SELLERS (Wardrobe Framer 4-Column Studio Showcase)
         ========================================================================== */}
-        <CuratedApparelGrid
+        <WardrobeBestSellers
           currency={activeCurrency}
           onAddToCart={handleAddToCart}
         />
 
         {/* =========================================================================
-            SECTION 3: TECHNICAL ANATOMY & COLD DISCIPLINE
+            SECTION 3: SHOP BY CATEGORY (Women, Men, Jackets, Accessories)
         ========================================================================== */}
-        <TechnicalAnatomySection />
+        <WardrobeCategoryGrid />
 
         {/* =========================================================================
-            SECTION 4: THE ALPINE LOOKBOOK SPREAD
+            SECTION 4: AS SEEN ON SOCIAL / UGC
+        ========================================================================== */}
+        <WardrobeUgcSocial />
+
+        {/* =========================================================================
+            SECTION 5: BLACK FRIDAY DEALS / SEASONAL COUNTDOWN BANNER
+        ========================================================================== */}
+        <WardrobePromoCountdown />
+
+        {/* =========================================================================
+            SECTION 6: THE JOURNAL — "Get dressed, feel better"
+        ========================================================================== */}
+        <WardrobeJournalSection />
+
+        {/* =========================================================================
+            SECTION 7: ALPINE LOOKBOOK ARCHIVE
         ========================================================================== */}
         <AlpineLookbookSpread />
-
-        {/* =========================================================================
-            SECTION 5: RESPONSIBLE DOWN & CRAFT PHILOSOPHY
-        ========================================================================== */}
-        <SplitCraftBanner
-          title="RESPONSIBLE DOWN & THERMAL INTEGRITY"
-          description="Every down cluster is 100% certified under the Responsible Down Standard (RDS). Packed with 850 fill power for maximum warmth-to-weight ratio without unnecessary bulk."
-          ctaText="Explore Material Philosophy"
-        />
-
-        {/* =========================================================================
-            SECTION 6: LIMITED-TIME ALPINE FLASH DROP
-        ========================================================================== */}
-        <FlashSaleSection
-          currency={activeCurrency}
-          onAddToCart={handleAddToCart}
-        />
-
-        {/* =========================================================================
-            SECTION 7: DUAL PROMOTIONAL ADVERTISEMENT SPREAD
-        ========================================================================== */}
-        <PromotionalPlacements />
 
         {/* =========================================================================
             SECTION 8: BRAND STORY & ATELIER HERITAGE
@@ -179,17 +178,22 @@ export default function StorefrontHomePage() {
         <BrandStorySection />
 
         {/* =========================================================================
-            SECTION 9: VERIFIED CUSTOMER FIELD TESTIMONIALS
+            SECTION 9: TRUST & SERVICE PILLARS (Free Shipping, 30-Day Returns, Trusted)
+        ========================================================================== */}
+        <WardrobeTrustPillars />
+
+        {/* =========================================================================
+            SECTION 10: VERIFIED CUSTOMER REVIEWS
         ========================================================================== */}
         <CustomerReviewsSection />
 
         {/* =========================================================================
-            SECTION 10: PRIVATE BULLETIN NEWSLETTER
+            SECTION 11: NEWSLETTER & VIP ACCESS (10% Off First Order)
         ========================================================================== */}
         <NewsletterSection />
 
         {/* =========================================================================
-            SECTION 11: SHOPPABLE SOCIAL COMMUNITY IN THE FIELD
+            SECTION 12: INSTAGRAM COMMUNITY FEED
         ========================================================================== */}
         <SocialInspirationSection />
       </main>
