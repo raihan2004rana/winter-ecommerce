@@ -353,3 +353,122 @@ switch (event.type) {
 | `409` | `CONFLICT` | Concurrent stock race condition or duplicate unique SKU/slug. |
 | `429` | `TOO_MANY_REQUESTS` | Rate limiter triggered on auth or checkout endpoints. |
 | `500` | `INTERNAL_SERVER_ERROR` | Unhandled runtime exception. |
+
+---
+
+## 6. Implemented REST API Route Handlers Specification
+
+All route handlers adhere to standard REST semantics, enforce strict input validation with Zod, and return uniform JSON response envelopes. Never expose service-role keys or sensitive credentials to the browser.
+
+### 6.1 Products API
+- **Endpoint:** `GET /api/products`
+- **Query Parameters:**
+  - `page` (default `1`): Pagination page index.
+  - `limit` (default `12`, max `50`): Garments returned per page.
+  - `category` (`jackets-coats`, `sweaters-hoodies`, `boots-accessories`, or `all`).
+  - `gender` (`men`, `women`, `unisex`, or `all`).
+  - `minPrice` & `maxPrice`: Numerical price boundaries.
+  - `inStockOnly` (`true` / `false`): Filter out exhausted variants.
+  - `search` / `q`: Keyword search across titles, technical subtitles, and materials.
+  - `sortBy` (`popularity`, `price-asc`, `price-desc`, `newest`, `rating`).
+- **Response Format:**
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": "prod-001",
+        "slug": "nordic-expedition-down-parka",
+        "title": "Nordic Expedition Down Parka",
+        "price": 685.00,
+        "temperatureRating": "-30°C",
+        "stockCount": 8
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 12,
+      "total": 12,
+      "totalPages": 1,
+      "hasNextPage": false
+    }
+  }
+  ```
+
+### 6.2 Product Detail by Slug
+- **Endpoint:** `GET /api/products/[slug]`
+- **Description:** Returns a single product by slug, including full gallery, colorway variants, size availability, thermal ratings, care, and verified reviews.
+- **Error Codes:** `404 Not Found` if slug does not exist.
+
+### 6.3 Categories API
+- **Endpoint:** `GET /api/categories`
+- **Description:** Returns hierarchical category departments, hero imagery, subcategories, and real-time product counts.
+
+### 6.4 Shopping Cart API
+- **Endpoints:**
+  - `GET /api/cart?sessionToken={token}`: Retrieves active shopping bag.
+  - `POST /api/cart`: Adds a variant to the cart. Performs real-time inventory checks (`stock_quantity >= requested_quantity`).
+  - `PATCH /api/cart`: Modifies line item quantity or removes it when quantity is `0`.
+
+### 6.5 Checkout & Idempotent Transactions API
+- **Endpoint:** `POST /api/checkout`
+- **Security:** Requires `idempotencyKey` to eliminate double-billing from retry submissions.
+- **Request Body:**
+  ```json
+  {
+    "currency": "USD",
+    "email": "client@cold-horizon.com",
+    "shippingAddress": { ... },
+    "items": [
+      {
+        "productSlug": "nordic-expedition-down-parka",
+        "variantSku": "WIN-NEP-M-BLK",
+        "size": "M",
+        "color": "Obsidian",
+        "quantity": 1,
+        "unitPrice": 685.00
+      }
+    ],
+    "discountCode": "WINTER2026",
+    "idempotencyKey": "idem_1740000000_client_nonce_88"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "orderNumber": "WIN-2026-84912",
+      "clientSecret": "pi_winter_..._secret_...",
+      "subtotal": 685.00,
+      "discountAmount": 102.75,
+      "shippingAmount": 0.00,
+      "taxAmount": 46.58,
+      "totalAmount": 628.83,
+      "shippingCarrier": "DHL Express Alpine Priority",
+      "trackingNumber": "DHL-CH-9482710491"
+    }
+  }
+  ```
+
+### 6.6 Coupon Code Validation API
+- **Endpoint:** `POST /api/coupons/validate`
+- **Request Body:** `{ "code": "WINTER2026", "subtotal": 500.00, "currency": "USD" }`
+- **Response:** Returns discount type, calculated savings, and adjusted order subtotal.
+
+### 6.7 Verified Reviews API
+- **Endpoints:**
+  - `GET /api/reviews?productSlug={slug}`: Retrieves verified customer reviews with star ratings and fit assessments.
+  - `POST /api/reviews`: Submits a customer review validated against `CreateReviewSchema`.
+
+### 6.8 Newsletter & Alerts API
+- **Endpoint:** `POST /api/newsletter`
+- **Description:** Registers customer email with notification preferences (archival drops, private sales, and frequency).
+
+### 6.9 Homepage Banners & Advertisements API
+- **Endpoint:** `GET /api/banners`
+- **Description:** Returns active campaign banners, promotional placement tags, and dynamic advertisements.
+
+### 6.10 Administrator Audit Logs API
+- **Endpoint:** `GET /api/admin/audit-logs`
+- **Security:** Role-gated via Supabase session (`admin` / `super_admin` only). Returns chronological immutable log of admin mutations, stock adjustments, and refunds.
