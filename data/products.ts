@@ -218,10 +218,10 @@ export const PRODUCTS_CATALOG: Product[] = [
     collectionSlug: "women",
     price: 249.0,
     currency: "USD",
-    primaryImage: "https://images.unsplash.com/photo-1544022613-e87ce7526edb?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+    primaryImage: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
-      "https://images.unsplash.com/photo-1544022613-e87ce7526edb?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
     ],
     temperatureRating: "-20°C Thermal",

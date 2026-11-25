@@ -19,24 +19,24 @@ export default function StorefrontHomePage() {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
 
-  // Cart state
+  // Cart state initialized with authentic winter items
   const [cartItems, setCartItems] = React.useState<CartItem[]>([
     {
-      id: "mens-active-tank",
-      title: "Mens Active Tank",
-      price: 40.0,
+      id: "prod-007",
+      title: "Technical Polartec Thermal Zip Hoodie",
+      price: 225.0,
       size: "M",
-      color: "Navy",
-      image: "/images/wardrobe/8RwNEkUBdMbEJWp4v6iW3kWzQjQ.png",
+      color: "Alabaster White",
+      image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=600",
       quantity: 1,
     },
     {
-      id: "mens-court-polo",
-      title: "Mens Court Polo",
-      price: 49.0,
+      id: "prod-001",
+      title: "Nordic Expedition Down Parka",
+      price: 685.0,
       size: "L",
-      color: "Black",
-      image: "/images/wardrobe/pZNT9DG83xrRFjY0hhUxzQMVnTQ.png",
+      color: "Obsidian Slate",
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
       quantity: 1,
     },
   ]);
@@ -118,18 +118,24 @@ export default function StorefrontHomePage() {
         {/* 2. Hero Section: "Designed for colder days" Hoodie Rack Banner */}
         <WardrobeExactHero />
 
-        {/* 3. Section 2: Best sellers (4-column cards with full-width Add to Cart buttons) */}
+        {/* 3. Section 2: Best sellers (Winter Down Parkas & Heavy Outerwear) */}
         <WardrobeExactBestSellers
           title="Best sellers"
+          subtitle="Curated winter down outerwear, insulated shells & weather protection."
+          startIndex={0}
+          count={4}
           onAddToCart={handleAddToCart}
         />
 
         {/* 4. Section 3: Shop by category (50/50 Split Women & Men with red tags) */}
         <WardrobeExactCategories />
 
-        {/* 5. Section 4: Second Best sellers collection row */}
+        {/* 5. Section 4: Second Best sellers collection row (Winter Essentials & Knitwear) */}
         <WardrobeExactBestSellers
-          title="Best sellers"
+          title="Winter Essentials"
+          subtitle="Merino knitwear, thermal fleece hoodies, trekking boots & accessories."
+          startIndex={4}
+          count={4}
           onAddToCart={handleAddToCart}
         />
 
