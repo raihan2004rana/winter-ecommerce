@@ -5,9 +5,10 @@ import { AnnouncementBar } from "@/components/storefront/announcement-bar";
 import { NavigationHeader } from "@/components/storefront/navigation-header";
 import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
-import { ColdHorizonHero } from "@/components/storefront/cold-horizon-hero";
-import { OurCollectionCatalog } from "@/components/storefront/our-collection-catalog";
-import { FeaturedCollections } from "@/components/storefront/featured-collections";
+import { CinematicLuxuryHero } from "@/components/storefront/cinematic-luxury-hero";
+import { CuratedApparelGrid } from "@/components/storefront/curated-apparel-grid";
+import { TechnicalAnatomySection } from "@/components/storefront/technical-anatomy-section";
+import { AlpineLookbookSpread } from "@/components/storefront/alpine-lookbook-spread";
 import { SplitCraftBanner } from "@/components/design-system/editorial-banner";
 import { FlashSaleSection } from "@/components/storefront/flash-sale-section";
 import { PromotionalPlacements } from "@/components/storefront/promotional-placements";
@@ -94,14 +95,14 @@ export default function StorefrontHomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#222] font-sans selection:bg-[#111] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#111] font-sans selection:bg-[#111] selection:text-white">
       {/* 1. Configurable Announcement Bar */}
       <AnnouncementBar
         activeCurrency={activeCurrency}
         onCurrencyChange={(curr) => setActiveCurrency(curr)}
       />
 
-      {/* 2 & 3. Premium Reference Navigation (MONCLER, WINTER 26, WOMEN, MAN, MY ACCOUNT) */}
+      {/* 2. Premium Luxury Navigation (MONCLER, WINTER 26, WOMEN, MAN, MY ACCOUNT) */}
       <NavigationHeader
         cartCount={totalCartCount}
         onOpenCart={() => setIsCartOpen(true)}
@@ -128,55 +129,68 @@ export default function StorefrontHomePage() {
 
       <main className="flex-1">
         {/* =========================================================================
-            SECTION 1 (IMAGE 1 REFERENCE): COLD HORIZON FASHION SNOWSCAPE HERO
+            SECTION 1: CINEMATIC HIGH-FASHION WINTER HERO
         ========================================================================== */}
-        <ColdHorizonHero
-          onShopNow={() => {
-            const el = document.getElementById("our-collection");
-            el?.scrollIntoView({ behavior: "smooth" });
-          }}
-        />
+        <CinematicLuxuryHero />
 
         {/* =========================================================================
-            SECTION 2 (IMAGE 2 REFERENCE): OUR COLLECTION INDEXED CATALOG
+            SECTION 2: CORE APPAREL SYSTEM (STUDIO 4-COLUMN SHOWCASE)
         ========================================================================== */}
-        <OurCollectionCatalog
+        <CuratedApparelGrid
           currency={activeCurrency}
           onAddToCart={handleAddToCart}
         />
 
         {/* =========================================================================
-            COMPLEMENTARY WINTER EDITORIAL SECTIONS
+            SECTION 3: TECHNICAL ANATOMY & COLD DISCIPLINE
         ========================================================================== */}
-        {/* Featured Winter Collections */}
-        <FeaturedCollections />
+        <TechnicalAnatomySection />
 
-        {/* Seasonal Promotional Banner: Material Philosophy */}
+        {/* =========================================================================
+            SECTION 4: THE ALPINE LOOKBOOK SPREAD
+        ========================================================================== */}
+        <AlpineLookbookSpread />
+
+        {/* =========================================================================
+            SECTION 5: RESPONSIBLE DOWN & CRAFT PHILOSOPHY
+        ========================================================================== */}
         <SplitCraftBanner
           title="RESPONSIBLE DOWN & THERMAL INTEGRITY"
           description="Every down cluster is 100% certified under the Responsible Down Standard (RDS). Packed with 850 fill power for maximum warmth-to-weight ratio without unnecessary bulk."
           ctaText="Explore Material Philosophy"
         />
 
-        {/* Limited-Time Offer / Flash Sale Section with Live Countdown */}
+        {/* =========================================================================
+            SECTION 6: LIMITED-TIME ALPINE FLASH DROP
+        ========================================================================== */}
         <FlashSaleSection
           currency={activeCurrency}
           onAddToCart={handleAddToCart}
         />
 
-        {/* Dual Promotional Advertisement Placements */}
+        {/* =========================================================================
+            SECTION 7: DUAL PROMOTIONAL ADVERTISEMENT SPREAD
+        ========================================================================== */}
         <PromotionalPlacements />
 
-        {/* Brand Story Section */}
+        {/* =========================================================================
+            SECTION 8: BRAND STORY & ATELIER HERITAGE
+        ========================================================================== */}
         <BrandStorySection />
 
-        {/* Customer Reviews & Field Reports */}
+        {/* =========================================================================
+            SECTION 9: VERIFIED CUSTOMER FIELD TESTIMONIALS
+        ========================================================================== */}
         <CustomerReviewsSection />
 
-        {/* Newsletter Subscription */}
+        {/* =========================================================================
+            SECTION 10: PRIVATE BULLETIN NEWSLETTER
+        ========================================================================== */}
         <NewsletterSection />
 
-        {/* Shoppable Social Inspiration Section */}
+        {/* =========================================================================
+            SECTION 11: SHOPPABLE SOCIAL COMMUNITY IN THE FIELD
+        ========================================================================== */}
         <SocialInspirationSection />
       </main>
 
