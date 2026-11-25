@@ -123,7 +123,7 @@ export function NavigationHeader({
 
           {/* MY ACCOUNT Button / Link */}
           <Link
-            href="#account"
+            href="/account"
             className="text-xs uppercase tracking-wider font-semibold text-[#111] hover:underline underline-offset-4 hidden sm:inline-block ml-2"
           >
             MY ACCOUNT
@@ -195,7 +195,7 @@ export function NavigationHeader({
               WINTER ARCHIVE SALE
             </Link>
             <Link
-              href="#account"
+              href="/account"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 text-black font-semibold pt-2 border-t border-[#EAEAEA]"
             >
