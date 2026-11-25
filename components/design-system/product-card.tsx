@@ -15,7 +15,7 @@ export interface ProductData {
   compareAtPrice?: number;
   currency?: "USD" | "EUR" | "GBP" | "CAD";
   primaryImage: string;
-  secondaryImage: string;
+  secondaryImage?: string;
   temperatureRating?: string;
   waterproofRating?: string;
   fillPower?: string;

@@ -41,7 +41,7 @@ export function SearchModal({
           p.title.toLowerCase().includes(query.toLowerCase()) ||
           p.subtitle.toLowerCase().includes(query.toLowerCase()) ||
           p.categoryLabel.toLowerCase().includes(query.toLowerCase()) ||
-          p.materials.some((m) => m.toLowerCase().includes(query.toLowerCase())) ||
+          (p.materials && p.materials.some((m) => m.toLowerCase().includes(query.toLowerCase()))) ||
           (p.temperatureRating && p.temperatureRating.toLowerCase().includes(query.toLowerCase()))
       )
     : PRODUCTS_CATALOG.slice(0, 4);

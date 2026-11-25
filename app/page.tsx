@@ -5,13 +5,11 @@ import { AnnouncementBar } from "@/components/storefront/announcement-bar";
 import { NavigationHeader } from "@/components/storefront/navigation-header";
 import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
-import { HeroSection } from "@/components/storefront/hero-section";
+import { ColdHorizonHero } from "@/components/storefront/cold-horizon-hero";
+import { OurCollectionCatalog } from "@/components/storefront/our-collection-catalog";
 import { FeaturedCollections } from "@/components/storefront/featured-collections";
-import { BestSellersSection } from "@/components/storefront/bestsellers-section";
-import { NewArrivalsSection } from "@/components/storefront/new-arrivals-section";
 import { SplitCraftBanner } from "@/components/design-system/editorial-banner";
 import { FlashSaleSection } from "@/components/storefront/flash-sale-section";
-import { CategoryGridSection } from "@/components/storefront/category-grid-section";
 import { PromotionalPlacements } from "@/components/storefront/promotional-placements";
 import { BrandStorySection } from "@/components/storefront/brand-story-section";
 import { CustomerReviewsSection } from "@/components/storefront/customer-reviews-section";
@@ -29,21 +27,21 @@ export default function StorefrontHomePage() {
   // Initial demo shopping bag with 2 items
   const [cartItems, setCartItems] = React.useState<CartItem[]>([
     {
-      id: "prod-001",
-      title: "Nordic Expedition Down Parka",
-      price: 685,
+      id: "ref-001",
+      title: "Thermal Insulated Shell Coat",
+      price: 249,
       size: "M",
-      color: "Obsidian Slate",
-      image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=80&w=600",
+      color: "Glacial Mint",
+      image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=600",
       quantity: 1,
     },
     {
-      id: "prod-006",
-      title: "Brushed Cashmere Ribbed Scarf",
-      price: 185,
-      size: "One Size",
-      color: "Pine Green",
-      image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=80&w=600",
+      id: "ref-002",
+      title: "Classic Winter Down Coat",
+      price: 349,
+      size: "L",
+      color: "Sienna Brown",
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
       quantity: 1,
     },
   ]);
@@ -96,14 +94,14 @@ export default function StorefrontHomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-canvas text-charcoal font-sans selection:bg-forest selection:text-canvas">
+    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#222] font-sans selection:bg-[#111] selection:text-white">
       {/* 1. Configurable Announcement Bar */}
       <AnnouncementBar
         activeCurrency={activeCurrency}
         onCurrencyChange={(curr) => setActiveCurrency(curr)}
       />
 
-      {/* 2 & 3. Premium Responsive Navigation with Mega Menu */}
+      {/* 2 & 3. Premium Reference Navigation (MONCLER, WINTER 26, WOMEN, MAN, MY ACCOUNT) */}
       <NavigationHeader
         cartCount={totalCartCount}
         onOpenCart={() => setIsCartOpen(true)}
@@ -129,57 +127,60 @@ export default function StorefrontHomePage() {
       />
 
       <main className="flex-1">
-        {/* 4 & 5. Editorial Hero Section & Primary/Secondary CTAs */}
-        <HeroSection />
+        {/* =========================================================================
+            SECTION 1 (IMAGE 1 REFERENCE): COLD HORIZON FASHION SNOWSCAPE HERO
+        ========================================================================== */}
+        <ColdHorizonHero
+          onShopNow={() => {
+            const el = document.getElementById("our-collection");
+            el?.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
 
-        {/* 6. Featured Winter Collections */}
+        {/* =========================================================================
+            SECTION 2 (IMAGE 2 REFERENCE): OUR COLLECTION INDEXED CATALOG
+        ========================================================================== */}
+        <OurCollectionCatalog
+          currency={activeCurrency}
+          onAddToCart={handleAddToCart}
+        />
+
+        {/* =========================================================================
+            COMPLEMENTARY WINTER EDITORIAL SECTIONS
+        ========================================================================== */}
+        {/* Featured Winter Collections */}
         <FeaturedCollections />
 
-        {/* 7. Best-Selling Products */}
-        <BestSellersSection
-          currency={activeCurrency}
-          onAddToCart={handleAddToCart}
-        />
-
-        {/* 8. New Arrivals with Tab Filters */}
-        <NewArrivalsSection
-          currency={activeCurrency}
-          onAddToCart={handleAddToCart}
-        />
-
-        {/* 9. Seasonal Promotional Banner (Split Craft & Material Philosophy) */}
+        {/* Seasonal Promotional Banner: Material Philosophy */}
         <SplitCraftBanner
           title="RESPONSIBLE DOWN & THERMAL INTEGRITY"
           description="Every down cluster is 100% certified under the Responsible Down Standard (RDS). Packed with 850 fill power for maximum warmth-to-weight ratio without unnecessary bulk."
           ctaText="Explore Material Philosophy"
         />
 
-        {/* 10. Limited-Time Offer / Flash Sale Section with Live Countdown */}
+        {/* Limited-Time Offer / Flash Sale Section with Live Countdown */}
         <FlashSaleSection
           currency={activeCurrency}
           onAddToCart={handleAddToCart}
         />
 
-        {/* 11. Featured Category Sections */}
-        <CategoryGridSection />
-
-        {/* 12. Promotional Advertisement Placements */}
+        {/* Dual Promotional Advertisement Placements */}
         <PromotionalPlacements />
 
-        {/* 13. Brand Story Section */}
+        {/* Brand Story Section */}
         <BrandStorySection />
 
-        {/* 14. Customer Reviews */}
+        {/* Customer Reviews & Field Reports */}
         <CustomerReviewsSection />
 
-        {/* 15. Newsletter Subscription */}
+        {/* Newsletter Subscription */}
         <NewsletterSection />
 
-        {/* 16. Instagram / Social Inspiration Section */}
+        {/* Shoppable Social Inspiration Section */}
         <SocialInspirationSection />
       </main>
 
-      {/* 17. Complete Footer with Policies and Customer Support */}
+      {/* International Store Footer */}
       <SiteFooter />
     </div>
   );

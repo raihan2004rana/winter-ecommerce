@@ -13,17 +13,17 @@ export function NewArrivalsSection({
   currency,
   onAddToCart,
 }: NewArrivalsSectionProps) {
-  const [activeTab, setActiveTab] = React.useState<"all" | "outerwear" | "knitwear" | "footwear">("all");
+  const [activeTab, setActiveTab] = React.useState<"all" | "down" | "parkas" | "boots">("all");
 
   const filteredProducts = activeTab === "all"
     ? PRODUCTS_CATALOG.slice(0, 4)
     : PRODUCTS_CATALOG.filter((p) => p.category === activeTab).slice(0, 4);
 
-  const tabs: Array<{ key: "all" | "outerwear" | "knitwear" | "footwear"; label: string }> = [
+  const tabs: Array<{ key: "all" | "down" | "parkas" | "boots"; label: string }> = [
     { key: "all", label: "All Arrivals" },
-    { key: "outerwear", label: "Down & Outerwear" },
-    { key: "knitwear", label: "Merino & Cashmere" },
-    { key: "footwear", label: "Boots & Footwear" },
+    { key: "down", label: "Down Jackets" },
+    { key: "parkas", label: "Parkas" },
+    { key: "boots", label: "Winter Boots" },
   ];
 
   return (
