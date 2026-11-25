@@ -1,0 +1,22 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "VALLIS & ORE | High Cold Winter Lifestyle & Outerwear",
+  description:
+    "International winter fashion and technical outerwear engineered for extreme sub-zero alpine conditions and timeless urban transit.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className="bg-canvas text-charcoal font-sans antialiased min-h-screen">
+        {children}
+      </body>
+    </html>
+  );
+}

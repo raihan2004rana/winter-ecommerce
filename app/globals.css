@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base background: Warm natural gallery off-white */
+    --background: #FAF9F5;
+    --background-subtle: #F4F2EC;
+    --background-muted: #EDE9E1;
+    --background-elevated: #FFFFFF;
+    
+    /* Primary typography: Charcoal */
+    --foreground: #18191A;
+    --foreground-muted: #6B7078;
+    --foreground-subtle: #9BA0A8;
+
+    /* Architectural hairline borders */
+    --border: #E8E5DC;
+    --border-strong: #D3CEBF;
+
+    /* Signature Muted Forest Accent */
+    --forest: #2B3D2E;
+    --forest-deep: #1C281F;
+    --forest-mist: #E8ECE9;
+
+    /* Subtle Icy-Blue Accent */
+    --ice: #768C9E;
+    --ice-mist: #F0F5F8;
+    --ice-frost: #E4EDF3;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    background-color: var(--background);
+    color: var(--foreground);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans, "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    overflow-x: hidden;
+  }
+
+  /* Editorial selection highlight */
+  ::selection {
+    background-color: #2B3D2E;
+    color: #FAF9F5;
+  }
+
+  /* Refined minimal scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FAF9F5;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D8D4C8;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #AFAAA0;
+  }
+}
+
+@layer utilities {
+  /* Editorial letter-spacing uppercase caption */
+  .editorial-caps {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.71875rem;
+    font-weight: 500;
+  }
+
+  /* Underline link draw interaction */
+  .hover-editorial-line {
+    position: relative;
+    display: inline-block;
+  }
+  .hover-editorial-line::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: currentColor;
+    transform-origin: bottom right;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hover-editorial-line:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}
