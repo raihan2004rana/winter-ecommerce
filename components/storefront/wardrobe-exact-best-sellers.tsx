@@ -84,9 +84,9 @@ export function WardrobeExactBestSellers({
                 />
 
                 {/* Secondary hover image if available */}
-                {item.secondaryImage && (
+                {(item.galleryImages?.[0] || item.secondaryImage) && (
                   <Image
-                    src={item.secondaryImage}
+                    src={item.galleryImages?.[0] || item.secondaryImage || ""}
                     alt={`${item.title} view`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

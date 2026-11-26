@@ -70,8 +70,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     price: 685.0,
     compareAtPrice: 795.0,
     currency: "USD",
-    primaryImage: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+    primaryImage: "/images/products/nordic-expedition-down-parka-women2-1795661926691.webp",
+    secondaryImage: "/images/products/nordic-expedition-down-parka-women1-1795661942412.webp",
     galleryImages: [
       "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
@@ -139,8 +139,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     price: 549.0,
     compareAtPrice: 650.0,
     currency: "USD",
-    primaryImage: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=1200",
+    primaryImage: "/images/products/belted-longline-down-cocoon-coata1-1795661977581.webp",
+    secondaryImage: "/images/products/belted-longline-down-cocoon-coata2-1795661992101.webp",
     galleryImages: [
       "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=1200",
@@ -181,8 +181,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     price: 890.0,
     compareAtPrice: 1100.0,
     currency: "USD",
-    primaryImage: "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&q=85&w=1200",
+    primaryImage: "/images/products/tailored-double-faced-cashmere-overcoat1-1795662014496.png",
+    secondaryImage: "/images/products/tailored-double-faced-cashmere-overcoat2-1795662022090.jpg",
     galleryImages: [
       "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&q=85&w=1200",
@@ -218,8 +218,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     collectionSlug: "women",
     price: 249.0,
     currency: "USD",
-    primaryImage: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
+    primaryImage: "/images/products/thermal-insulated-shell-coat1-1795662038525.avif",
+    secondaryImage: "/images/products/thermal-insulated-shell-coat2-1795662043963.webp",
     galleryImages: [
       "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
@@ -258,7 +258,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     compareAtPrice: 395.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=85&w=1200",
@@ -295,7 +295,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     price: 295.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=85&w=1200",
@@ -331,7 +331,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     compareAtPrice: 260.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200",
     ],
@@ -365,7 +365,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     price: 495.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=85&w=1200",
@@ -403,7 +403,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     compareAtPrice: 220.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&q=85&w=1200",
@@ -440,7 +440,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     price: 145.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200",
     ],
@@ -473,7 +473,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     price: 520.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
       "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&q=85&w=1200",
@@ -510,7 +510,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     compareAtPrice: 350.0,
     currency: "USD",
     primaryImage: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
-    secondaryImage: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+    secondaryImage: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
     galleryImages: [
       "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
     ],

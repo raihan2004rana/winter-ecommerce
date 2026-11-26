@@ -13,12 +13,11 @@
       "price": 685,
       "compareAtPrice": 795,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/nordic-expedition-down-parka-women2-1795661926691.webp",
       "secondaryImage": "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/nordic-expedition-down-parka-women1-1795661942412.webp",
+        "/images/products/nordic-expedition-down-parka-women3-1795661947488.jpg"
       ],
       "temperatureRating": "-30°C Sub-Zero",
       "tempCelsiusMin": -30,
@@ -36,14 +35,6 @@
         {
           "name": "Obsidian Slate",
           "hex": "#18191A"
-        },
-        {
-          "name": "Alpine Pine",
-          "hex": "#2B3D2E"
-        },
-        {
-          "name": "Glacial Frost",
-          "hex": "#768C9E"
         }
       ],
       "sizes": [
@@ -85,7 +76,9 @@
         }
       ],
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Obsidian Slate",
+      "colorHex": "#18191A"
     },
     {
       "id": "prod-002",
@@ -100,11 +93,11 @@
       "price": 549,
       "compareAtPrice": 650,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/belted-longline-down-cocoon-coata1-1795661977581.webp",
       "secondaryImage": "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=1200",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/belted-longline-down-cocoon-coata2-1795661992101.webp",
+        "/images/products/belted-longline-down-cocoon-coata3-1795661998168.webp"
       ],
       "temperatureRating": "-25°C Sub-Zero",
       "waterproofRating": "15,000mm DWR",
@@ -154,11 +147,11 @@
       "price": 890,
       "compareAtPrice": 1100,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/tailored-double-faced-cashmere-overcoat1-1795662014496.png",
       "secondaryImage": "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&q=85&w=1200",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/tailored-double-faced-cashmere-overcoat2-1795662022090.jpg",
+        "/images/products/tailored-double-faced-cashmere-overcoat3-1795662026283.jpg"
       ],
       "temperatureRating": "-12°C City Winter",
       "materials": [
@@ -171,10 +164,6 @@
         {
           "name": "Deep Charcoal",
           "hex": "#1C1D1F"
-        },
-        {
-          "name": "Camel Melange",
-          "hex": "#B87A47"
         }
       ],
       "sizes": [
@@ -191,7 +180,9 @@
       "rating": 5,
       "reviewCount": 22,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Deep Charcoal",
+      "colorHex": "#1C1D1F"
     },
     {
       "id": "prod-004",
@@ -205,11 +196,11 @@
       "collectionSlug": "women",
       "price": 249,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/thermal-insulated-shell-coat1-1795662038525.avif",
       "secondaryImage": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/thermal-insulated-shell-coat2-1795662043963.webp",
+        "/images/products/thermal-insulated-shell-coat3-1795662046895.webp"
       ],
       "temperatureRating": "-20°C Thermal",
       "waterproofRating": "15,000mm DWR",
@@ -224,14 +215,6 @@
         {
           "name": "Glacial Mint",
           "hex": "#7BB5B4"
-        },
-        {
-          "name": "Snow Ivory",
-          "hex": "#F5F5F3"
-        },
-        {
-          "name": "Chocolate Brown",
-          "hex": "#543C32"
         }
       ],
       "sizes": [
@@ -246,7 +229,9 @@
       "rating": 4.9,
       "reviewCount": 31,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Glacial Mint",
+      "colorHex": "#7BB5B4"
     },
     {
       "id": "prod-005",
@@ -1067,6 +1052,46 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795662048574",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-004",
+      "details": "Updated product \"Thermal Insulated Shell Coat\". Fields changed: title, subtitle, category, price, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T03:00:48.574Z"
+    },
+    {
+      "id": "log-1795662028944",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-003",
+      "details": "Updated product \"Tailored Double-Faced Cashmere Overcoat\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T03:00:28.944Z"
+    },
+    {
+      "id": "log-1795662000974",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-002",
+      "details": "Updated product \"Belted Longline Down Cocoon Coat\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T03:00:00.974Z"
+    },
+    {
+      "id": "log-1795661965443",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-001",
+      "details": "Updated product \"Nordic Expedition Down Parka\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T02:59:25.443Z"
+    },
     {
       "id": "log-1795661444147",
       "actorName": "Raihan Rana",

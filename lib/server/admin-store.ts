@@ -647,11 +647,39 @@ function loadState(): AdminState {
   return memoryState;
 }
 
+function syncToProductsCatalog(products: Product[]): void {
+  try {
+    const catalogFile = path.join(process.cwd(), "data", "products.ts");
+    if (!fs.existsSync(catalogFile)) return;
+    let catalogTs = fs.readFileSync(catalogFile, "utf-8");
+
+    products.forEach((p) => {
+      if (p.primaryImage) {
+        const primaryRegex = new RegExp('(id:\\s*"' + p.id + '"[\\s\\S]*?primaryImage:\\s*)"[^"]+"', "m");
+        if (primaryRegex.test(catalogTs)) {
+          catalogTs = catalogTs.replace(primaryRegex, '$1"' + p.primaryImage + '"');
+        }
+      }
+      if (p.galleryImages && p.galleryImages.length > 0) {
+        const secRegex = new RegExp('(id:\\s*"' + p.id + '"[\\s\\S]*?secondaryImage:\\s*)"[^"]+"', "m");
+        if (secRegex.test(catalogTs)) {
+          catalogTs = catalogTs.replace(secRegex, '$1"' + p.galleryImages[0] + '"');
+        }
+      }
+    });
+
+    fs.writeFileSync(catalogFile, catalogTs, "utf-8");
+  } catch (err) {
+    console.error("Failed to sync to products.ts:", err);
+  }
+}
+
 function saveState(state: AdminState): void {
   try {
     const dir = path.dirname(STATE_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), "utf-8");
+    syncToProductsCatalog(state.products);
   } catch (err) {
     console.error("Failed to save admin state to disk:", err);
   }

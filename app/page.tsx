@@ -13,11 +13,23 @@ import { WardrobeExactFooter } from "@/components/storefront/wardrobe-exact-foot
 
 import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
-import { Product } from "@/data/products";
+import { Product, PRODUCTS_CATALOG } from "@/data/products";
 
 export default function StorefrontHomePage() {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
+  const [products, setProducts] = React.useState<Product[]>(PRODUCTS_CATALOG);
+
+  React.useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+          setProducts(data.data);
+        }
+      })
+      .catch((err) => console.error("Failed to load live products:", err));
+  }, []);
 
   // Cart state initialized with authentic winter items
   const [cartItems, setCartItems] = React.useState<CartItem[]>([
@@ -122,6 +134,7 @@ export default function StorefrontHomePage() {
         <WardrobeExactBestSellers
           title="Best sellers"
           subtitle="Curated winter down outerwear, insulated shells & weather protection."
+          items={products.slice(0, 4)}
           startIndex={0}
           count={4}
           onAddToCart={handleAddToCart}
@@ -134,6 +147,7 @@ export default function StorefrontHomePage() {
         <WardrobeExactBestSellers
           title="Winter Essentials"
           subtitle="Merino knitwear, thermal fleece hoodies, trekking boots & accessories."
+          items={products.slice(4, 8)}
           startIndex={4}
           count={4}
           onAddToCart={handleAddToCart}
