@@ -665,6 +665,11 @@ function syncToProductsCatalog(products: Product[]): void {
         if (secRegex.test(catalogTs)) {
           catalogTs = catalogTs.replace(secRegex, '$1"' + p.galleryImages[0] + '"');
         }
+        const galleryBlock = 'galleryImages: [\n' + p.galleryImages.map((img) => `      "${img}",`).join("\n") + "\n    ]";
+        const galRegex = new RegExp('(id:\\s*"' + p.id + '"[\\s\\S]*?)galleryImages:\\s*\\[[^\\]]*\\]', "m");
+        if (galRegex.test(catalogTs)) {
+          catalogTs = catalogTs.replace(galRegex, "$1" + galleryBlock);
+        }
       }
     });
 
@@ -824,6 +829,9 @@ export const AdminStore = {
 
     const previous = state.products[idx];
     state.products[idx] = { ...previous, ...updates };
+    if (updates.galleryImages !== undefined) {
+      state.products[idx].secondaryImage = updates.galleryImages[0] || "";
+    }
 
     state.auditLogs.unshift({
       id: `log-${Date.now()}`,

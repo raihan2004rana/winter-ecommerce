@@ -53,12 +53,20 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   const [localReviews, setLocalReviews] = React.useState(product.reviews || []);
   const [reviewSubmitted, setReviewSubmitted] = React.useState(false);
 
-  // Images pool
-  const allImages = [
-    product.primaryImage,
-    ...(product.secondaryImage ? [product.secondaryImage] : []),
-    ...(product.galleryImages || []),
-  ].filter(Boolean);
+  // Images pool: Only display primary and user's gallery images (never stale demo secondary images)
+  const allImages = React.useMemo(() => {
+    if (product.galleryImages && product.galleryImages.length > 0) {
+      return Array.from(
+        new Set([product.primaryImage, ...product.galleryImages])
+      ).filter(Boolean);
+    }
+    return Array.from(
+      new Set([
+        product.primaryImage,
+        ...(product.secondaryImage ? [product.secondaryImage] : []),
+      ])
+    ).filter(Boolean);
+  }, [product.primaryImage, product.galleryImages, product.secondaryImage]);
 
   const currentImage = allImages[selectedImageIndex] || product.primaryImage;
 

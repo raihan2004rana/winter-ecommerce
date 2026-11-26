@@ -2,6 +2,7 @@ import * as React from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getProductBySlug, PRODUCTS_CATALOG } from "@/data/products";
+import { AdminStore } from "@/lib/server/admin-store";
 import { ProductDetailView } from "@/components/storefront/product-detail-view";
 import { StoreLayoutWrapper } from "@/components/storefront/store-layout-wrapper";
 
@@ -11,7 +12,8 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const liveProduct = AdminStore.getProducts().find((p) => p.slug === slug);
+  const product = liveProduct || getProductBySlug(slug);
 
   if (!product) {
     return { title: "Garment Not Found | VALLIS & ORE" };
@@ -31,7 +33,8 @@ export async function generateStaticParams() {
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const liveProduct = AdminStore.getProducts().find((p) => p.slug === slug);
+  const product = liveProduct || getProductBySlug(slug);
 
   if (!product) {
     notFound();
