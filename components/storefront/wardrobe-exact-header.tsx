@@ -163,6 +163,10 @@ export function WardrobeExactHeader({
   // Dynamic journal stories
   const [journalStories, setJournalStories] = React.useState<JournalItem[]>(DEFAULT_JOURNAL_STORIES);
 
+  // Dynamic mega menu categories from Admin
+  const [womenCategories, setWomenCategories] = React.useState<CategoryItem[]>(DEFAULT_WOMEN_CATEGORIES);
+  const [menCategories, setMenCategories] = React.useState<CategoryItem[]>(DEFAULT_MEN_CATEGORIES);
+
   const { country, currency, language, t } = useInternationalStore();
   const currentConfig = getCountryConfig(country);
   const { isCartBouncing } = useFlyToCart();
@@ -177,6 +181,64 @@ export function WardrobeExactHeader({
         }
       })
       .catch(() => {});
+  }, []);
+
+  // Load live categories from server
+  React.useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData && resData.status === "success" && Array.isArray(resData.data)) {
+          const list: any[] = resData.data;
+
+          // Women subcategories
+          const womenSpecific = list.filter((c) => c.gender === "women" && c.slug !== "women");
+          if (womenSpecific.length > 0) {
+            setWomenCategories(
+              womenSpecific.slice(0, 4).map((c) => ({
+                name: c.name,
+                slug: c.slug,
+                description: c.description,
+                image: c.image || c.imageUrl,
+                link:
+                  c.link ||
+                  (c.slug.includes("jacket")
+                    ? "/collections/women?category=jackets-coats"
+                    : c.slug.includes("knit") || c.slug.includes("sweater")
+                    ? "/collections/women?category=sweaters-hoodies"
+                    : c.slug.includes("boot")
+                    ? "/collections/women?category=boots-accessories"
+                    : "/collections/women"),
+                badge: c.badge || (c.productCount ? `${c.productCount} Pieces` : undefined),
+              }))
+            );
+          }
+
+          // Men subcategories
+          const menSpecific = list.filter((c) => c.gender === "men" && c.slug !== "men");
+          if (menSpecific.length > 0) {
+            setMenCategories(
+              menSpecific.slice(0, 4).map((c) => ({
+                name: c.name,
+                slug: c.slug,
+                description: c.description,
+                image: c.image || c.imageUrl,
+                link:
+                  c.link ||
+                  (c.slug.includes("jacket") || c.slug.includes("parka")
+                    ? "/collections/men?category=jackets-coats"
+                    : c.slug.includes("fleece") || c.slug.includes("knit")
+                    ? "/collections/men?category=sweaters-hoodies"
+                    : c.slug.includes("boot")
+                    ? "/collections/men?category=boots-accessories"
+                    : "/collections/men"),
+                badge: c.badge || (c.productCount ? `${c.productCount} Pieces` : undefined),
+              }))
+            );
+          }
+        }
+      })
+      .catch((err) => console.error("Failed to load header categories:", err));
   }, []);
 
   const handleMouseEnter = (menu: "women" | "men" | "journal") => {
@@ -391,7 +453,7 @@ export function WardrobeExactHeader({
                     </div>
 
                     <div className="grid grid-cols-4 gap-4">
-                      {DEFAULT_WOMEN_CATEGORIES.map((cat) => (
+                      {womenCategories.map((cat) => (
                         <Link
                           key={cat.name}
                           href={cat.link}
@@ -491,7 +553,7 @@ export function WardrobeExactHeader({
                     </div>
 
                     <div className="grid grid-cols-4 gap-4">
-                      {DEFAULT_MEN_CATEGORIES.map((cat) => (
+                      {menCategories.map((cat) => (
                         <Link
                           key={cat.name}
                           href={cat.link}

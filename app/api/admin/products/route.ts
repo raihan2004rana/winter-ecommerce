@@ -7,9 +7,10 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search") || undefined;
     const category = searchParams.get("category") || undefined;
+    const gender = searchParams.get("gender") || undefined;
     const status = searchParams.get("status") || undefined;
 
-    const products = AdminStore.getProducts({ search, category, status });
+    const products = AdminStore.getProducts({ search, category, gender, status });
     return NextResponse.json({ status: "success", count: products.length, data: products });
   } catch (error: any) {
     return NextResponse.json({ status: "error", message: error.message }, { status: 500 });

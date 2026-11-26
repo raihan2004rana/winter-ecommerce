@@ -29,6 +29,28 @@ interface Category {
   productCount: number;
   gender?: "all" | "women" | "men";
   featured?: boolean;
+  link?: string;
+  badge?: string;
+}
+
+function getProductsLink(cat: Category): string {
+  if (cat.slug === "women") return "/admin/products?gender=women";
+  if (cat.slug === "men") return "/admin/products?gender=men";
+  if (cat.slug.startsWith("women-")) {
+    if (cat.slug.includes("jacket")) return "/admin/products?gender=women&category=jackets-coats";
+    if (cat.slug.includes("knit") || cat.slug.includes("sweater")) return "/admin/products?gender=women&category=sweaters-hoodies";
+    if (cat.slug.includes("boot") || cat.slug.includes("access")) return "/admin/products?gender=women&category=boots-accessories";
+    return "/admin/products?gender=women";
+  }
+  if (cat.slug.startsWith("men-")) {
+    if (cat.slug.includes("parka") || cat.slug.includes("jacket")) return "/admin/products?gender=men&category=jackets-coats";
+    if (cat.slug.includes("fleece") || cat.slug.includes("knit") || cat.slug.includes("sweater")) return "/admin/products?gender=men&category=sweaters-hoodies";
+    if (cat.slug.includes("boot") || cat.slug.includes("access")) return "/admin/products?gender=men&category=boots-accessories";
+    return "/admin/products?gender=men";
+  }
+  if (cat.gender === "women") return `/admin/products?gender=women&category=${cat.slug}`;
+  if (cat.gender === "men") return `/admin/products?gender=men&category=${cat.slug}`;
+  return `/admin/products?category=${cat.slug}`;
 }
 
 function ImageUploadField({
@@ -170,12 +192,16 @@ export default function AdminCategoriesPage() {
     description: string;
     image: string;
     gender: "all" | "women" | "men";
+    link?: string;
+    badge?: string;
   }>({
     name: "",
     slug: "",
     description: "",
     image: "",
     gender: "all",
+    link: "",
+    badge: "",
   });
 
   const fetchCategories = React.useCallback(async () => {
@@ -216,6 +242,8 @@ export default function AdminCategoriesPage() {
       description: "",
       image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
       gender: "all",
+      link: "",
+      badge: "",
     });
     setErrorMsg(null);
     setIsModalOpen(true);
@@ -229,6 +257,8 @@ export default function AdminCategoriesPage() {
       description: cat.description,
       image: cat.image,
       gender: cat.gender || "all",
+      link: cat.link || "",
+      badge: cat.badge || "",
     });
     setErrorMsg(null);
     setIsModalOpen(true);
@@ -296,8 +326,9 @@ export default function AdminCategoriesPage() {
       c.slug.toLowerCase().includes(search.toLowerCase());
     const matchesDept =
       departmentFilter === "all" ||
-      c.gender === departmentFilter ||
-      (!c.gender && departmentFilter === "all");
+      (departmentFilter === "unisex"
+        ? c.gender === "all" || !c.gender
+        : c.gender === departmentFilter);
     return matchesSearch && matchesDept;
   });
 
@@ -396,9 +427,10 @@ export default function AdminCategoriesPage() {
             onChange={(e) => setDepartmentFilter(e.target.value)}
             className="text-xs bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-800 focus:outline-none focus:ring-1 focus:ring-neutral-900 shadow-sm"
           >
-            <option value="all">All Departments</option>
-            <option value="women">Women</option>
-            <option value="men">Men</option>
+            <option value="all">All Departments ({categories.length})</option>
+            <option value="women">Women ({categories.filter((c) => c.gender === "women").length})</option>
+            <option value="men">Men ({categories.filter((c) => c.gender === "men").length})</option>
+            <option value="unisex">Unisex / All ({categories.filter((c) => c.gender === "all" || !c.gender).length})</option>
           </select>
           <div className="text-xs text-neutral-500 font-mono">
             Showing {filteredCategories.length} of {categories.length}
@@ -507,7 +539,7 @@ export default function AdminCategoriesPage() {
                 </div>
 
                 <Link
-                  href={`/admin/products?category=${category.slug}`}
+                  href={getProductsLink(category)}
                   className="inline-flex items-center space-x-1.5 text-xs font-semibold text-neutral-700 hover:text-black transition-colors"
                 >
                   <span>View Products</span>
@@ -621,6 +653,33 @@ export default function AdminCategoriesPage() {
                   }
                   className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    Badge Text (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 5 Pieces, Curated"
+                    value={formData.badge || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, badge: e.target.value }))}
+                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    Storefront Destination Link
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. /collections/women?category=jackets-coats"
+                    value={formData.link || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, link: e.target.value }))}
+                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md font-mono text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                </div>
               </div>
 
               <ImageUploadField

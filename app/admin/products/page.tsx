@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import {
   Package,
   Plus,
@@ -25,12 +26,52 @@ import {
 } from "lucide-react";
 import { Product } from "@/data/products";
 
-export default function AdminProductsPage() {
+function AdminProductsContent() {
+  const searchParams = useSearchParams();
+
+  // URL query parameter parsing
+  const paramGender = searchParams.get("gender");
+  const paramCategory = searchParams.get("category");
+  const paramStatus = searchParams.get("status");
+  const paramSearch = searchParams.get("search");
+
+  // Determine initial state values
+  const initialGender =
+    paramGender ||
+    (paramCategory === "women"
+      ? "women"
+      : paramCategory === "men"
+      ? "men"
+      : "all");
+  const initialCategory =
+    paramCategory && paramCategory !== "women" && paramCategory !== "men"
+      ? paramCategory
+      : "all";
+  const initialStatus = paramStatus || "all";
+  const initialSearch = paramSearch || "";
+
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const [search, setSearch] = React.useState("");
-  const [categoryFilter, setCategoryFilter] = React.useState("all");
-  const [statusFilter, setStatusFilter] = React.useState("all");
+  const [search, setSearch] = React.useState(initialSearch);
+  const [genderFilter, setGenderFilter] = React.useState(initialGender);
+  const [categoryFilter, setCategoryFilter] = React.useState(initialCategory);
+  const [statusFilter, setStatusFilter] = React.useState(initialStatus);
+
+  // Sync state if URL query params change
+  React.useEffect(() => {
+    if (paramGender) {
+      setGenderFilter(paramGender);
+    }
+    if (paramCategory) {
+      if (paramCategory === "women" || paramCategory === "men") {
+        setGenderFilter(paramCategory);
+      } else {
+        setCategoryFilter(paramCategory);
+      }
+    }
+    if (paramStatus) setStatusFilter(paramStatus);
+    if (paramSearch) setSearch(paramSearch);
+  }, [paramGender, paramCategory, paramStatus, paramSearch]);
 
   // Create / Edit Modal State
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -38,6 +79,7 @@ export default function AdminProductsPage() {
   const [formData, setFormData] = React.useState({
     title: "",
     subtitle: "",
+    gender: "unisex" as "women" | "men" | "unisex",
     category: "jackets-coats",
     price: 250,
     compareAtPrice: 0,
@@ -61,10 +103,11 @@ export default function AdminProductsPage() {
   // Delete Confirmation Dialog
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
 
-  const fetchProducts = () => {
+  const fetchProducts = React.useCallback(() => {
     setLoading(true);
     const params = new URLSearchParams();
     if (search) params.set("search", search);
+    if (genderFilter !== "all") params.set("gender", genderFilter);
     if (categoryFilter !== "all") params.set("category", categoryFilter);
     if (statusFilter !== "all") params.set("status", statusFilter);
 
@@ -75,11 +118,11 @@ export default function AdminProductsPage() {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  };
+  }, [search, genderFilter, categoryFilter, statusFilter]);
 
   React.useEffect(() => {
     fetchProducts();
-  }, [categoryFilter, statusFilter]);
+  }, [fetchProducts]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,6 +175,7 @@ export default function AdminProductsPage() {
     setFormData({
       title: "",
       subtitle: "Winter 26/27 Drop",
+      gender: "unisex",
       category: "jackets-coats",
       price: 295,
       compareAtPrice: 350,
@@ -153,6 +197,7 @@ export default function AdminProductsPage() {
     setFormData({
       title: p.title,
       subtitle: p.subtitle || "",
+      gender: p.gender || "unisex",
       category: p.category,
       price: p.price,
       compareAtPrice: p.compareAtPrice || 0,
@@ -263,14 +308,26 @@ export default function AdminProductsPage() {
         </form>
 
         {/* Filters */}
-        <div className="flex items-center space-x-3 w-full md:w-auto">
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+          {/* Department / Gender Filter */}
+          <select
+            value={genderFilter}
+            onChange={(e) => setGenderFilter(e.target.value)}
+            className="bg-[#F9FAFB] border border-[#D1D5DB] text-xs font-mono py-1.5 px-3 rounded-sm focus:outline-none focus:border-black"
+          >
+            <option value="all">All Departments</option>
+            <option value="women">Women</option>
+            <option value="men">Men</option>
+            <option value="unisex">Unisex</option>
+          </select>
+
           {/* Category Filter */}
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="bg-[#F9FAFB] border border-[#D1D5DB] text-xs font-mono py-1.5 px-3 rounded-sm focus:outline-none focus:border-black"
           >
-            <option value="all">All Departments</option>
+            <option value="all">All Categories</option>
             <option value="jackets-coats">Jackets & Coats</option>
             <option value="sweaters-hoodies">Sweaters & Hoodies</option>
             <option value="boots-accessories">Boots & Accessories</option>
@@ -283,10 +340,25 @@ export default function AdminProductsPage() {
             className="bg-[#F9FAFB] border border-[#D1D5DB] text-xs font-mono py-1.5 px-3 rounded-sm focus:outline-none focus:border-black"
           >
             <option value="all">All Statuses</option>
-            <option value="published">Published</option>
+            <option value="published">Active / Published</option>
             <option value="archived">Archived</option>
             <option value="low_stock">Low Stock (≤5)</option>
           </select>
+
+          {(genderFilter !== "all" || categoryFilter !== "all" || statusFilter !== "all" || search) && (
+            <button
+              onClick={() => {
+                setGenderFilter("all");
+                setCategoryFilter("all");
+                setStatusFilter("all");
+                setSearch("");
+              }}
+              className="text-xs font-mono px-2.5 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-sm transition-colors border border-neutral-300"
+              title="Reset all filters"
+            >
+              Reset
+            </button>
+          )}
 
           <button
             onClick={fetchProducts}
@@ -344,8 +416,25 @@ export default function AdminProductsPage() {
                       </div>
                     </td>
 
-                    <td className="py-3.5 px-6 font-mono text-2xs uppercase text-neutral-600">
-                      {p.categoryLabel || p.category}
+                    <td className="py-3.5 px-6">
+                      <div className="flex flex-col space-y-1">
+                        <span className="font-mono text-2xs uppercase text-neutral-800 font-medium">
+                          {p.categoryLabel || p.category}
+                        </span>
+                        <div>
+                          <span
+                            className={`inline-block text-[0.62rem] font-mono px-1.5 py-0.5 rounded-xs uppercase tracking-wider border ${
+                              p.gender === "women"
+                                ? "bg-rose-50 text-rose-700 border-rose-200"
+                                : p.gender === "men"
+                                ? "bg-sky-50 text-sky-700 border-sky-200"
+                                : "bg-neutral-100 text-neutral-600 border-neutral-200"
+                            }`}
+                          >
+                            {p.gender === "women" ? "Women" : p.gender === "men" ? "Men" : "Unisex"}
+                          </span>
+                        </div>
+                      </div>
                     </td>
 
                     <td className="py-3.5 px-6 font-mono font-semibold text-neutral-900">
@@ -463,24 +552,44 @@ export default function AdminProductsPage() {
             </div>
 
             <form onSubmit={handleSaveProduct} className="space-y-4 text-xs font-sans">
+              <div className="space-y-1">
+                <label className="font-mono text-2xs uppercase text-neutral-600 font-semibold">
+                  Garment Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  placeholder="e.g. Glacier Down Parka"
+                  className="w-full border border-neutral-300 p-2 text-xs focus:outline-none focus:border-black"
+                />
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="font-mono text-2xs uppercase text-neutral-600 font-semibold">
-                    Garment Title *
+                    Department / Collection *
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="e.g. Glacier Down Parka"
-                    className="w-full border border-neutral-300 p-2 text-xs focus:outline-none focus:border-black"
-                  />
+                  <select
+                    value={formData.gender || "unisex"}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        gender: e.target.value as "women" | "men" | "unisex",
+                      })
+                    }
+                    className="w-full border border-neutral-300 p-2 text-xs focus:outline-none focus:border-black font-mono"
+                  >
+                    <option value="unisex">Unisex / All</option>
+                    <option value="women">Women</option>
+                    <option value="men">Men</option>
+                  </select>
                 </div>
 
                 <div className="space-y-1">
                   <label className="font-mono text-2xs uppercase text-neutral-600 font-semibold">
-                    Department Category *
+                    Product Category *
                   </label>
                   <select
                     value={formData.category}
@@ -900,5 +1009,19 @@ export default function AdminProductsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AdminProductsPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="p-8 font-mono text-xs text-neutral-400 max-w-[1600px] mx-auto">
+          Loading catalog...
+        </div>
+      }
+    >
+      <AdminProductsContent />
+    </React.Suspense>
   );
 }

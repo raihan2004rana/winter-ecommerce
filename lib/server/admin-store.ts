@@ -11,6 +11,9 @@ export interface AdminCategory {
   productCount: number;
   gender?: "all" | "women" | "men";
   featured?: boolean;
+  link?: string;
+  badge?: string;
+  order?: number;
 }
 
 export interface AdminOrder {
@@ -284,15 +287,18 @@ function getInitialState(): AdminState {
   }));
 
   const initialCategories: AdminCategory[] = [
+    // General / Unisex categories
     {
       id: "cat-1",
       name: "Jackets & Down Coats",
       slug: "jackets-coats",
       description: "Down parkas, high-altitude shells and tailored winter coats.",
       image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
-      productCount: 5,
+      productCount: 6,
       gender: "all",
       featured: true,
+      link: "/products?category=jackets-coats",
+      badge: "Outerwear",
     },
     {
       id: "cat-2",
@@ -300,9 +306,11 @@ function getInitialState(): AdminState {
       slug: "sweaters-hoodies",
       description: "Merino wool cable-knits, cashmere turtlenecks and Polartec fleece.",
       image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=600",
-      productCount: 4,
+      productCount: 3,
       gender: "all",
       featured: true,
+      link: "/products?category=sweaters-hoodies",
+      badge: "Knitwear",
     },
     {
       id: "cat-3",
@@ -313,44 +321,130 @@ function getInitialState(): AdminState {
       productCount: 3,
       gender: "all",
       featured: true,
+      link: "/products?category=boots-accessories",
+      badge: "Footwear",
+    },
+    // Women Mega Menu & Collection categories
+    {
+      id: "cat-w-1",
+      name: "Jackets & Down Coats",
+      slug: "women-jackets",
+      description: "Sub-zero expedition down parkas & tailored wool coats",
+      image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=80&w=600",
+      productCount: 5,
+      gender: "women",
+      featured: true,
+      link: "/collections/women?category=jackets-coats",
+      badge: "5 Pieces",
+    },
+    {
+      id: "cat-w-2",
+      name: "Sweaters & Knitwear",
+      slug: "women-knitwear",
+      description: "Heavyweight 450 GSM Merino wool & seamless cashmere",
+      image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=80&w=600",
+      productCount: 4,
+      gender: "women",
+      featured: true,
+      link: "/collections/women?category=sweaters-hoodies",
+      badge: "4 Pieces",
+    },
+    {
+      id: "cat-w-3",
+      name: "Boots & Accessories",
+      slug: "women-boots",
+      description: "Shearling-lined alpine boots, cashmere beanies & scarves",
+      image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=600",
+      productCount: 3,
+      gender: "women",
+      featured: true,
+      link: "/collections/women?category=boots-accessories",
+      badge: "3 Pieces",
+    },
+    {
+      id: "cat-w-4",
+      name: "Winter Essentials",
+      slug: "women-essentials",
+      description: "Curated metropolitan silhouettes designed for extreme cold",
+      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=600",
+      productCount: 6,
+      gender: "women",
+      featured: true,
+      link: "/collections/women",
+      badge: "Curated",
     },
     {
       id: "cat-4",
       name: "Women Winter Collection",
       slug: "women",
       description: "Curated winter silhouettes designed for colder metropolitan days.",
-      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=600",
+      image: "/images/categories/seamless-cashmere-thermal-turtleneck1-1795685537550.avif",
       productCount: 6,
       gender: "women",
       featured: true,
+      link: "/collections/women",
+      badge: "Full Line",
+    },
+    // Men Mega Menu & Collection categories
+    {
+      id: "cat-m-1",
+      name: "Expedition Parkas & Shells",
+      slug: "men-parkas",
+      description: "800 Fill Power down parkas & 3-layer GORE hard shells",
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=600",
+      productCount: 5,
+      gender: "men",
+      featured: true,
+      link: "/collections/men?category=jackets-coats",
+      badge: "5 Pieces",
+    },
+    {
+      id: "cat-m-2",
+      name: "Merino Knits & Fleece",
+      slug: "men-fleece",
+      description: "Heavyweight cable knits & Polartec thermal hoodies",
+      image: "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=80&w=600",
+      productCount: 4,
+      gender: "men",
+      featured: true,
+      link: "/collections/men?category=sweaters-hoodies",
+      badge: "4 Pieces",
+    },
+    {
+      id: "cat-m-3",
+      name: "Alpine Boots & Gloves",
+      slug: "men-boots",
+      description: "Vibram Arctic Grip trekking boots & PrimaLoft gloves",
+      image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=80&w=600",
+      productCount: 3,
+      gender: "men",
+      featured: true,
+      link: "/collections/men?category=boots-accessories",
+      badge: "3 Pieces",
+    },
+    {
+      id: "cat-m-4",
+      name: "Technical Alpine Systems",
+      slug: "men-systems",
+      description: "Rugged performance layering engineered for sub-zero climates",
+      image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&q=80&w=600",
+      productCount: 6,
+      gender: "men",
+      featured: true,
+      link: "/collections/men",
+      badge: "Technical",
     },
     {
       id: "cat-5",
       name: "Men Technical Collection",
       slug: "men",
       description: "Technical alpine insulation and rugged performance layering.",
-      image: "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=600",
+      image: "/images/categories/thermal-insulated-shell-coat1-1795685601754.avif",
       productCount: 6,
       gender: "men",
       featured: true,
-    },
-    {
-      id: "cat-6",
-      name: "Thermal Layering & Scarves",
-      slug: "women-layering",
-      description: "Seamless cashmere thermal turtlenecks and brushed alpine scarves.",
-      image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=600",
-      productCount: 4,
-      gender: "women",
-    },
-    {
-      id: "cat-7",
-      name: "Sub-Zero Alpine Systems",
-      slug: "men-alpine",
-      description: "Extreme Arctic parkas, 3-layer GORE alpine shells and trekking gear.",
-      image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&q=85&w=600",
-      productCount: 5,
-      gender: "men",
+      link: "/collections/men",
+      badge: "Full Line",
     },
   ];
 
@@ -1370,9 +1464,17 @@ function loadState(): AdminState {
         memoryState!.journalArticles = getInitialState().journalArticles;
         saveState(memoryState!);
       }
-      // Ensure existing categories have gender tags
+      // Ensure all 13 categories (women, men, unisex) are populated
       if (memoryState!.categories) {
+        const initial = getInitialState().categories;
+        const existingSlugs = new Set(memoryState!.categories.map((c) => c.slug));
         let changed = false;
+        for (const cat of initial) {
+          if (!existingSlugs.has(cat.slug)) {
+            memoryState!.categories.push(cat);
+            changed = true;
+          }
+        }
         memoryState!.categories.forEach((cat) => {
           if (!cat.gender) {
             if (cat.slug.includes("women")) cat.gender = "women";
@@ -1491,22 +1593,58 @@ export const AdminStore = {
   },
 
   // 2. Products
-  getProducts(query?: { search?: string; category?: string; status?: string }) {
+  getProducts(query?: { search?: string; category?: string; gender?: string; status?: string }) {
     const state = loadState();
     let result = [...state.products];
 
     if (query?.search) {
       const q = query.search.toLowerCase();
       result = result.filter(
-        (p) => p.title.toLowerCase().includes(q) || p.slug.toLowerCase().includes(q)
+        (p) =>
+          p.title.toLowerCase().includes(q) ||
+          p.slug.toLowerCase().includes(q) ||
+          (p.subtitle && p.subtitle.toLowerCase().includes(q))
       );
     }
 
-    if (query?.category && query.category !== "all") {
-      result = result.filter((p) => p.category === query.category || p.categoryLabel === query.category);
+    // Gender / Department filter
+    if (query?.gender && query.gender !== "all") {
+      const g = query.gender.toLowerCase();
+      if (g === "women") {
+        result = result.filter((p) => p.gender === "women" || p.gender === "unisex");
+      } else if (g === "men") {
+        result = result.filter((p) => p.gender === "men" || p.gender === "unisex");
+      } else if (g === "unisex") {
+        result = result.filter((p) => p.gender === "unisex");
+      } else {
+        result = result.filter((p) => p.gender === g);
+      }
     }
 
-    if (query?.status) {
+    // Category filter
+    if (query?.category && query.category !== "all") {
+      const cat = query.category.toLowerCase();
+      if (cat === "women") {
+        result = result.filter((p) => p.gender === "women" || p.gender === "unisex");
+      } else if (cat === "men") {
+        result = result.filter((p) => p.gender === "men" || p.gender === "unisex");
+      } else if (cat.includes("jacket") || cat.includes("parka") || cat.includes("coat")) {
+        result = result.filter((p) => p.category === "jackets-coats");
+      } else if (cat.includes("sweater") || cat.includes("hoodie") || cat.includes("knit") || cat.includes("fleece")) {
+        result = result.filter((p) => p.category === "sweaters-hoodies");
+      } else if (cat.includes("boot") || cat.includes("accessor")) {
+        result = result.filter((p) => p.category === "boots-accessories");
+      } else {
+        result = result.filter(
+          (p) =>
+            p.category === cat ||
+            p.categoryLabel?.toLowerCase() === cat ||
+            p.slug.includes(cat)
+        );
+      }
+    }
+
+    if (query?.status && query.status !== "all") {
       if (query.status === "published") result = result.filter((p) => p.isPublished && !p.isArchived);
       if (query.status === "archived") result = result.filter((p) => p.isArchived);
       if (query.status === "low_stock") result = result.filter((p) => p.stockCount <= state.settings.lowStockThreshold);
