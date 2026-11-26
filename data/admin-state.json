@@ -632,7 +632,8 @@
       "slug": "jackets-coats",
       "description": "Down parkas, high-altitude shells and tailored winter coats.",
       "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
-      "productCount": 5
+      "productCount": 5,
+      "gender": "all"
     },
     {
       "id": "cat-2",
@@ -640,7 +641,8 @@
       "slug": "sweaters-hoodies",
       "description": "Merino wool cable-knits, cashmere turtlenecks and Polartec fleece.",
       "image": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=600",
-      "productCount": 4
+      "productCount": 4,
+      "gender": "all"
     },
     {
       "id": "cat-3",
@@ -648,7 +650,8 @@
       "slug": "boots-accessories",
       "description": "Vibram Arctic Grip trekking boots, cashmere beanies and gloves.",
       "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=600",
-      "productCount": 3
+      "productCount": 3,
+      "gender": "all"
     },
     {
       "id": "cat-4",
@@ -656,7 +659,8 @@
       "slug": "women",
       "description": "Curated winter silhouettes designed for colder metropolitan days.",
       "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=600",
-      "productCount": 6
+      "productCount": 6,
+      "gender": "women"
     },
     {
       "id": "cat-5",
@@ -664,7 +668,8 @@
       "slug": "men",
       "description": "Technical alpine insulation and rugged performance layering.",
       "image": "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=600",
-      "productCount": 6
+      "productCount": 6,
+      "gender": "men"
     }
   ],
   "orders": [
@@ -1123,6 +1128,26 @@
   ],
   "auditLogs": [
     {
+      "id": "log-1795681688365",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-003",
+      "details": "Updated campaign \"Black Friday Sub-Zero Outerwear Flash Sale\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T08:28:08.365Z"
+    },
+    {
+      "id": "log-1795681669147",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-003",
+      "details": "Updated campaign \"Black Friday Sub-Zero Outerwear Flash Sale\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T08:27:49.147Z"
+    },
+    {
       "id": "log-1795668523923",
       "actorName": "Raihan Rana",
       "actorEmail": "admin@winter-fashion.com",
@@ -1352,7 +1377,7 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4926,
+      "impressions": 4931,
       "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
@@ -1373,7 +1398,7 @@
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
       "isActive": true,
-      "impressions": 12486,
+      "impressions": 12503,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1401,7 +1426,7 @@
       "startDate": "2026-11-25T16:15:56.272Z",
       "endDate": "2026-11-27T16:15:56.272Z",
       "isActive": true,
-      "impressions": 6214,
+      "impressions": 6219,
       "clicks": 1240,
       "countdownTimer": {
         "enabled": true,
@@ -1414,7 +1439,7 @@
       },
       "priority": 1,
       "createdAt": "2026-11-25T16:15:56.272Z",
-      "updatedAt": "2026-11-26T04:15:56.272Z"
+      "updatedAt": "2026-11-26T08:28:08.365Z"
     },
     {
       "id": "camp-004",
@@ -1431,7 +1456,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3443,
+      "impressions": 3448,
       "clicks": 497,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
@@ -1819,6 +1844,60 @@
       "logoSvg": "<svg viewBox=\"0 0 150 36\" fill=\"currentColor\" className=\"h-7 w-auto\"><g transform=\"translate(2, 3)\"><path d=\"M15 4c-6.6 0-12 5.4-12 12s5.4 12 12 12 12-5.4 12-12h-6c0 3.3-2.7 6-6 6s-6-2.7-6-6 2.7-6 6-6c2 0 3.8 1 4.9 2.5l4.7-3.7C22.4 6 18.9 4 15 4z\" /><path d=\"M15 13c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z\" /></g><text x=\"42\" y=\"23\" fontSize=\"16\" fontWeight=\"800\" fontFamily=\"system-ui, sans-serif\" letterSpacing=\"1.5\">carhartt</text></svg>",
       "createdAt": "2026-11-26T06:56:48.346Z",
       "updatedAt": "2026-11-26T06:56:48.346Z"
+    }
+  ],
+  "journalArticles": [
+    {
+      "id": "art-1",
+      "slug": "building-a-quiet-winter-wardrobe",
+      "image": "/images/wardrobe/AFa3pXi6rgIjU1cTtgBzlijk5o.jpg",
+      "category": "Style guide",
+      "readTime": "6 min read",
+      "title": "Building a quiet winter wardrobe",
+      "excerpt": "Fewer pieces, warmer layers, and coats that do more than one job.",
+      "author": "Elena Rostova",
+      "publishedAt": "2026-11-23T08:49:15.548Z",
+      "isPublished": true,
+      "order": 1
+    },
+    {
+      "id": "art-2",
+      "slug": "layering-denim-for-transitional-weather",
+      "image": "/images/wardrobe/layer-denim.jpg",
+      "category": "How to wear",
+      "readTime": "4 min read",
+      "title": "Layering denim for transitional weather",
+      "excerpt": "How to wear denim jackets and jeans when mornings are cold and afternoons warm up.",
+      "author": "Julian Vance",
+      "publishedAt": "2026-11-19T08:49:15.548Z",
+      "isPublished": true,
+      "order": 2
+    },
+    {
+      "id": "art-3",
+      "slug": "what-people-actually-wear-on-busy-days",
+      "image": "/images/wardrobe/C9YOETuP6DWDsoWsKpvONxkKE.jpg",
+      "category": "Lifestyle",
+      "readTime": "5 min read",
+      "title": "What people actually wear on busy days",
+      "excerpt": "Real outfits for real schedules. Comfortable, simple, and put together.",
+      "author": "Søren Lindqvist",
+      "publishedAt": "2026-11-14T08:49:15.548Z",
+      "isPublished": true,
+      "order": 3
+    },
+    {
+      "id": "art-4",
+      "slug": "sub-zero-thermal-craft-and-mongolian-cashmere",
+      "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=800",
+      "category": "Material craft",
+      "readTime": "7 min read",
+      "title": "Sub-zero thermal craft & Mongolian cashmere",
+      "excerpt": "The science of 450 GSM pure wool knits engineered for alpine temperature drops.",
+      "author": "Astrid Lind",
+      "publishedAt": "2026-11-08T08:49:15.548Z",
+      "isPublished": true,
+      "order": 4
     }
   ]
 }

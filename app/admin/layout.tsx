@@ -24,6 +24,7 @@ import {
   ChevronDown,
   Megaphone,
   Award,
+  BookOpen,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -36,6 +37,7 @@ const NAV_ITEMS = [
   { href: "/admin/coupons", label: "Coupons & Discounts", icon: Tag },
   { href: "/admin/campaigns", label: "Marketing & Ads", icon: Megaphone, badge: "Live" },
   { href: "/admin/partners", label: "Brand Partners", icon: Award },
+  { href: "/admin/journal", label: "Journal & Stories", icon: BookOpen },
   { href: "/admin/reviews", label: "Reviews Moderation", icon: Star, badge: "1" },
   { href: "/admin/staff", label: "Staff & Permissions", icon: ShieldCheck },
   { href: "/admin/settings", label: "Store Configuration", icon: Settings },

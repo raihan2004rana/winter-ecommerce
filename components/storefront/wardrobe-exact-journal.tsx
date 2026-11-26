@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-const ARTICLES = [
+const DEFAULT_ARTICLES = [
   {
     id: "art-1",
     image: "/images/wardrobe/AFa3pXi6rgIjU1cTtgBzlijk5o.jpg",
@@ -33,6 +33,18 @@ const ARTICLES = [
 ];
 
 export function WardrobeExactJournal() {
+  const [articles, setArticles] = React.useState(DEFAULT_ARTICLES);
+
+  React.useEffect(() => {
+    fetch("/api/journal")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.articles && data.articles.length > 0) {
+          setArticles(data.articles.slice(0, 3));
+        }
+      })
+      .catch(() => {});
+  }, []);
   return (
     <section className="w-full bg-[#FFFFFF] py-14 sm:py-20 border-b border-[#F0F0F0]">
       <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16">
@@ -56,7 +68,7 @@ export function WardrobeExactJournal() {
 
         {/* 3-Column Article Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {ARTICLES.map((item) => (
+          {articles.map((item) => (
             <article key={item.id} className="group flex flex-col space-y-3">
               {/* Photo */}
               <Link

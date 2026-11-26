@@ -15,6 +15,8 @@ import {
   X,
   Loader2,
   Sparkles,
+  Edit2,
+  Trash2,
 } from "lucide-react";
 
 interface Category {
@@ -24,23 +26,34 @@ interface Category {
   description: string;
   image: string;
   productCount: number;
+  gender?: "all" | "women" | "men";
+  featured?: boolean;
 }
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [search, setSearch] = React.useState("");
+  const [departmentFilter, setDepartmentFilter] = React.useState("all");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [editingCategory, setEditingCategory] = React.useState<Category | null>(null);
   const [saving, setSaving] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [successToast, setSuccessToast] = React.useState<string | null>(null);
 
   // Form state
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<{
+    name: string;
+    slug: string;
+    description: string;
+    image: string;
+    gender: "all" | "women" | "men";
+  }>({
     name: "",
     slug: "",
     description: "",
     image: "",
+    gender: "all",
   });
 
   const fetchCategories = React.useCallback(async () => {
@@ -48,9 +61,8 @@ export default function AdminCategoriesPage() {
       setLoading(true);
       const res = await fetch("/api/admin/categories");
       const data = await res.json();
-      if (data && data.categories) {
-        setCategories(data.categories);
-      }
+      const list = data.data || data.categories || [];
+      setCategories(list);
     } catch (err) {
       console.error("Failed to fetch categories:", err);
     } finally {
@@ -67,7 +79,37 @@ export default function AdminCategoriesPage() {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
-    setFormData((prev) => ({ ...prev, name: val, slug }));
+    setFormData((prev) => ({
+      ...prev,
+      name: val,
+      slug: editingCategory ? prev.slug : slug,
+    }));
+  };
+
+  const openCreateModal = () => {
+    setEditingCategory(null);
+    setFormData({
+      name: "",
+      slug: "",
+      description: "",
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
+      gender: "all",
+    });
+    setErrorMsg(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (cat: Category) => {
+    setEditingCategory(cat);
+    setFormData({
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description,
+      image: cat.image,
+      gender: cat.gender || "all",
+    });
+    setErrorMsg(null);
+    setIsModalOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -77,37 +119,67 @@ export default function AdminCategoriesPage() {
     try {
       setSaving(true);
       setErrorMsg(null);
-      const res = await fetch("/api/admin/categories", {
-        method: "POST",
+
+      const url = editingCategory
+        ? `/api/admin/categories/${editingCategory.id}`
+        : `/api/admin/categories`;
+      const method = editingCategory ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to create category");
+        throw new Error(errorData.message || errorData.error || "Failed to save category");
       }
 
       await fetchCategories();
       setIsModalOpen(false);
-      setFormData({ name: "", slug: "", description: "", image: "" });
-      setSuccessToast(`Category "${formData.name}" created successfully`);
+      setSuccessToast(
+        editingCategory
+          ? `Category "${formData.name}" updated successfully`
+          : `Category "${formData.name}" created successfully`
+      );
       setTimeout(() => setSuccessToast(null), 4000);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to create category";
+      const message = err instanceof Error ? err.message : "Failed to save category";
       setErrorMsg(message);
     } finally {
       setSaving(false);
     }
   };
 
-  const filteredCategories = categories.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.description.toLowerCase().includes(search.toLowerCase()) ||
-    c.slug.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleDelete = async (id: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to delete category "${name}"?`)) return;
 
-  const totalProductsMapped = categories.reduce((acc, c) => acc + c.productCount, 0);
+    try {
+      const res = await fetch(`/api/admin/categories/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setCategories((prev) => prev.filter((c) => c.id !== id));
+        setSuccessToast(`Deleted category "${name}"`);
+        setTimeout(() => setSuccessToast(null), 4000);
+      }
+    } catch (err) {
+      console.error("Failed to delete category:", err);
+    }
+  };
+
+  const filteredCategories = categories.filter((c) => {
+    const matchesSearch =
+      c.name.toLowerCase().includes(search.toLowerCase()) ||
+      c.description.toLowerCase().includes(search.toLowerCase()) ||
+      c.slug.toLowerCase().includes(search.toLowerCase());
+    const matchesDept =
+      departmentFilter === "all" ||
+      c.gender === departmentFilter ||
+      (!c.gender && departmentFilter === "all");
+    return matchesSearch && matchesDept;
+  });
+
+  const totalProductsMapped = categories.reduce((acc, c) => acc + (c.productCount || 0), 0);
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
@@ -131,21 +203,12 @@ export default function AdminCategoriesPage() {
             </span>
           </div>
           <p className="text-sm text-neutral-500">
-            Organize seasonal collections, winter apparel lines, and product groupings.
+            Organize seasonal collections, winter apparel lines, and Men/Women mega menu navigation categories.
           </p>
         </div>
 
         <button
-          onClick={() => {
-            setErrorMsg(null);
-            setFormData({
-              name: "",
-              slug: "",
-              description: "",
-              image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
-            });
-            setIsModalOpen(true);
-          }}
+          onClick={openCreateModal}
           className="inline-flex items-center justify-center space-x-2 px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold uppercase tracking-wider rounded-md transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -185,16 +248,16 @@ export default function AdminCategoriesPage() {
           </div>
           <div>
             <div className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
-              Winter Hierarchy
+              Store Navigation
             </div>
-            <div className="text-sm font-semibold text-neutral-800">100% Synced</div>
+            <div className="text-sm font-semibold text-neutral-800">Men & Women Synced</div>
           </div>
         </div>
       </div>
 
       {/* Search & Actions Bar */}
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="relative flex-1 w-full max-w-md">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
           <input
             type="text"
@@ -204,8 +267,20 @@ export default function AdminCategoriesPage() {
             className="w-full pl-10 pr-4 py-2 text-xs bg-white border border-neutral-200 rounded-md text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-900 shadow-sm"
           />
         </div>
-        <div className="text-xs text-neutral-500 font-mono">
-          Showing {filteredCategories.length} of {categories.length}
+
+        <div className="flex items-center space-x-2 self-start sm:self-auto">
+          <select
+            value={departmentFilter}
+            onChange={(e) => setDepartmentFilter(e.target.value)}
+            className="text-xs bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-800 focus:outline-none focus:ring-1 focus:ring-neutral-900 shadow-sm"
+          >
+            <option value="all">All Departments</option>
+            <option value="women">Women</option>
+            <option value="men">Men</option>
+          </select>
+          <div className="text-xs text-neutral-500 font-mono">
+            Showing {filteredCategories.length} of {categories.length}
+          </div>
         </div>
       </div>
 
@@ -248,16 +323,33 @@ export default function AdminCategoriesPage() {
                     src={category.image}
                     alt={category.name}
                     fill
+                    unoptimized
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  
+                  {/* Department Badge */}
+                  <div className="absolute top-3 left-3">
+                    <span
+                      className={`text-2xs font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded backdrop-blur-sm border shadow-xs ${
+                        category.gender === "women"
+                          ? "bg-rose-950/80 text-rose-200 border-rose-700/50"
+                          : category.gender === "men"
+                          ? "bg-sky-950/80 text-sky-200 border-sky-700/50"
+                          : "bg-neutral-900/80 text-neutral-200 border-neutral-700/50"
+                      }`}
+                    >
+                      {category.gender === "women" ? "Women" : category.gender === "men" ? "Men" : "Unisex / All"}
+                    </span>
+                  </div>
+
                   <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
                     <span className="text-xs font-mono bg-black/50 px-2 py-0.5 rounded backdrop-blur-sm border border-white/20">
                       /{category.slug}
                     </span>
                     <span className="text-xs font-semibold bg-white/90 text-neutral-900 px-2.5 py-0.5 rounded-full shadow-sm">
-                      {category.productCount} {category.productCount === 1 ? "Product" : "Products"}
+                      {category.productCount || 0} {category.productCount === 1 ? "Product" : "Products"}
                     </span>
                   </div>
                 </div>
@@ -275,7 +367,23 @@ export default function AdminCategoriesPage() {
 
               {/* Card Footer Actions */}
               <div className="px-5 py-3.5 bg-neutral-50 border-t border-neutral-100 flex items-center justify-between">
-                <span className="text-[11px] font-mono text-neutral-400">ID: {category.id}</span>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => openEditModal(category)}
+                    className="p-1.5 text-neutral-600 hover:text-black rounded hover:bg-neutral-200/60 transition-colors"
+                    title="Edit category"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(category.id, category.name)}
+                    className="p-1.5 text-rose-600 hover:text-rose-800 rounded hover:bg-rose-50 transition-colors"
+                    title="Delete category"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
                 <Link
                   href={`/admin/products?category=${category.slug}`}
                   className="inline-flex items-center space-x-1.5 text-xs font-semibold text-neutral-700 hover:text-black transition-colors"
@@ -289,7 +397,7 @@ export default function AdminCategoriesPage() {
         </div>
       )}
 
-      {/* Create Category Modal */}
+      {/* Create / Edit Category Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-lg border border-neutral-200 shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in-95">
@@ -299,9 +407,11 @@ export default function AdminCategoriesPage() {
                   <Layers className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-neutral-900">Create New Category</h3>
+                  <h3 className="text-sm font-bold text-neutral-900">
+                    {editingCategory ? "Edit Category" : "Create New Category"}
+                  </h3>
                   <p className="text-[11px] text-neutral-500">
-                    Add a seasonal department or taxonomy node
+                    Organize storefront departments and mega menu navigation
                   </p>
                 </div>
               </div>
@@ -335,22 +445,44 @@ export default function AdminCategoriesPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                  URL Slug
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-mono">
-                    /category/
-                  </span>
-                  <input
-                    type="text"
-                    required
-                    placeholder="thermal-base-layers"
-                    value={formData.slug}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
-                    className="w-full pl-24 pr-3 py-2 text-xs bg-white border border-neutral-300 rounded-md font-mono text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-                  />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    Department Menu
+                  </label>
+                  <select
+                    value={formData.gender}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        gender: e.target.value as "all" | "women" | "men",
+                      }))
+                    }
+                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  >
+                    <option value="all">Both (Unisex / All)</option>
+                    <option value="women">Women (Header Dropdown)</option>
+                    <option value="men">Men (Header Dropdown)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    URL Slug
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-mono">
+                      /
+                    </span>
+                    <input
+                      type="text"
+                      required
+                      placeholder="thermal-base-layers"
+                      value={formData.slug}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
+                      className="w-full pl-6 pr-3 py-2 text-xs bg-white border border-neutral-300 rounded-md font-mono text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -374,7 +506,7 @@ export default function AdminCategoriesPage() {
                   Editorial Banner Image URL
                 </label>
                 <input
-                  type="url"
+                  type="text"
                   placeholder="https://images.unsplash.com/photo-..."
                   value={formData.image}
                   onChange={(e) => setFormData((prev) => ({ ...prev, image: e.target.value }))}
@@ -386,6 +518,7 @@ export default function AdminCategoriesPage() {
                       src={formData.image}
                       alt="Category Preview"
                       fill
+                      unoptimized
                       className="object-cover"
                     />
                   </div>
@@ -406,7 +539,7 @@ export default function AdminCategoriesPage() {
                   className="inline-flex items-center space-x-2 px-5 py-2 bg-neutral-900 hover:bg-neutral-800 disabled:opacity-50 text-white text-xs font-semibold uppercase tracking-wider rounded-md transition-colors shadow-sm"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  <span>{saving ? "Saving..." : "Create Category"}</span>
+                  <span>{saving ? "Saving..." : editingCategory ? "Save Changes" : "Create Category"}</span>
                 </button>
               </div>
             </form>

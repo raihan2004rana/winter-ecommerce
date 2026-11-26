@@ -1,52 +1,33 @@
 import { NextResponse } from "next/server";
 import { PRODUCTS_CATALOG } from "@/data/products";
+import { AdminStore } from "@/lib/server/admin-store";
 
 export async function GET() {
   try {
-    const categories = [
-      {
-        id: "cat-01",
-        slug: "jackets-coats",
-        name: "Jackets & Down Coats",
-        description: "Sub-zero expedition down parkas, tailored wool overcoats, and 3-layer alpine hard shells.",
-        imageUrl: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=80&w=800",
-        count: PRODUCTS_CATALOG.filter((p) => p.category === "jackets-coats").length,
-        subcategories: [
-          { name: "Expedition Down Parkas", slug: "jackets-coats" },
-          { name: "Tailored Wool Overcoats", slug: "jackets-coats" },
-          { name: "3-Layer GORE Shells", slug: "jackets-coats" },
-          { name: "Lightweight Vests", slug: "jackets-coats" },
-        ],
-      },
-      {
-        id: "cat-02",
-        slug: "sweaters-hoodies",
-        name: "Sweaters & Hoodies",
-        description: "Heavyweight 450 GSM Merino wool knits, seamless turtlenecks, and Polartec fleece mid-layers.",
-        imageUrl: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=80&w=800",
-        count: PRODUCTS_CATALOG.filter((p) => p.category === "sweaters-hoodies").length,
-        subcategories: [
-          { name: "Mongolian Cashmere", slug: "sweaters-hoodies" },
-          { name: "Heavyweight Merino Knits", slug: "sweaters-hoodies" },
-          { name: "Thermal Turtlenecks", slug: "sweaters-hoodies" },
-          { name: "High-Pile Fleece", slug: "sweaters-hoodies" },
-        ],
-      },
-      {
-        id: "cat-03",
-        slug: "boots-accessories",
-        name: "Boots & Accessories",
-        description: "Shearling-lined alpine boots with Vibram Arctic Grip, brushed cashmere scarves, and deerskin gloves.",
-        imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800",
-        count: PRODUCTS_CATALOG.filter((p) => p.category === "boots-accessories").length,
-        subcategories: [
-          { name: "Shearling Alpine Boots", slug: "boots-accessories" },
-          { name: "Vibram Ice Walkers", slug: "boots-accessories" },
-          { name: "Cashmere Scarves", slug: "boots-accessories" },
-          { name: "PrimaLoft Deerskin Gloves", slug: "boots-accessories" },
-        ],
-      },
-    ];
+    const adminCategories = AdminStore.getCategories();
+    
+    // Map with product counts and metadata
+    const categories = adminCategories.map((c) => {
+      const count = PRODUCTS_CATALOG.filter((p) => {
+        if (c.slug === "jackets-coats") return p.category === "jackets-coats";
+        if (c.slug === "sweaters-hoodies") return p.category === "sweaters-hoodies";
+        if (c.slug === "boots-accessories") return p.category === "boots-accessories";
+        if (c.slug === "women") return p.gender === "women" || p.gender === "unisex";
+        if (c.slug === "men") return p.gender === "men" || p.gender === "unisex";
+        return true;
+      }).length;
+
+      return {
+        id: c.id,
+        slug: c.slug,
+        name: c.name,
+        description: c.description,
+        imageUrl: c.image,
+        count: count || c.productCount || 0,
+        gender: c.gender || "all",
+        featured: c.featured ?? true,
+      };
+    });
 
     return NextResponse.json({
       status: "success",

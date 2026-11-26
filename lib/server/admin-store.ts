@@ -9,6 +9,8 @@ export interface AdminCategory {
   description: string;
   image: string;
   productCount: number;
+  gender?: "all" | "women" | "men";
+  featured?: boolean;
 }
 
 export interface AdminOrder {
@@ -228,6 +230,21 @@ export interface AdminPartner {
   updatedAt: string;
 }
 
+export interface AdminJournalArticle {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content?: string;
+  category: string;
+  readTime: string;
+  image: string;
+  author?: string;
+  publishedAt: string;
+  isPublished: boolean;
+  order: number;
+}
+
 interface AdminState {
   products: (Product & { isArchived?: boolean; isPublished?: boolean })[];
   categories: AdminCategory[];
@@ -243,6 +260,7 @@ interface AdminState {
   shippingZones: AdminShippingZone[];
   instagramConfig?: InstagramConfig;
   partners?: AdminPartner[];
+  journalArticles?: AdminJournalArticle[];
 }
 
 const STATE_FILE = path.join(process.cwd(), "data", "admin-state.json");
@@ -258,19 +276,23 @@ function getInitialState(): AdminState {
   const initialCategories: AdminCategory[] = [
     {
       id: "cat-1",
-      name: "Jackets & Coats",
+      name: "Jackets & Down Coats",
       slug: "jackets-coats",
       description: "Down parkas, high-altitude shells and tailored winter coats.",
       image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
       productCount: 5,
+      gender: "all",
+      featured: true,
     },
     {
       id: "cat-2",
-      name: "Sweaters & Hoodies",
+      name: "Sweaters & Knitwear",
       slug: "sweaters-hoodies",
       description: "Merino wool cable-knits, cashmere turtlenecks and Polartec fleece.",
       image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=600",
       productCount: 4,
+      gender: "all",
+      featured: true,
     },
     {
       id: "cat-3",
@@ -279,22 +301,46 @@ function getInitialState(): AdminState {
       description: "Vibram Arctic Grip trekking boots, cashmere beanies and gloves.",
       image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=600",
       productCount: 3,
+      gender: "all",
+      featured: true,
     },
     {
       id: "cat-4",
-      name: "Women Collection",
+      name: "Women Winter Collection",
       slug: "women",
       description: "Curated winter silhouettes designed for colder metropolitan days.",
       image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=600",
       productCount: 6,
+      gender: "women",
+      featured: true,
     },
     {
       id: "cat-5",
-      name: "Men Collection",
+      name: "Men Technical Collection",
       slug: "men",
       description: "Technical alpine insulation and rugged performance layering.",
       image: "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=600",
       productCount: 6,
+      gender: "men",
+      featured: true,
+    },
+    {
+      id: "cat-6",
+      name: "Thermal Layering & Scarves",
+      slug: "women-layering",
+      description: "Seamless cashmere thermal turtlenecks and brushed alpine scarves.",
+      image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=600",
+      productCount: 4,
+      gender: "women",
+    },
+    {
+      id: "cat-7",
+      name: "Sub-Zero Alpine Systems",
+      slug: "men-alpine",
+      description: "Extreme Arctic parkas, 3-layer GORE alpine shells and trekking gear.",
+      image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&q=85&w=600",
+      productCount: 5,
+      gender: "men",
     },
   ];
 
@@ -1108,6 +1154,61 @@ function getInitialState(): AdminState {
     },
   ];
 
+  const initialJournalArticles: AdminJournalArticle[] = [
+    {
+      id: "art-1",
+      slug: "building-a-quiet-winter-wardrobe",
+      image: "/images/wardrobe/AFa3pXi6rgIjU1cTtgBzlijk5o.jpg",
+      category: "Style guide",
+      readTime: "6 min read",
+      title: "Building a quiet winter wardrobe",
+      excerpt: "Fewer pieces, warmer layers, and coats that do more than one job.",
+      author: "Elena Rostova",
+      publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
+      isPublished: true,
+      order: 1,
+    },
+    {
+      id: "art-2",
+      slug: "layering-denim-for-transitional-weather",
+      image: "/images/wardrobe/layer-denim.jpg",
+      category: "How to wear",
+      readTime: "4 min read",
+      title: "Layering denim for transitional weather",
+      excerpt: "How to wear denim jackets and jeans when mornings are cold and afternoons warm up.",
+      author: "Julian Vance",
+      publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
+      isPublished: true,
+      order: 2,
+    },
+    {
+      id: "art-3",
+      slug: "what-people-actually-wear-on-busy-days",
+      image: "/images/wardrobe/C9YOETuP6DWDsoWsKpvONxkKE.jpg",
+      category: "Lifestyle",
+      readTime: "5 min read",
+      title: "What people actually wear on busy days",
+      excerpt: "Real outfits for real schedules. Comfortable, simple, and put together.",
+      author: "Søren Lindqvist",
+      publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12).toISOString(),
+      isPublished: true,
+      order: 3,
+    },
+    {
+      id: "art-4",
+      slug: "sub-zero-thermal-craft-and-mongolian-cashmere",
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=800",
+      category: "Material craft",
+      readTime: "7 min read",
+      title: "Sub-zero thermal craft & Mongolian cashmere",
+      excerpt: "The science of 450 GSM pure wool knits engineered for alpine temperature drops.",
+      author: "Astrid Lind",
+      publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 18).toISOString(),
+      isPublished: true,
+      order: 4,
+    },
+  ];
+
   return {
     products: initialProducts,
     categories: initialCategories,
@@ -1123,6 +1224,7 @@ function getInitialState(): AdminState {
     shippingZones: initialShippingZones,
     instagramConfig: initialInstagramConfig,
     partners: initialPartners,
+    journalArticles: initialJournalArticles,
   };
 }
 
@@ -1155,6 +1257,23 @@ function loadState(): AdminState {
       if (!memoryState!.partners || memoryState!.partners.length === 0) {
         memoryState!.partners = getInitialState().partners;
         saveState(memoryState!);
+      }
+      if (!memoryState!.journalArticles || memoryState!.journalArticles.length === 0) {
+        memoryState!.journalArticles = getInitialState().journalArticles;
+        saveState(memoryState!);
+      }
+      // Ensure existing categories have gender tags
+      if (memoryState!.categories) {
+        let changed = false;
+        memoryState!.categories.forEach((cat) => {
+          if (!cat.gender) {
+            if (cat.slug.includes("women")) cat.gender = "women";
+            else if (cat.slug.includes("men")) cat.gender = "men";
+            else cat.gender = "all";
+            changed = true;
+          }
+        });
+        if (changed) saveState(memoryState!);
       }
       return memoryState!;
     }
@@ -1396,6 +1515,11 @@ export const AdminStore = {
     return loadState().categories;
   },
 
+  getCategoryById(id: string): AdminCategory | undefined {
+    const state = loadState();
+    return state.categories.find((c) => c.id === id || c.slug === id);
+  },
+
   createCategory(data: Partial<AdminCategory>, actor: { name: string; email: string }) {
     const state = loadState();
     const newCat: AdminCategory = {
@@ -1405,6 +1529,8 @@ export const AdminStore = {
       description: data.description || "Collection of archival pieces.",
       image: data.image || "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
       productCount: 0,
+      gender: data.gender || "all",
+      featured: data.featured ?? false,
     };
     state.categories.push(newCat);
 
@@ -1421,6 +1547,66 @@ export const AdminStore = {
 
     saveState(state);
     return newCat;
+  },
+
+  updateCategory(
+    id: string,
+    data: Partial<AdminCategory>,
+    actor?: { name: string; email: string }
+  ): AdminCategory | null {
+    const state = loadState();
+    const index = state.categories.findIndex((c) => c.id === id || c.slug === id);
+    if (index === -1) return null;
+
+    const existing = state.categories[index];
+    const updated: AdminCategory = {
+      ...existing,
+      ...data,
+      id: existing.id,
+    };
+    state.categories[index] = updated;
+
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Category Updated",
+        entity: "Category",
+        entityId: id,
+        details: `Updated category "${updated.name}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return updated;
+  },
+
+  deleteCategory(
+    id: string,
+    actor?: { name: string; email: string }
+  ): boolean {
+    const state = loadState();
+    const index = state.categories.findIndex((c) => c.id === id || c.slug === id);
+    if (index === -1) return false;
+
+    const removed = state.categories.splice(index, 1)[0];
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Category Deleted",
+        entity: "Category",
+        entityId: id,
+        details: `Deleted category "${removed.name}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return true;
   },
 
   // 4. Inventory Adjustments
@@ -2551,5 +2737,145 @@ export const AdminStore = {
 
     saveState(state);
     return state.partners;
+  },
+
+  // 17. Journal & Editorial Stories
+  getJournalArticles(onlyPublished = false): AdminJournalArticle[] {
+    const state = loadState();
+    if (!state.journalArticles || state.journalArticles.length === 0) {
+      state.journalArticles = getInitialState().journalArticles || [];
+      saveState(state);
+    }
+    const list = onlyPublished
+      ? state.journalArticles.filter((a) => a.isPublished)
+      : [...state.journalArticles];
+    return list.sort((a, b) => (a.order || 0) - (b.order || 0));
+  },
+
+  getJournalArticleById(id: string): AdminJournalArticle | undefined {
+    const state = loadState();
+    return state.journalArticles?.find((a) => a.id === id);
+  },
+
+  getJournalArticleBySlug(slug: string): AdminJournalArticle | undefined {
+    const state = loadState();
+    return state.journalArticles?.find((a) => a.slug === slug);
+  },
+
+  createJournalArticle(
+    data: Partial<AdminJournalArticle>,
+    actor?: { name: string; email: string }
+  ): AdminJournalArticle {
+    const state = loadState();
+    if (!state.journalArticles) state.journalArticles = [];
+
+    const title = data.title?.trim() || "Untitled Journal Story";
+    const slug =
+      data.slug?.trim() ||
+      title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
+    const newArticle: AdminJournalArticle = {
+      id: `art-${Date.now()}`,
+      slug,
+      title,
+      excerpt:
+        data.excerpt?.trim() ||
+        "Archival notes and styling direction for sub-zero climates.",
+      content: data.content || "",
+      category: data.category?.trim() || "Style guide",
+      readTime: data.readTime?.trim() || "5 min read",
+      image:
+        data.image?.trim() || "/images/wardrobe/AFa3pXi6rgIjU1cTtgBzlijk5o.jpg",
+      author: data.author?.trim() || actor?.name || "WARDROBE Editorial",
+      publishedAt: data.publishedAt || new Date().toISOString(),
+      isPublished: data.isPublished !== undefined ? data.isPublished : true,
+      order: data.order ?? state.journalArticles.length + 1,
+    };
+
+    state.journalArticles.push(newArticle);
+
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Journal Article Created",
+        entity: "Journal",
+        entityId: newArticle.id,
+        details: `Created new journal story "${newArticle.title}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return newArticle;
+  },
+
+  updateJournalArticle(
+    id: string,
+    data: Partial<AdminJournalArticle>,
+    actor?: { name: string; email: string }
+  ): AdminJournalArticle | null {
+    const state = loadState();
+    if (!state.journalArticles) state.journalArticles = [];
+
+    const index = state.journalArticles.findIndex((a) => a.id === id);
+    if (index === -1) return null;
+
+    const existing = state.journalArticles[index];
+    const updated: AdminJournalArticle = {
+      ...existing,
+      ...data,
+      id: existing.id,
+    };
+    state.journalArticles[index] = updated;
+
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Journal Article Updated",
+        entity: "Journal",
+        entityId: id,
+        details: `Updated journal story "${updated.title}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return updated;
+  },
+
+  deleteJournalArticle(
+    id: string,
+    actor?: { name: string; email: string }
+  ): boolean {
+    const state = loadState();
+    if (!state.journalArticles) return false;
+
+    const index = state.journalArticles.findIndex((a) => a.id === id);
+    if (index === -1) return false;
+
+    const removed = state.journalArticles.splice(index, 1)[0];
+
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Journal Article Deleted",
+        entity: "Journal",
+        entityId: id,
+        details: `Deleted journal story "${removed.title}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return true;
   },
 };
