@@ -212,25 +212,89 @@ const FAMOUS_BRANDS: PartnerBrand[] = [
   },
 ];
 
+interface DynamicPartner {
+  id?: string;
+  name: string;
+  logoUrl?: string;
+  logoSvg?: string | React.ReactNode;
+  websiteUrl?: string;
+}
+
 export function WardrobeExactPartners() {
+  const [partnerList, setPartnerList] = React.useState<DynamicPartner[]>(FAMOUS_BRANDS);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    fetch("/api/partners")
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data.status === "success" && Array.isArray(data.partners) && data.partners.length > 0) {
+          setPartnerList(data.partners);
+        }
+      })
+      .catch(() => {
+        // keep default fallback brands
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // Duplicate array for a completely seamless 60fps infinite loop
-  const marqueeItems = [...FAMOUS_BRANDS, ...FAMOUS_BRANDS];
+  const marqueeItems = [...partnerList, ...partnerList];
 
   return (
     <section className="w-full bg-[#FFFFFF] py-7 sm:py-9 border-b border-[#F0F0F0] overflow-hidden">
       {/* Infinite Seamless Scrolling Marquee Container with Gradient Fade Masks */}
       <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
         <div className="animate-marquee flex items-center gap-14 sm:gap-20 py-1 cursor-default">
-          {marqueeItems.map((brand, idx) => (
-            <div
-              key={`${brand.name}-${idx}`}
-              title={brand.name}
-              className="flex items-center justify-center shrink-0 text-neutral-400 hover:text-neutral-900 transition-all duration-300 transform hover:scale-110"
-            >
-              <span className="sr-only">{brand.name}</span>
-              {brand.logoSvg}
-            </div>
-          ))}
+          {marqueeItems.map((brand, idx) => {
+            const content = (
+              <div
+                title={brand.name}
+                className="flex items-center justify-center shrink-0 text-neutral-400 hover:text-neutral-900 transition-all duration-300 transform hover:scale-110"
+              >
+                <span className="sr-only">{brand.name}</span>
+                {typeof brand.logoSvg === "string" ? (
+                  <div
+                    className="[&>svg]:h-7 [&>svg]:w-auto [&>svg]:fill-current"
+                    dangerouslySetInnerHTML={{ __html: brand.logoSvg }}
+                  />
+                ) : React.isValidElement(brand.logoSvg) ? (
+                  brand.logoSvg
+                ) : brand.logoUrl ? (
+                  <img
+                    src={brand.logoUrl}
+                    alt={brand.name}
+                    className="h-7 w-auto max-w-[140px] object-contain brightness-0 opacity-40 hover:opacity-100 transition-opacity"
+                  />
+                ) : (
+                  <span className="font-bold tracking-widest text-xs uppercase font-mono">{brand.name}</span>
+                )}
+              </div>
+            );
+
+            if (brand.websiteUrl) {
+              return (
+                <a
+                  key={`${brand.name}-${idx}`}
+                  href={brand.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 focus:outline-hidden"
+                >
+                  {content}
+                </a>
+              );
+            }
+
+            return (
+              <div key={`${brand.name}-${idx}`} className="shrink-0">
+                {content}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
