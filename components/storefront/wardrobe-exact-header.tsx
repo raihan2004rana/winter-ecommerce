@@ -260,7 +260,7 @@ export function WardrobeExactHeader({
               onMouseEnter={() => handleMouseEnter("journal")}
             >
               <Link
-                href="/products"
+                href="/journal"
                 onClick={closeMenu}
                 className={`hover:text-black tracking-wide transition-colors py-2 flex items-center space-x-1 ${
                   activeMenu === "journal" ? "text-black font-semibold" : "text-[#333]"
@@ -579,7 +579,7 @@ export function WardrobeExactHeader({
                       </h3>
                     </div>
                     <Link
-                      href="/products"
+                      href="/journal"
                       onClick={closeMenu}
                       className="text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black flex items-center space-x-1 transition-colors"
                     >
@@ -592,7 +592,7 @@ export function WardrobeExactHeader({
                     {journalStories.map((story) => (
                       <Link
                         key={story.id}
-                        href="/products"
+                        href={`/journal/${story.slug}`}
                         onClick={closeMenu}
                         className="group flex flex-col space-y-2.5"
                       >
@@ -655,7 +655,7 @@ export function WardrobeExactHeader({
               {t("nav.men")}
             </Link>
             <Link
-              href="/products"
+              href="/journal"
               onClick={() => setMobileOpen(false)}
               className="block py-1.5 text-[#222] font-medium"
             >

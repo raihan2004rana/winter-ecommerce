@@ -5,9 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-const DEFAULT_ARTICLES = [
+interface JournalItem {
+  id: string;
+  slug: string;
+  image: string;
+  category: string;
+  readTime: string;
+  title: string;
+  excerpt: string;
+}
+
+const DEFAULT_ARTICLES: JournalItem[] = [
   {
     id: "art-1",
+    slug: "building-a-quiet-winter-wardrobe",
     image: "/images/wardrobe/AFa3pXi6rgIjU1cTtgBzlijk5o.jpg",
     category: "Style guide",
     readTime: "6 min read",
@@ -16,6 +27,7 @@ const DEFAULT_ARTICLES = [
   },
   {
     id: "art-2",
+    slug: "layering-denim-for-transitional-weather",
     image: "/images/wardrobe/layer-denim.jpg",
     category: "How to wear",
     readTime: "4 min read",
@@ -24,6 +36,7 @@ const DEFAULT_ARTICLES = [
   },
   {
     id: "art-3",
+    slug: "what-people-actually-wear-on-busy-days",
     image: "/images/wardrobe/C9YOETuP6DWDsoWsKpvONxkKE.jpg",
     category: "Lifestyle",
     readTime: "5 min read",
@@ -33,7 +46,7 @@ const DEFAULT_ARTICLES = [
 ];
 
 export function WardrobeExactJournal() {
-  const [articles, setArticles] = React.useState(DEFAULT_ARTICLES);
+  const [articles, setArticles] = React.useState<JournalItem[]>(DEFAULT_ARTICLES);
 
   React.useEffect(() => {
     fetch("/api/journal")
@@ -59,7 +72,7 @@ export function WardrobeExactJournal() {
             </p>
           </div>
           <Link
-            href="/products"
+            href="/journal"
             className="text-xs font-mono text-[#555] hover:text-black tracking-wider uppercase transition-colors shrink-0"
           >
             view all articles
@@ -72,7 +85,7 @@ export function WardrobeExactJournal() {
             <article key={item.id} className="group flex flex-col space-y-3">
               {/* Photo */}
               <Link
-                href="/products"
+                href={`/journal/${item.slug || item.id}`}
                 className="relative aspect-[4/3] w-full bg-[#F5F5F7] overflow-hidden block"
               >
                 <Image
@@ -94,7 +107,7 @@ export function WardrobeExactJournal() {
 
               {/* Title in Serif */}
               <Link
-                href="/products"
+                href={`/journal/${item.slug || item.id}`}
                 className="font-editorial text-2xl text-[#111] group-hover:text-[#555] transition-colors leading-snug"
               >
                 {item.title}
@@ -108,7 +121,7 @@ export function WardrobeExactJournal() {
               {/* Read Link */}
               <div className="pt-1">
                 <Link
-                  href="/products"
+                  href={`/journal/${item.slug || item.id}`}
                   className="inline-flex items-center space-x-1 text-2xs font-mono uppercase tracking-wider font-semibold text-[#111] hover:text-[#555] transition-colors"
                 >
                   <span>read article</span>

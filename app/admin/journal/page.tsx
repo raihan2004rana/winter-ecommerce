@@ -50,6 +50,7 @@ export default function AdminJournalPage() {
     title: "",
     slug: "",
     excerpt: "",
+    content: "",
     category: "Style guide",
     readTime: "5 min read",
     image: "",
@@ -94,6 +95,7 @@ export default function AdminJournalPage() {
       title: "",
       slug: "",
       excerpt: "",
+      content: "",
       category: "Style guide",
       readTime: "5 min read",
       image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=800",
@@ -110,6 +112,7 @@ export default function AdminJournalPage() {
       title: article.title,
       slug: article.slug,
       excerpt: article.excerpt,
+      content: article.content || "",
       category: article.category,
       readTime: article.readTime,
       image: article.image,
@@ -539,6 +542,19 @@ export default function AdminJournalPage() {
                   value={formData.excerpt}
                   onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
                   className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                  Full Story Content / Article Body
+                </label>
+                <textarea
+                  rows={6}
+                  placeholder="Write the full editorial article here. Markdown headings (###), paragraphs, bullet points, and tips are supported."
+                  value={formData.content}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
+                  className="w-full px-3 py-2 text-xs font-mono bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900 leading-relaxed"
                 />
               </div>
 

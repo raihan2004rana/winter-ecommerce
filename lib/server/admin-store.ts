@@ -1163,6 +1163,17 @@ function getInitialState(): AdminState {
       readTime: "6 min read",
       title: "Building a quiet winter wardrobe",
       excerpt: "Fewer pieces, warmer layers, and coats that do more than one job.",
+      content: `Winter morning dressing should never feel like a high-friction negotiation with your closet. When temperatures plunge below freezing, the instinct is often to throw on excessive bulk—layer upon layer until silhouettes disappear and natural mobility is compromised.
+
+The philosophy of a quiet winter wardrobe is radically simple: invest in fewer, exceptional garments that handle thermal regulation naturally. A 450 GSM pure Merino cable knit creates an insulating microclimate around your core, while an 800 Fill Power down parka shields against biting winds without burdensome weight.
+
+### The Foundation of Cold-Weather Layering
+
+1. **Base Layer:** Fine-spun thermal turtlenecks or technical merino tees that pull moisture away from the skin while retaining body heat.
+2. **Thermal Mid-Layer:** Unbrushed Mongolian cashmere or high-pile fleece that traps warm air in microscopic pockets.
+3. **Weatherproof Outer Shell:** Tailored down cocoon coats or 3-layer GORE-grade alpine hard shells that repel freezing rain and mountain snow.
+
+When every piece in your rotation is cut to exacting proportions and neutral monochromatic palettes, getting dressed becomes an effortless, confident daily ritual.`,
       author: "Elena Rostova",
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
       isPublished: true,
@@ -1176,6 +1187,13 @@ function getInitialState(): AdminState {
       readTime: "4 min read",
       title: "Layering denim for transitional weather",
       excerpt: "How to wear denim jackets and jeans when mornings are cold and afternoons warm up.",
+      content: `Transitional seasonal weather is notorious for steep temperature swings: crisp 35°F mornings that warm up to 60°F by mid-afternoon. Denim is the ultimate transitional textile—heavy enough to block the wind, yet breathable enough for all-day city movement.
+
+### The Double-Denim Rule for Winter
+
+Pairing a raw selvedge jacket over a ribbed merino turtleneck breaks the monotony of traditional winter wools. To prevent feeling stiff, look for 13.5 oz Japanese or Italian denim that has been pre-washed or blended with 1% elastane for unrestricted alpine range of motion.
+
+Add a shearling-lined collar or throw an unlined cashmere overcoat on top, and you have an architectural look that seamlessly transitions from brisk outdoor strolls to heated gallery interiors.`,
       author: "Julian Vance",
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
       isPublished: true,
@@ -1189,6 +1207,15 @@ function getInitialState(): AdminState {
       readTime: "5 min read",
       title: "What people actually wear on busy days",
       excerpt: "Real outfits for real schedules. Comfortable, simple, and put together.",
+      content: `Real life doesn't happen on a catwalk. Between early-morning commutes, airport security lines, client meetings, and evening dinners, what people really need is functional elegance.
+
+Garments that don't wrinkle in luggage, coats with fleece-lined handwarmer pockets, and boots engineered with Vibram Arctic Grip that prevent slipping on black ice.
+
+### Key Pieces for High-Motion Days
+
+- **The Cocoon Coat:** Roomy enough to slip over thick tailoring without shoulder pinch or fabric bunching.
+- **The Seamless Cashmere Knit:** Lightweight, pill-resistant, and breathable under intense office heating.
+- **Waterproof Trekking Boots:** Refined enough for metropolitan streets, rugged enough for unexpected snowdrifts.`,
       author: "Søren Lindqvist",
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12).toISOString(),
       isPublished: true,
@@ -1202,6 +1229,13 @@ function getInitialState(): AdminState {
       readTime: "7 min read",
       title: "Sub-zero thermal craft & Mongolian cashmere",
       excerpt: "The science of 450 GSM pure wool knits engineered for alpine temperature drops.",
+      content: `High in the Altai Mountains of Mongolia, winter temperatures consistently fall below -40°C. In response to this extreme habitat, the native Capra hircus goats develop a dense, remarkably fine underfleece beneath their coarse outer hair.
+
+Each fiber measures between 14 and 16 microns in diameter—almost six times finer than human hair. When spun into dense 4-ply and 8-ply yarns, this fiber creates millions of microscopic air pockets that trap body heat far more efficiently than standard sheep's wool.
+
+### Crafting 450 GSM Knitwear
+
+Standard commercial knitwear typically weighs between 200 and 280 grams per square meter. At WARDROBE, our heavyweight sweaters are woven at 450 GSM, resulting in garments that drape with substantial presence and resist the biting winds of northern winters without requiring artificial synthetic blends.`,
       author: "Astrid Lind",
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 18).toISOString(),
       isPublished: true,
