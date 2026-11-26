@@ -19,6 +19,8 @@ import { useStore } from "@/lib/store/use-store";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useFlyToCart } from "./fly-to-cart-provider";
+import { useCartStore } from "@/lib/store/cart-store";
 
 interface ProductListingViewProps {
   initialTitle?: string;
@@ -39,6 +41,7 @@ export function ProductListingView({
   const router = useRouter();
 
   const { currency, addToCart, toggleWishlist, isInWishlist } = useStore();
+  const { triggerFlyToCart } = useFlyToCart();
 
   // URL Query Synced State
   const queryParam = searchParams.get("q") || "";
@@ -146,8 +149,8 @@ export function ProductListingView({
   return (
     <div className="w-full bg-[#FFFFFF] text-[#111] min-h-screen">
       {/* 1. Header Banner */}
-      <div className="border-b border-[#EAEAEA] bg-[#FAFBFD] py-12 sm:py-16 px-6 sm:px-12">
-        <div className="max-w-[1500px] mx-auto space-y-3">
+      <div className="border-b border-[#EAEAEA] bg-[#FAFBFD] py-12 sm:py-16">
+        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 space-y-3">
           <div className="flex items-center space-x-2 text-2xs uppercase tracking-[0.24em] font-mono text-[#888]">
             <Link href="/" className="hover:text-black transition-colors">Home</Link>
             <span>/</span>
@@ -171,7 +174,7 @@ export function ProductListingView({
       </div>
 
       {/* 2. Main Body with Sidebar & Grid */}
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-12 py-10">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-10">
         {/* Top Control Bar: Active filters & Sorting */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#EAEAEA]">
           {/* Left: Mobile Filter Button & Results Count */}
@@ -516,7 +519,26 @@ export function ProductListingView({
                                 onClick={(e) => {
                                   e.preventDefault();
                                   e.stopPropagation();
+                                  const cardEl = (e.currentTarget as HTMLElement).closest(".group");
+                                  const imgEl = cardEl?.querySelector("img");
+                                  triggerFlyToCart(
+                                    product.primaryImage,
+                                    (imgEl as HTMLElement) || (e.currentTarget as HTMLElement)
+                                  );
                                   addToCart(product, sz);
+                                  useCartStore.getState().addItem({
+                                    id: product.id,
+                                    slug: product.slug,
+                                    title: product.title,
+                                    price: product.price,
+                                    size: sz,
+                                    color: product.colorways[0]?.name || "Standard",
+                                    image: product.primaryImage,
+                                    quantity: 1,
+                                  });
+                                  setTimeout(() => {
+                                    useCartStore.getState().openCart();
+                                  }, 680);
                                 }}
                                 className="h-7 border border-[#DDD] hover:border-black hover:bg-black hover:text-white text-2xs font-mono uppercase transition-colors flex items-center justify-center bg-white"
                               >

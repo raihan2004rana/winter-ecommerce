@@ -257,15 +257,17 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-[#FDFDFD] text-[#111] font-sans pb-16">
       {/* Top Checkout Header */}
-      <header className="border-b border-gray-200 bg-white py-4 px-6 sm:px-12 sticky top-0 z-40">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-between">
+      <header className="border-b border-gray-200 bg-white py-4 px-6 sm:px-12 lg:px-16 sticky top-0 z-40">
+        <div className="max-w-[1600px] mx-auto flex items-center justify-between">
           <Link href="/cart" className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 hover:text-black">
             <ChevronLeft className="w-4 h-4" />
             <span>Return to bag</span>
           </Link>
 
-          <Link href="/" className="font-editorial text-2xl tracking-tight font-bold text-black uppercase">
-            KØRA WARDROBE
+          <Link href="/" className="inline-block">
+            <span className="font-sans text-lg sm:text-xl font-bold tracking-[0.14em] text-[#111] uppercase">
+              WARDROBE
+            </span>
           </Link>
 
           <div className="flex items-center gap-2 text-xs font-mono text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
@@ -275,7 +277,7 @@ export default function CheckoutPage() {
         </div>
       </header>
 
-      <main className="max-w-[1400px] mx-auto px-4 sm:px-8 py-8 sm:py-12">
+      <main className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-8 sm:py-12">
         {items.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-lg border border-gray-200 p-8 space-y-4 max-w-md mx-auto">
             <AlertCircle className="w-12 h-12 text-gray-400 mx-auto" />

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { WardrobeExactHeader } from "@/components/storefront/wardrobe-exact-header";
 import { WardrobeExactFooter } from "@/components/storefront/wardrobe-exact-footer";
 import { MiniCartDrawer } from "@/components/storefront/mini-cart-drawer";
+import { FlyToCartProvider } from "@/components/storefront/fly-to-cart-provider";
 import { useCartStore } from "@/lib/store/cart-store";
 import { formatCurrency } from "@/lib/utils";
 import {
@@ -92,23 +93,24 @@ export default function ShoppingCartPage() {
   const progressPercent = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#111] font-sans">
-      <WardrobeExactHeader
-        cartCount={items.reduce((acc, it) => acc + it.quantity, 0)}
-        onOpenCart={openCart}
-        onOpenSearch={() => {}}
-      />
+    <FlyToCartProvider>
+      <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#111] font-sans">
+        <WardrobeExactHeader
+          cartCount={items.reduce((acc, it) => acc + it.quantity, 0)}
+          onOpenCart={openCart}
+          onOpenSearch={() => {}}
+        />
 
-      <MiniCartDrawer
-        isOpen={isOpen}
-        onClose={closeCart}
-        currency="USD"
-        items={items}
-        onUpdateQuantity={(id, delta) => updateQuantity(id, delta)}
-        onRemoveItem={(id) => removeItem(id)}
-      />
+        <MiniCartDrawer
+          isOpen={isOpen}
+          onClose={closeCart}
+          currency="USD"
+          items={items}
+          onUpdateQuantity={(id, delta) => updateQuantity(id, delta)}
+          onRemoveItem={(id) => removeItem(id)}
+        />
 
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-8 py-8 sm:py-12">
+        <main className="flex-1 max-w-[1600px] w-full mx-auto px-6 sm:px-12 lg:px-16 py-8 sm:py-12">
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-xs font-mono text-charcoal-400 mb-6">
           <Link href="/" className="hover:text-black">Home</Link>
@@ -444,5 +446,6 @@ export default function ShoppingCartPage() {
 
       <WardrobeExactFooter />
     </div>
-  );
+  </FlyToCartProvider>
+);
 }

@@ -23,6 +23,7 @@ import { useCartStore } from "@/lib/store/cart-store";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useFlyToCart } from "./fly-to-cart-provider";
 import { SizeGuideModal } from "@/components/storefront/size-guide-modal";
 
 interface ProductDetailViewProps {
@@ -31,6 +32,7 @@ interface ProductDetailViewProps {
 
 export function ProductDetailView({ product }: ProductDetailViewProps) {
   const { currency, addToCart, toggleWishlist, isInWishlist } = useStore();
+  const { triggerFlyToCart } = useFlyToCart();
 
   const isSaved = isInWishlist(product.id);
   const relatedProducts = getRelatedProducts(product.id, 4);
@@ -72,6 +74,12 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   const currentImage = allImages[selectedImageIndex] || product.primaryImage;
 
   const handleAdd = () => {
+    // Trigger flying animation from main product gallery
+    const mainImg =
+      document.querySelector(".cursor-zoom-in img") ||
+      document.querySelector(".lg\\:col-span-7 img");
+    triggerFlyToCart(currentImage, (mainImg as HTMLElement) || null);
+
     addToCart(product, selectedSize, selectedColor, quantity);
     useCartStore.getState().addItem({
       id: product.id,
@@ -84,7 +92,10 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       quantity,
     });
     setAddedToast(true);
-    setTimeout(() => setAddedToast(false), 2500);
+    setTimeout(() => {
+      setAddedToast(false);
+      useCartStore.getState().openCart();
+    }, 680);
   };
 
   const handleAddReview = (e: React.FormEvent) => {
@@ -117,8 +128,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   return (
     <div className="w-full bg-[#FFFFFF] text-[#111] min-h-screen">
       {/* 1. Breadcrumbs */}
-      <div className="border-b border-[#EAEAEA] bg-[#FAFBFD] py-4 px-6 sm:px-12 text-2xs font-mono uppercase tracking-widest text-[#888]">
-        <div className="max-w-[1500px] mx-auto flex items-center space-x-2">
+      <div className="border-b border-[#EAEAEA] bg-[#FAFBFD] py-4">
+        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 flex items-center space-x-2 text-2xs font-mono uppercase tracking-widest text-[#888]">
           <Link href="/" className="hover:text-black">Home</Link>
           <span>/</span>
           <Link href="/products" className="hover:text-black">Shop</Link>
@@ -132,7 +143,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       </div>
 
       {/* 2. Main Product Hero Section (Gallery Left + Details Right) */}
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-12 py-10 sm:py-16">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-10 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* =========================================================
               LEFT COLUMN: IMAGE GALLERY & ZOOM (7 Cols)
