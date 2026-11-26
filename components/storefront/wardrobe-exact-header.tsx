@@ -29,12 +29,12 @@ export function WardrobeExactHeader({
   return (
     <>
       <header className="sticky top-0 z-40 w-full bg-[#FFFFFF] border-b border-[#EFEFEF] transition-all">
-        <div className="max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16 h-16 flex items-center justify-between">
-          {/* Left: Brand Logo WARDROBE */}
-          <div className="flex items-center space-x-6">
+        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 h-16 flex items-center justify-between">
+          {/* Left: Brand Logo WARDROBE (Aligned exactly with container left edge) */}
+          <div className="flex items-center">
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-1 text-[#111]"
+              className="md:hidden mr-4 p-1 text-[#111]"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

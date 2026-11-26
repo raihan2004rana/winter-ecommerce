@@ -22,7 +22,7 @@ export function WardrobeExactFooter() {
       {/* =========================================================================
           SECTION 9: 3 TRUST GUARANTEE COLUMNS (Matching Wardrobe Reference)
          ========================================================================= */}
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16 py-12 sm:py-16 border-b border-[#F0F0F0]">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-12 sm:py-16 border-b border-[#F0F0F0]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Pillar 1 */}
           <div className="flex flex-col space-y-2">
@@ -62,7 +62,7 @@ export function WardrobeExactFooter() {
       {/* =========================================================================
           SECTION 10: MAIN FOOTER (Newsletter, Links & Legal)
          ========================================================================= */}
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
           {/* Left Column: Logo + Newsletter */}
           <div className="lg:col-span-5 space-y-5">
@@ -187,15 +187,107 @@ export function WardrobeExactFooter() {
         </div>
 
         {/* Bottom Bar: Copyright & Payment Icons */}
-        <div className="pt-12 sm:pt-16 mt-12 sm:mt-16 border-t border-[#F0F0F0] flex flex-col sm:flex-row items-center justify-between gap-4 text-2xs text-[#888] font-mono">
+        <div className="pt-10 sm:pt-14 mt-10 sm:mt-14 border-t border-[#F0F0F0] flex flex-col sm:flex-row items-center justify-between gap-4 text-2xs text-[#888] font-mono">
           <p>© 2026 WARDROBE. Powered by Framer.</p>
 
-          <div className="flex items-center space-x-2 text-[0.62rem] text-[#666]">
-            <span className="bg-[#F5F5F5] px-2 py-1 rounded-xs border border-[#E5E5E5]">VISA</span>
-            <span className="bg-[#F5F5F5] px-2 py-1 rounded-xs border border-[#E5E5E5]">MC</span>
-            <span className="bg-[#F5F5F5] px-2 py-1 rounded-xs border border-[#E5E5E5]">AMEX</span>
-            <span className="bg-[#F5F5F5] px-2 py-1 rounded-xs border border-[#E5E5E5]">APPLE PAY</span>
-            <span className="bg-[#F5F5F5] px-2 py-1 rounded-xs border border-[#E5E5E5]">PAYPAL</span>
+          {/* High-Fidelity Official Payment Badges */}
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {/* Visa */}
+            <div
+              title="Visa"
+              className="h-6 w-9 sm:h-7 sm:w-11 bg-white border border-[#E2E2E2] rounded flex items-center justify-center p-1 shadow-2xs hover:border-neutral-900 transition-colors"
+            >
+              <svg viewBox="0 0 36 12" className="h-2.5 sm:h-3 w-auto" fill="none">
+                <path
+                  d="M14.5 1.2L12.2 11H9.8L11.9 1.2h2.6zm9.8 6.5c0-1.8-2.5-1.9-2.5-2.7 0-.6.7-.8 1.4-.8.8 0 1.6.2 2.1.4l.4-1.9c-.6-.2-1.4-.4-2.4-.4-2.5 0-4.2 1.3-4.2 3.2 0 1.4 1.3 2.2 2.2 2.7.9.4 1.2.7 1.2 1.1 0 .6-.7.9-1.4.9-.9 0-1.8-.3-2.5-.7l-.4 2c.7.3 1.7.5 2.8.5 2.7 0 4.3-1.3 4.3-3.2zm6.2 3.3h2.3l-2-9.8h-2.1c-.5 0-.9.3-1.1.7L24 11h2.5l.5-1.4h3.1l.6 1.4zm-2.6-3.3l1.3-3.5.7 3.5h-2zm-18.4-6.5L6.1 8c-.2-.7-.8-1.5-1.5-1.9L2 4.9l.1-.4h4c.9 0 1.5.6 1.7 1.4l1.1 5.1H12L10 1.2H9.5z"
+                  fill="#1434CB"
+                />
+                <path d="M4.6 4.5l-2.6 6.5H.1L2.6 4.5h2z" fill="#F7B600" />
+              </svg>
+            </div>
+
+            {/* Mastercard */}
+            <div
+              title="Mastercard"
+              className="h-6 w-9 sm:h-7 sm:w-11 bg-white border border-[#E2E2E2] rounded flex items-center justify-center p-1 shadow-2xs hover:border-neutral-900 transition-colors"
+            >
+              <svg viewBox="0 0 32 20" className="h-3 sm:h-3.5 w-auto">
+                <circle cx="10" cy="10" r="8" fill="#EB001B" />
+                <circle cx="22" cy="10" r="8" fill="#F79E1B" />
+                <path
+                  d="M16 4.8a7.96 7.96 0 0 1 3.1 5.2 7.96 7.96 0 0 1-3.1 5.2 7.96 7.96 0 0 1-3.1-5.2c0-2.1 1.2-4 3.1-5.2z"
+                  fill="#FF5F00"
+                />
+              </svg>
+            </div>
+
+            {/* American Express */}
+            <div
+              title="American Express"
+              className="h-6 w-9 sm:h-7 sm:w-11 bg-[#006FCF] border border-[#006FCF] rounded flex items-center justify-center p-0.5 shadow-2xs hover:opacity-90 transition-opacity"
+            >
+              <span className="text-[0.52rem] sm:text-[0.58rem] font-black font-sans text-white tracking-widest">
+                AMEX
+              </span>
+            </div>
+
+            {/* Apple Pay */}
+            <div
+              title="Apple Pay"
+              className="h-6 w-9 sm:h-7 sm:w-11 bg-black border border-black rounded flex items-center justify-center p-1 shadow-2xs hover:opacity-90 transition-opacity"
+            >
+              <svg viewBox="0 0 34 16" className="h-2.5 sm:h-3 w-auto" fill="#FFFFFF">
+                <path d="M3.4 3.1c-.2.3-.6.5-1 .5-.1-.4.1-.8.3-1 .2-.3.6-.5 1-.5.1.4-.1.8-.3 1zm.3 1c-.5 0-1 .3-1.3.3-.3 0-.7-.3-1.2-.3C.5 4.1 0 4.7 0 5.6c0 1.4 1.3 3.2 1.9 3.2.3 0 .5-.2.9-.2.3 0 .5.2.9.2.7 0 1.6-1.5 1.6-1.8-.7-.3-.8-1.3 0-1.7-.4-.6-1-.8-1.6-.8z" />
+                <text
+                  x="6.8"
+                  y="8.2"
+                  fontSize="6.2"
+                  fontWeight="600"
+                  fontFamily="system-ui, -apple-system, sans-serif"
+                  letterSpacing="-0.2"
+                >
+                  Pay
+                </text>
+              </svg>
+            </div>
+
+            {/* PayPal */}
+            <div
+              title="PayPal"
+              className="h-6 w-9 sm:h-7 sm:w-11 bg-white border border-[#E2E2E2] rounded flex items-center justify-center p-1 shadow-2xs hover:border-neutral-900 transition-colors"
+            >
+              <svg viewBox="0 0 32 16" className="h-2.5 sm:h-3 w-auto" fill="none">
+                <path d="M9.5 2h5c2.3 0 3.9 1.1 3.5 3.4-.4 2.2-2.1 3.4-4.2 3.4h-1.7l-1 5.2H8.3L10.3 2h-.8z" fill="#003087" />
+                <path d="M12.5 4.5h4.4c1.9 0 3.3 1 2.9 2.9-.3 1.9-1.8 2.9-3.5 2.9h-1.5l-.8 4.5H11.7l1.5-10.3h-.7z" fill="#0079C1" />
+                <path d="M12 8h1.7c1.7 0 3.2-1 3.5-2.9.1-.5 0-.9-.3-1.2-.4 1.6-1.8 2.6-3.4 2.6H12L11.3 10l.7-2z" fill="#00457C" />
+              </svg>
+            </div>
+
+            {/* Google Pay */}
+            <div
+              title="Google Pay"
+              className="h-6 w-9 sm:h-7 sm:w-11 bg-white border border-[#E2E2E2] rounded flex items-center justify-center p-1 shadow-2xs hover:border-neutral-900 transition-colors"
+            >
+              <svg viewBox="0 0 32 14" className="h-2.5 sm:h-3 w-auto" fill="none">
+                <path d="M8.8 5.7v3.9H7.5V2.1h3c.9 0 1.6.3 2.1.8.6.6.9 1.2.9 2.1s-.3 1.6-.9 2.1c-.6.6-1.2.8-2.1.8H8.8v-2.2zm0-2.5v2.5H10c.5 0 .9-.1 1.3-.5.4-.4.5-.8.5-1.2 0-.5-.2-.9-.5-1.2-.4-.4-.8-.5-1.3-.5H8.8z" fill="#5F6368" />
+                <path d="M17.1 5.3c.8 0 1.5.2 1.9.7.5.4.7 1 .7 1.8v3.4h-1.1V10.3h-.1c-.4.7-1.1 1-1.9 1-.7 0-1.2-.2-1.7-.6-.4-.4-.7-.9-.7-1.5 0-.7.2-1.2.7-1.5.5-.4 1.1-.6 1.9-.6.7 0 1.3.1 1.7.4v-.3c0-.4-.2-.8-.5-1.1-.4-.3-.8-.4-1.3-.4-.7 0-1.2.3-1.6.8l-.9-.6c.6-.8 1.5-1.3 2.5-1.3zm-1.8 4.3c0 .3.1.6.4.8.3.2.6.3 1 .3.4 0 .9-.2 1.3-.5.4-.4.5-.7.5-1.2-.3-.3-.8-.4-1.5-.4-.4 0-.8.1-1.2.3-.3.2-.5.4-.5.7z" fill="#5F6368" />
+                <path d="M25.3 5.4l-3.9 9h-1.3l1.5-3.2-2.6-5.8h1.4l1.9 4.4h.1l1.8-4.4h1.1z" fill="#5F6368" />
+                <path d="M3.2 5.9c0-.2 0-.4-.1-.6H0v1.3h1.8c-.1.4-.3.8-.7 1.1v.9h1.1c.7-.6 1-1.5 1-2.7z" fill="#4285F4" />
+                <path d="M0 9.3c.9 0 1.7-.3 2.3-.8L1.2 7.6c-.3.2-.7.4-1.2.4-.9 0-1.7-.6-1.9-1.4H-3v.9c.6 1.1 1.7 1.8 3 1.8z" fill="#34A853" />
+                <path d="M-1.9 6.6c-.1-.2-.1-.5-.1-.7s0-.5.1-.7V4.3H-3C-3.4 5-3.6 5.8-3.6 6.6s.2 1.6.6 2.3l1.1-.9v-1.4z" fill="#FBBC04" />
+                <path d="M0 3.8c.5 0 1 .2 1.4.5l1-1C1.7 2.7.9 2.4 0 2.4-1.3 2.4-2.4 3.1-3 4.3l1.1.9c.2-.8 1-1.4 1.9-1.4z" fill="#EA4335" />
+              </svg>
+            </div>
+
+            {/* Shop Pay */}
+            <div
+              title="Shop Pay"
+              className="h-6 w-9 sm:h-7 sm:w-11 bg-[#5A31F4] border border-[#5A31F4] rounded flex items-center justify-center p-0.5 shadow-2xs hover:opacity-90 transition-opacity"
+            >
+              <span className="text-[0.5rem] sm:text-[0.55rem] font-bold text-white tracking-tight">
+                shop<span className="font-normal">Pay</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>

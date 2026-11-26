@@ -113,7 +113,7 @@ export function WardrobeExactPromo() {
 
   return (
     <section className="w-full bg-[#FFFFFF] py-14 sm:py-20 border-b border-[#F0F0F0]">
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14 items-center">
           {/* Left Column: The exact white jackets on wooden hangers or campaign visual */}
           <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5] w-full bg-[#1A1A1A] overflow-hidden">

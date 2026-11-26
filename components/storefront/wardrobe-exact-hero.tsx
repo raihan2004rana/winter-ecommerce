@@ -68,7 +68,7 @@ export function WardrobeExactHero() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-transparent pointer-events-none" />
 
       {/* Hero Content Box (Matching Exact Framer Positioning) */}
-      <div className="relative z-10 max-w-[1500px] h-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
+      <div className="relative z-10 max-w-[1600px] h-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
         <div className="max-w-xl space-y-4 pt-12 sm:pt-16">
           {/* Badge Pill: NEW DROP or Campaign Badge */}
           {badgeText && (

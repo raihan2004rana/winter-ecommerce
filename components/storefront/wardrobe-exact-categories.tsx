@@ -45,7 +45,7 @@ export function WardrobeExactCategories() {
 
   return (
     <section className="w-full bg-[#FFFFFF] py-14 sm:py-20 border-b border-[#F0F0F0]">
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16">
         {/* Header: Shop by category or dynamic campaign */}
         <div className="mb-8 sm:mb-10 space-y-1">
           {badgeText && (

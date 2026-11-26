@@ -64,8 +64,8 @@ export function WardrobeAnnouncementBar() {
   const couponCode = campaign.discountRule?.couponCode;
 
   return (
-    <div className="relative w-full bg-[#0D0D0E] text-white py-2.5 px-4 sm:px-8 border-b border-white/10 z-50 text-xs font-sans transition-all">
-      <div className="max-w-[1500px] mx-auto flex items-center justify-between gap-3">
+    <div className="relative w-full bg-[#0D0D0E] text-white py-2.5 border-b border-white/10 z-50 text-xs font-sans transition-all">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 flex items-center justify-between gap-3">
         {/* Center content container */}
         <div className="flex-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
           {campaign.badgeText && (

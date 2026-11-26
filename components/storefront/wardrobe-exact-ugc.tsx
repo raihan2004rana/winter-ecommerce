@@ -101,7 +101,7 @@ export function WardrobeExactUgc() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-12 text-center space-y-4">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 text-center space-y-4">
         {/* Top 5 Stars + 1M+ satisfied customers */}
         <div className="flex items-center justify-center space-x-1 text-amber-500">
           {[...Array(5)].map((_, i) => (
