@@ -186,14 +186,23 @@ export function MiniCartDrawer({
               </span>
             </div>
 
-            <Button
-              variant="forest"
-              className="w-full flex items-center justify-center space-x-2 h-12"
-              onClick={() => alert("Proceeding to Stripe Checkout...")}
+            <Link href="/checkout" onClick={onClose} className="block w-full">
+              <Button
+                variant="forest"
+                className="w-full flex items-center justify-center space-x-2 h-12 bg-[#111] hover:bg-black text-white"
+              >
+                <span>Proceed to International Checkout</span>
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+
+            <Link
+              href="/cart"
+              onClick={onClose}
+              className="block text-center text-xs text-charcoal-600 hover:text-black font-mono underline underline-offset-4 pt-1"
             >
-              <span>Proceed to International Checkout</span>
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+              View Full Shopping Bag & Estimate Duties
+            </Link>
 
             <div className="flex items-center justify-center space-x-1.5 text-[0.68rem] text-charcoal-500 pt-1">
               <ShieldCheck className="h-3.5 w-3.5 text-forest" />

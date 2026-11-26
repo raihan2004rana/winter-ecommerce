@@ -15,6 +15,7 @@ import { WardrobeExactFooter } from "@/components/storefront/wardrobe-exact-foot
 import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
 import { Product, PRODUCTS_CATALOG } from "@/data/products";
+import { useCartStore } from "@/lib/store/cart-store";
 
 export default function StorefrontHomePage() {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
@@ -57,6 +58,17 @@ export default function StorefrontHomePage() {
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const handleAddToCart = (product: Product, size: string) => {
+    useCartStore.getState().addItem({
+      id: product.id,
+      slug: product.slug,
+      title: product.title,
+      price: product.price,
+      size,
+      color: product.colorways[0]?.name || "Standard",
+      image: product.primaryImage,
+      quantity: 1,
+    });
+
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === product.id && item.size === size);
       if (existing) {

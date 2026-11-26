@@ -586,10 +586,12 @@
       "price": 295,
       "compareAtPrice": 350,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/sub-zero-quilted-down-vest-1795667518815.webp",
+      "secondaryImage": "/images/products/sub-zero-quilted-down-vest3-1795667548172.webp",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/sub-zero-quilted-down-vest3-1795667548172.webp",
+        "/images/products/sub-zero-quilted-down-vest2-1795667552615.webp",
+        "/images/products/sub-zero-quilted-down-vest1-1795667555932.jpg"
       ],
       "temperatureRating": "-15°C Versatile Core Layer",
       "fillPower": "800 Fill Down",
@@ -603,10 +605,6 @@
         {
           "name": "Alpine Pine",
           "hex": "#2B3D2E"
-        },
-        {
-          "name": "Charcoal Slate",
-          "hex": "#2B2D2F"
         }
       ],
       "sizes": [
@@ -622,7 +620,9 @@
       "rating": 4.83,
       "reviewCount": 21,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Alpine Pine",
+      "colorHex": "#2B3D2E"
     }
   ],
   "categories": [
@@ -668,6 +668,75 @@
     }
   ],
   "orders": [
+    {
+      "id": "ord-1795668388085",
+      "orderNumber": "MON-2026-8911",
+      "customerName": "Julian Vance",
+      "customerEmail": "julian.vance@geneva-capital.ch",
+      "total": 1236,
+      "currency": "USD",
+      "status": "cancelled",
+      "paymentStatus": "refunded",
+      "fulfillmentStatus": "unfulfilled",
+      "items": [
+        {
+          "id": "prod-001",
+          "title": "Nordic Expedition Down Parka",
+          "price": 685,
+          "size": "L",
+          "color": "Obsidian Slate",
+          "quantity": 1,
+          "image": "/images/products/nordic-expedition-down-parka-women2-1795661926691.webp"
+        },
+        {
+          "id": "prod-005",
+          "title": "Heavyweight Merino Cable Knit Sweater",
+          "price": 345,
+          "size": "M",
+          "color": "Bone White",
+          "quantity": 1,
+          "image": "/images/products/heavyweight-merino-cable-knit-sweater-1795664325211.avif"
+        }
+      ],
+      "shippingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "CH",
+        "phone": "+41 22 819 9000"
+      },
+      "billingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "CH",
+        "phone": "+41 22 819 9000"
+      },
+      "pricingBreakdown": {
+        "subtotal": 1030,
+        "discountAmount": 0,
+        "shippingFee": 0,
+        "taxAmount": 206,
+        "taxRate": 0.2,
+        "total": 1236,
+        "currency": "USD"
+      },
+      "shippingMethod": "standard",
+      "stripePaymentIntentId": "pi_test_1795668388085_kjoyotk",
+      "idempotencyKey": "test_idemp_1795668387041",
+      "trackingNumber": "TRK-5CZU46",
+      "createdAt": "2026-11-26T04:46:28.085Z",
+      "updatedAt": "2026-11-26T04:48:43.923Z",
+      "refundedAmount": 1236
+    },
     {
       "id": "ord-901",
       "orderNumber": "MON-2026-8941",
@@ -857,8 +926,8 @@
       "phone": "+41 22 819 4022",
       "city": "Geneva",
       "country": "Switzerland",
-      "totalOrders": 6,
-      "totalSpent": 4890,
+      "totalOrders": 7,
+      "totalSpent": 6126,
       "joinedAt": "2025-10-12",
       "status": "vip"
     },
@@ -912,6 +981,17 @@
     }
   ],
   "coupons": [
+    {
+      "id": "coup-arctic25",
+      "code": "ARCTIC25",
+      "discountType": "percentage",
+      "value": 25,
+      "minOrderValue": 200,
+      "usageLimit": 500,
+      "usedCount": 0,
+      "expiresAt": "2026-12-31",
+      "isActive": true
+    },
     {
       "id": "coup-1",
       "code": "WINTER10",
@@ -1042,6 +1122,46 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795668523923",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Refunded",
+      "entity": "Order",
+      "entityId": "MON-2026-8911",
+      "details": "Refunded $1236.00 for order MON-2026-8911. Reason: Customer initiated return within 30-day window. Restocked items.",
+      "createdAt": "2026-11-26T04:48:43.923Z"
+    },
+    {
+      "id": "log-1795668389597",
+      "actorName": "Stripe Webhook",
+      "actorEmail": "webhook@stripe.com",
+      "action": "Payment Verified via Webhook",
+      "entity": "Order",
+      "entityId": "MON-2026-8911",
+      "details": "Stripe webhook confirmed payment for order MON-2026-8911 ($1236). Inventory decremented.",
+      "createdAt": "2026-11-26T04:46:29.597Z"
+    },
+    {
+      "id": "log-1795668388085",
+      "actorName": "Checkout System",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Created (Pending)",
+      "entity": "Order",
+      "entityId": "MON-2026-8911",
+      "details": "Created pending order MON-2026-8911 for Julian Vance ($1236).",
+      "createdAt": "2026-11-26T04:46:28.085Z"
+    },
+    {
+      "id": "log-1795667558074",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-012",
+      "details": "Updated product \"Sub-Zero Quilted Down Vest\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T04:32:38.074Z"
+    },
     {
       "id": "log-1795666941798",
       "actorName": "Raihan Rana",
@@ -1232,7 +1352,7 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4892,
+      "impressions": 4899,
       "clicks": 814,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
@@ -1253,7 +1373,7 @@
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
       "isActive": true,
-      "impressions": 12450,
+      "impressions": 12457,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1281,7 +1401,7 @@
       "startDate": "2026-11-25T16:15:56.272Z",
       "endDate": "2026-11-27T16:15:56.272Z",
       "isActive": true,
-      "impressions": 6180,
+      "impressions": 6187,
       "clicks": 1240,
       "countdownTimer": {
         "enabled": true,
@@ -1311,7 +1431,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3410,
+      "impressions": 3416,
       "clicks": 495,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",

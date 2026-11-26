@@ -31,6 +31,7 @@ export default function AdminOrdersPage() {
   const [statusFilter, setStatusFilter] = React.useState<string>("all");
   const [selectedOrder, setSelectedOrder] = React.useState<AdminOrder | null>(null);
   const [updatingStatus, setUpdatingStatus] = React.useState(false);
+  const [isRefunding, setIsRefunding] = React.useState(false);
   const [successToast, setSuccessToast] = React.useState<string | null>(null);
 
   const fetchOrders = React.useCallback(async () => {
@@ -42,11 +43,11 @@ export default function AdminOrdersPage() {
 
       const res = await fetch(`/api/admin/orders?${queryParams.toString()}`);
       const data = await res.json();
-      if (data && data.orders) {
-        setOrders(data.orders);
-        // If an order is currently selected in drawer, update its reference
+      const list = data?.orders || data?.data || [];
+      if (Array.isArray(list)) {
+        setOrders(list);
         if (selectedOrder) {
-          const fresh = data.orders.find((o: AdminOrder) => o.id === selectedOrder.id);
+          const fresh = list.find((o: AdminOrder) => o.id === selectedOrder.id);
           if (fresh) setSelectedOrder(fresh);
         }
       }
@@ -82,6 +83,37 @@ export default function AdminOrdersPage() {
       console.error(err);
     } finally {
       setUpdatingStatus(false);
+    }
+  };
+
+  const handleProcessRefund = async (orderId: string, amount: number) => {
+    if (!confirm(`Are you sure you want to refund $${amount.toFixed(2)} for this order? Inventory will be automatically restored.`)) {
+      return;
+    }
+
+    try {
+      setIsRefunding(true);
+      const res = await fetch(`/api/admin/orders/${orderId}/refund`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount,
+          reason: "Administrator initiated refund via dashboard.",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.status !== "success") {
+        throw new Error(data.message || "Failed to process refund");
+      }
+
+      await fetchOrders();
+      setSuccessToast(`Successfully refunded $${amount.toFixed(2)}. Inventory restored.`);
+      setTimeout(() => setSuccessToast(null), 4000);
+    } catch (err: any) {
+      alert(`Refund Error: ${err.message}`);
+    } finally {
+      setIsRefunding(false);
     }
   };
 
@@ -527,18 +559,71 @@ export default function AdminOrdersPage() {
 
               {/* Financial Breakdown */}
               <div className="p-4 rounded-lg border border-neutral-200 bg-neutral-50 space-y-2 text-xs">
+                <div className="flex justify-between items-center pb-2 border-b border-neutral-200">
+                  <span className="font-semibold text-neutral-800">Payment Status</span>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                      selectedOrder.paymentStatus === "paid"
+                        ? "bg-emerald-100 text-emerald-800"
+                        : selectedOrder.paymentStatus === "refunded"
+                        ? "bg-purple-100 text-purple-800"
+                        : selectedOrder.paymentStatus === "failed"
+                        ? "bg-rose-100 text-rose-800"
+                        : "bg-amber-100 text-amber-800"
+                    }`}
+                  >
+                    {selectedOrder.paymentStatus}
+                  </span>
+                </div>
+
+                {selectedOrder.stripePaymentIntentId && (
+                  <div className="flex justify-between text-neutral-600 font-mono text-[11px]">
+                    <span>Stripe Intent</span>
+                    <span className="truncate max-w-[200px] text-neutral-800">{selectedOrder.stripePaymentIntentId}</span>
+                  </div>
+                )}
+
+                {selectedOrder.failureReason && (
+                  <div className="p-2 bg-rose-50 border border-rose-200 rounded text-rose-800 text-[11px]">
+                    <strong>Failure Reason:</strong> {selectedOrder.failureReason}
+                  </div>
+                )}
+
+                {selectedOrder.refundedAmount ? (
+                  <div className="flex justify-between text-purple-700 font-medium">
+                    <span>Refunded Amount</span>
+                    <span className="font-mono">-${selectedOrder.refundedAmount.toFixed(2)}</span>
+                  </div>
+                ) : null}
+
                 <div className="flex justify-between text-neutral-600">
                   <span>Subtotal</span>
-                  <span className="font-mono">${(selectedOrder.total * 0.9).toFixed(2)}</span>
+                  <span className="font-mono">
+                    ${selectedOrder.pricingBreakdown?.subtotal ? selectedOrder.pricingBreakdown.subtotal.toFixed(2) : (selectedOrder.total * 0.9).toFixed(2)}
+                  </span>
                 </div>
+
+                {selectedOrder.pricingBreakdown?.discountAmount ? (
+                  <div className="flex justify-between text-emerald-700">
+                    <span>Discount ({selectedOrder.couponCode || "Coupon"})</span>
+                    <span className="font-mono">-${selectedOrder.pricingBreakdown.discountAmount.toFixed(2)}</span>
+                  </div>
+                ) : null}
+
                 <div className="flex justify-between text-neutral-600">
-                  <span>Standard Winter Expedited Shipping</span>
-                  <span className="font-mono">$0.00 (Free)</span>
+                  <span>Shipping ({selectedOrder.shippingMethod || "Standard"})</span>
+                  <span className="font-mono">
+                    {selectedOrder.pricingBreakdown?.shippingFee === 0 ? "FREE" : `$${(selectedOrder.pricingBreakdown?.shippingFee || 0).toFixed(2)}`}
+                  </span>
                 </div>
+
                 <div className="flex justify-between text-neutral-600">
-                  <span>Estimated Tax (10%)</span>
-                  <span className="font-mono">${(selectedOrder.total * 0.1).toFixed(2)}</span>
+                  <span>Taxes & Duties</span>
+                  <span className="font-mono">
+                    ${selectedOrder.pricingBreakdown?.taxAmount ? selectedOrder.pricingBreakdown.taxAmount.toFixed(2) : (selectedOrder.total * 0.08).toFixed(2)}
+                  </span>
                 </div>
+
                 <div className="pt-2 border-t border-neutral-200 flex justify-between font-bold text-sm text-neutral-900">
                   <span>Grand Total</span>
                   <span className="font-mono text-base">
@@ -550,9 +635,21 @@ export default function AdminOrdersPage() {
 
             {/* Bottom Actions */}
             <div className="px-6 py-4 border-t border-neutral-200 bg-neutral-50 flex items-center justify-between">
-              <span className="text-[11px] text-neutral-400 font-mono">
-                Storefront Payment Verified
-              </span>
+              {selectedOrder.paymentStatus === "paid" ? (
+                <button
+                  disabled={isRefunding}
+                  onClick={() => handleProcessRefund(selectedOrder.id, selectedOrder.total)}
+                  className="px-3.5 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 rounded text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{isRefunding ? "Processing..." : "Refund Order"}</span>
+                </button>
+              ) : (
+                <span className="text-[11px] text-neutral-400 font-mono">
+                  {selectedOrder.paymentStatus === "refunded" ? "Order Refunded & Restocked" : "Awaiting Verification"}
+                </span>
+              )}
+
               <button
                 onClick={() => setSelectedOrder(null)}
                 className="px-4 py-2 bg-neutral-900 text-white rounded text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 transition-colors"

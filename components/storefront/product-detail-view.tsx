@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Product, getRelatedProducts } from "@/data/products";
 import { useStore } from "@/lib/store/use-store";
+import { useCartStore } from "@/lib/store/cart-store";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -72,6 +73,16 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
 
   const handleAdd = () => {
     addToCart(product, selectedSize, selectedColor, quantity);
+    useCartStore.getState().addItem({
+      id: product.id,
+      slug: product.slug,
+      title: product.title,
+      price: product.price,
+      size: selectedSize,
+      color: selectedColor,
+      image: product.primaryImage,
+      quantity,
+    });
     setAddedToast(true);
     setTimeout(() => setAddedToast(false), 2500);
   };

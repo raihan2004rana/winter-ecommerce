@@ -22,7 +22,7 @@ export function WardrobeExactHero() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ campaignId: active.id, event: "impression" }),
-          }).catch(() => {});
+          }).catch(() => { });
         }
       })
       .catch((err) => console.error("Failed to load hero campaign:", err));
@@ -34,10 +34,10 @@ export function WardrobeExactHero() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ campaignId: campaign.id, event: "click" }),
-    }).catch(() => {});
+    }).catch(() => { });
   };
 
-  const heroImage = campaign?.desktopImage || "/images/wardrobe/hero-hoodies-hd.jpg";
+  const heroImage = campaign?.desktopImage || "/images/wardrobe/super-hero.jpg";
   const badgeText = campaign?.badgeText || "NEW DROP";
   const headline = campaign?.headline || "Designed for colder days";
   const subheadline =

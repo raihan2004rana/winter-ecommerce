@@ -19,7 +19,7 @@ export interface AdminOrder {
   total: number;
   currency: string;
   status: "pending" | "paid" | "processing" | "shipped" | "delivered" | "cancelled";
-  paymentStatus: "paid" | "pending" | "refunded";
+  paymentStatus: "paid" | "pending" | "refunded" | "failed";
   fulfillmentStatus: "unfulfilled" | "fulfilled" | "partial";
   items: Array<{
     id: string;
@@ -31,14 +31,42 @@ export interface AdminOrder {
     image: string;
   }>;
   shippingAddress: {
+    firstName?: string;
+    lastName?: string;
     street: string;
+    apartment?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    phone?: string;
+  };
+  billingAddress?: {
+    firstName?: string;
+    lastName?: string;
+    street: string;
+    apartment?: string;
     city: string;
     state: string;
     postalCode: string;
     country: string;
   };
+  pricingBreakdown?: {
+    subtotal: number;
+    discountAmount: number;
+    shippingFee: number;
+    taxAmount: number;
+    total: number;
+  };
+  shippingMethod?: "standard" | "express";
+  couponCode?: string;
+  stripePaymentIntentId?: string;
+  idempotencyKey?: string;
+  failureReason?: string;
+  refundedAmount?: number;
   trackingNumber?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface AdminCustomer {
@@ -1112,6 +1140,403 @@ export const AdminStore = {
       entity: "Order",
       entityId: order.orderNumber,
       details: `Changed order ${order.orderNumber} status from "${oldStatus}" to "${status}".`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return order;
+  },
+
+  getOrderById(orderId: string) {
+    const state = loadState();
+    return state.orders.find((o) => o.id === orderId) || null;
+  },
+
+  getOrderByNumber(orderNumber: string) {
+    const state = loadState();
+    return state.orders.find((o) => o.orderNumber.toUpperCase() === orderNumber.toUpperCase()) || null;
+  },
+
+  getOrderByPaymentIntent(paymentIntentId: string) {
+    const state = loadState();
+    return state.orders.find((o) => o.stripePaymentIntentId === paymentIntentId) || null;
+  },
+
+  // Authoritative server-side cart & financial recalculation
+  validateAndCalculateCart(params: {
+    items: Array<{
+      productId?: string;
+      productSlug?: string;
+      size: string;
+      color: string;
+      quantity: number;
+    }>;
+    couponCode?: string;
+    shippingCountry?: string;
+    shippingMethod?: "standard" | "express";
+  }) {
+    const state = loadState();
+    const settings = state.settings || {
+      standardShippingFee: 25,
+      freeShippingThreshold: 200,
+      taxRate: 0.08,
+    };
+
+    const validatedItems: Array<{
+      id: string;
+      slug: string;
+      title: string;
+      price: number;
+      size: string;
+      color: string;
+      quantity: number;
+      image: string;
+      availableStock: number;
+      lineTotal: number;
+    }> = [];
+
+    const errors: string[] = [];
+    let subtotal = 0;
+
+    for (const item of params.items) {
+      const product = state.products.find(
+        (p) => (item.productId && p.id === item.productId) || (item.productSlug && p.slug === item.productSlug)
+      );
+
+      if (!product) {
+        errors.push(`Product "${item.productId || item.productSlug}" not found or no longer available.`);
+        continue;
+      }
+
+      if (product.isArchived) {
+        errors.push(`"${product.title}" is archived and cannot be ordered.`);
+        continue;
+      }
+
+      if (product.stockCount < item.quantity) {
+        errors.push(
+          `Insufficient stock for "${product.title}". Requested: ${item.quantity}, Available: ${product.stockCount}.`
+        );
+      }
+
+      // Authoritative unit price from database (never trusting browser)
+      const authoritativePrice = product.price;
+      const lineTotal = authoritativePrice * item.quantity;
+      subtotal += lineTotal;
+
+      validatedItems.push({
+        id: product.id,
+        slug: product.slug,
+        title: product.title,
+        price: authoritativePrice,
+        size: item.size || "M",
+        color: item.color || "Standard",
+        quantity: item.quantity,
+        image: product.primaryImage || (product as any).image || "",
+        availableStock: product.stockCount,
+        lineTotal,
+      });
+    }
+
+    // Coupon calculation
+    let discountAmount = 0;
+    let appliedCoupon: AdminCoupon | null = null;
+    let couponError: string | null = null;
+
+    if (params.couponCode) {
+      const cleanedCode = params.couponCode.trim().toUpperCase();
+      const coupon = state.coupons.find((c) => c.code.toUpperCase() === cleanedCode);
+
+      if (!coupon) {
+        couponError = `Coupon code "${cleanedCode}" is invalid.`;
+      } else if (!coupon.isActive) {
+        couponError = `Coupon code "${cleanedCode}" is deactivated.`;
+      } else if (new Date(coupon.expiresAt).getTime() < new Date().setHours(0, 0, 0, 0)) {
+        couponError = `Coupon code "${cleanedCode}" expired on ${coupon.expiresAt}.`;
+      } else if (coupon.usedCount >= coupon.usageLimit) {
+        couponError = `Coupon code "${cleanedCode}" has reached its maximum usage limit.`;
+      } else if (subtotal < coupon.minOrderValue) {
+        couponError = `Coupon "${cleanedCode}" requires a minimum order value of $${coupon.minOrderValue.toFixed(2)}.`;
+      } else {
+        appliedCoupon = coupon;
+        if (coupon.discountType === "percentage") {
+          discountAmount = Math.round(((subtotal * coupon.value) / 100) * 100) / 100;
+        } else if (coupon.discountType === "fixed_amount") {
+          discountAmount = Math.min(subtotal, coupon.value);
+        } else if (coupon.discountType === "free_shipping") {
+          discountAmount = 0; // Handled in shipping fee below
+        }
+      }
+    }
+
+    // Shipping calculation
+    const shippingMethod = params.shippingMethod || "standard";
+    let shippingFee = 0;
+
+    if (shippingMethod === "express") {
+      shippingFee = 45; // Express Alpine Courier
+    } else {
+      const isFreeShipping =
+        subtotal >= settings.freeShippingThreshold || appliedCoupon?.discountType === "free_shipping";
+      shippingFee = isFreeShipping ? 0 : settings.standardShippingFee || 25;
+    }
+
+    // International Duties / VAT Tax Rate calculation
+    const country = (params.shippingCountry || "US").toUpperCase();
+    let rawTaxRate = settings.taxRate || 0.08;
+    if (["GB", "FR", "DE", "IT", "ES", "NL", "CH", "SE", "NO"].includes(country)) {
+      rawTaxRate = 0.20; // 20% VAT
+    } else if (country === "CA") {
+      rawTaxRate = 0.13; // 13% GST/HST
+    } else if (country === "AU") {
+      rawTaxRate = 0.10; // 10% GST
+    }
+
+    const taxRate = rawTaxRate > 1 ? rawTaxRate / 100 : rawTaxRate;
+    const taxableAmount = Math.max(0, subtotal - discountAmount);
+    const taxAmount = Math.round(taxableAmount * taxRate * 100) / 100;
+    const total = Math.round((taxableAmount + shippingFee + taxAmount) * 100) / 100;
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+      couponError,
+      items: validatedItems,
+      pricing: {
+        subtotal: Math.round(subtotal * 100) / 100,
+        discountAmount: Math.round(discountAmount * 100) / 100,
+        shippingFee: Math.round(shippingFee * 100) / 100,
+        taxAmount,
+        taxRate,
+        total,
+        currency: settings.defaultCurrency || "USD",
+      },
+      appliedCoupon: appliedCoupon
+        ? {
+            code: appliedCoupon.code,
+            discountType: appliedCoupon.discountType,
+            value: appliedCoupon.value,
+          }
+        : null,
+      freeShippingThreshold: settings.freeShippingThreshold || 200,
+      remainingForFreeShipping: Math.max(0, (settings.freeShippingThreshold || 200) - subtotal),
+    };
+  },
+
+  // Create pending order prior to payment
+  createPendingOrder(orderData: {
+    customerName: string;
+    customerEmail: string;
+    items: AdminOrder["items"];
+    shippingAddress: AdminOrder["shippingAddress"];
+    billingAddress?: AdminOrder["billingAddress"];
+    pricingBreakdown: NonNullable<AdminOrder["pricingBreakdown"]>;
+    shippingMethod: "standard" | "express";
+    couponCode?: string;
+    stripePaymentIntentId?: string;
+    idempotencyKey?: string;
+    currency?: string;
+  }) {
+    const state = loadState();
+
+    // Idempotency check: if order with this idempotencyKey or paymentIntentId exists, return it
+    if (orderData.idempotencyKey) {
+      const existing = state.orders.find((o) => o.idempotencyKey === orderData.idempotencyKey);
+      if (existing) return existing;
+    }
+    if (orderData.stripePaymentIntentId) {
+      const existing = state.orders.find((o) => o.stripePaymentIntentId === orderData.stripePaymentIntentId);
+      if (existing) return existing;
+    }
+
+    const year = new Date().getFullYear();
+    const randomHex = Math.floor(1000 + Math.random() * 9000);
+    const orderNumber = `MON-${year}-${randomHex}`;
+
+    const newOrder: AdminOrder = {
+      id: `ord-${Date.now()}`,
+      orderNumber,
+      customerName: orderData.customerName,
+      customerEmail: orderData.customerEmail,
+      total: orderData.pricingBreakdown.total,
+      currency: orderData.currency || "USD",
+      status: "pending",
+      paymentStatus: "pending",
+      fulfillmentStatus: "unfulfilled",
+      items: orderData.items,
+      shippingAddress: orderData.shippingAddress,
+      billingAddress: orderData.billingAddress || orderData.shippingAddress,
+      pricingBreakdown: orderData.pricingBreakdown,
+      shippingMethod: orderData.shippingMethod,
+      couponCode: orderData.couponCode,
+      stripePaymentIntentId: orderData.stripePaymentIntentId,
+      idempotencyKey: orderData.idempotencyKey,
+      trackingNumber: `TRK-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    state.orders.unshift(newOrder);
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: "Checkout System",
+      actorEmail: orderData.customerEmail,
+      action: "Order Created (Pending)",
+      entity: "Order",
+      entityId: newOrder.orderNumber,
+      details: `Created pending order ${newOrder.orderNumber} for ${orderData.customerName} ($${newOrder.total}).`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return newOrder;
+  },
+
+  // Mark order paid via verified Stripe Webhook event
+  markOrderAsPaid(
+    identifier: string,
+    stripeDetails?: { paymentIntentId?: string; receiptEmail?: string }
+  ) {
+    const state = loadState();
+    const order = state.orders.find(
+      (o) =>
+        o.id === identifier ||
+        o.orderNumber.toUpperCase() === identifier.toUpperCase() ||
+        (stripeDetails?.paymentIntentId && o.stripePaymentIntentId === stripeDetails.paymentIntentId)
+    );
+
+    if (!order) return null;
+
+    // Idempotency: if already paid, do not double-deduct inventory
+    if (order.paymentStatus === "paid") {
+      return order;
+    }
+
+    order.paymentStatus = "paid";
+    order.status = "processing";
+    order.updatedAt = new Date().toISOString();
+    if (stripeDetails?.paymentIntentId) {
+      order.stripePaymentIntentId = stripeDetails.paymentIntentId;
+    }
+
+    // Atomically decrement stock for each item in the order
+    for (const orderItem of order.items) {
+      const product = state.products.find((p) => p.id === orderItem.id);
+      if (product) {
+        product.stockCount = Math.max(0, product.stockCount - orderItem.quantity);
+      }
+    }
+
+    // Synchronize customer profile
+    let customer = state.customers.find((c) => c.email.toLowerCase() === order.customerEmail.toLowerCase());
+    if (customer) {
+      customer.totalOrders += 1;
+      customer.totalSpent += order.total;
+    } else {
+      // Create new customer record from checkout
+      const newCustomer: AdminCustomer = {
+        id: `cust-${Date.now()}`,
+        name: order.customerName,
+        email: order.customerEmail,
+        phone: order.shippingAddress.phone || "+1 (555) 000-0000",
+        city: order.shippingAddress.city,
+        country: order.shippingAddress.country,
+        totalOrders: 1,
+        totalSpent: order.total,
+        joinedAt: new Date().toISOString().split("T")[0],
+        status: order.total > 1000 ? "vip" : "active",
+      };
+      state.customers.unshift(newCustomer);
+    }
+
+    // Increment coupon used count if coupon was used
+    if (order.couponCode) {
+      const coupon = state.coupons.find((c) => c.code.toUpperCase() === order.couponCode?.toUpperCase());
+      if (coupon) {
+        coupon.usedCount += 1;
+      }
+    }
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: "Stripe Webhook",
+      actorEmail: "webhook@stripe.com",
+      action: "Payment Verified via Webhook",
+      entity: "Order",
+      entityId: order.orderNumber,
+      details: `Stripe webhook confirmed payment for order ${order.orderNumber} ($${order.total}). Inventory decremented.`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return order;
+  },
+
+  // Mark payment failed via Stripe Webhook event
+  markOrderPaymentFailed(identifier: string, reason: string) {
+    const state = loadState();
+    const order = state.orders.find(
+      (o) =>
+        o.id === identifier ||
+        o.orderNumber.toUpperCase() === identifier.toUpperCase() ||
+        o.stripePaymentIntentId === identifier
+    );
+
+    if (!order) return null;
+
+    order.paymentStatus = "failed";
+    order.status = "cancelled";
+    order.failureReason = reason;
+    order.updatedAt = new Date().toISOString();
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: "Stripe Webhook",
+      actorEmail: "webhook@stripe.com",
+      action: "Payment Failed",
+      entity: "Order",
+      entityId: order.orderNumber,
+      details: `Payment failed for order ${order.orderNumber}. Reason: ${reason}.`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return order;
+  },
+
+  // Refund order and restore inventory
+  processRefund(
+    orderId: string,
+    amount: number,
+    reason: string,
+    actor: { name: string; email: string }
+  ) {
+    const state = loadState();
+    const order = state.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+    if (!order) return null;
+
+    order.paymentStatus = "refunded";
+    order.status = "cancelled";
+    order.refundedAmount = (order.refundedAmount || 0) + amount;
+    order.updatedAt = new Date().toISOString();
+
+    // Restock products
+    for (const orderItem of order.items) {
+      const product = state.products.find((p) => p.id === orderItem.id);
+      if (product) {
+        product.stockCount += orderItem.quantity;
+      }
+    }
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: actor.name,
+      actorEmail: actor.email,
+      action: "Order Refunded",
+      entity: "Order",
+      entityId: order.orderNumber,
+      details: `Refunded $${amount.toFixed(2)} for order ${order.orderNumber}. Reason: ${reason}. Restocked items.`,
       createdAt: new Date().toISOString(),
     });
 
