@@ -1678,7 +1678,7 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4945,
+      "impressions": 4946,
       "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
@@ -1699,7 +1699,7 @@
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
       "isActive": true,
-      "impressions": 12540,
+      "impressions": 12541,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",

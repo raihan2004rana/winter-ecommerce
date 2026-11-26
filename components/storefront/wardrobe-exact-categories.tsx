@@ -12,7 +12,9 @@ export function WardrobeExactCategories() {
   const [menImage, setMenImage] = React.useState<string>("/images/wardrobe/new arrival-men.webp");
 
   React.useEffect(() => {
-    fetch("/api/campaigns?placement=category_header")
+    fetch(`/api/campaigns?placement=category_header&_t=${Date.now()}`, {
+      cache: "no-store",
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data?.status === "success" && data.campaigns?.length > 0) {

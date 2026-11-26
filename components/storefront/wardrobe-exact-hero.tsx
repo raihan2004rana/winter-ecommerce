@@ -3,65 +3,87 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { AdminCampaign } from "@/lib/server/admin-store";
 
 export function WardrobeExactHero() {
-  const [campaign, setCampaign] = React.useState<AdminCampaign | null>(null);
+  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
 
   React.useEffect(() => {
-    fetch("/api/campaigns?placement=hero")
+    fetch(`/api/campaigns?placement=hero&_t=${Date.now()}`, {
+      cache: "no-store",
+    })
       .then((res) => res.json())
       .then((data) => {
-        if (data?.status === "success" && data.campaigns?.length > 0) {
-          const active = data.campaigns[0];
-          setCampaign(active);
+        if (data?.status === "success" && Array.isArray(data.campaigns)) {
+          setCampaigns(data.campaigns);
 
-          // Track impression beacon
-          fetch("/api/admin/campaigns/track", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ campaignId: active.id, event: "impression" }),
-          }).catch(() => { });
+          if (data.campaigns.length > 0) {
+            // Track impression beacon for the first active hero campaign
+            fetch("/api/admin/campaigns/track", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                campaignId: data.campaigns[0].id,
+                event: "impression",
+              }),
+            }).catch(() => {});
+          }
         }
       })
       .catch((err) => console.error("Failed to load hero campaign:", err));
   }, []);
 
+  // Auto-slide carousel if 2+ hero campaigns are active
+  React.useEffect(() => {
+    if (campaigns.length <= 1) return;
+
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % campaigns.length);
+    }, 7000);
+
+    return () => clearInterval(timer);
+  }, [campaigns.length]);
+
+  const currentCampaign = campaigns[currentIndex] || campaigns[0] || null;
+
   const handleCtaClick = () => {
-    if (!campaign) return;
+    if (!currentCampaign) return;
     fetch("/api/admin/campaigns/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ campaignId: campaign.id, event: "click" }),
-    }).catch(() => { });
+      body: JSON.stringify({ campaignId: currentCampaign.id, event: "click" }),
+    }).catch(() => {});
   };
 
   const heroImage =
-    campaign?.desktopImage && campaign.desktopImage !== "/images/wardrobe/hero-hoodies-hd.jpg"
-      ? campaign.desktopImage
+    currentCampaign?.desktopImage &&
+    currentCampaign.desktopImage !== "/images/wardrobe/hero-hoodies-hd.jpg"
+      ? currentCampaign.desktopImage
       : "/images/wardrobe/super-hero.jpg";
-  const badgeText = campaign?.badgeText || "NEW DROP";
-  const headline = campaign?.headline || "Designed for colder days";
+  const badgeText = currentCampaign?.badgeText || "NEW DROP";
+  const headline = currentCampaign?.headline || "Designed for colder days";
   const subheadline =
-    campaign?.subheadline ||
+    currentCampaign?.subheadline ||
     "Our winter pieces focus on comfort, form, and quiet confidence. Easy to wear. Easy to keep.";
-  const ctaText = campaign?.ctaText || "Shop now";
-  const destinationUrl = campaign?.destinationUrl || "/products";
+  const ctaText = currentCampaign?.ctaText || "Shop now";
+  const destinationUrl = currentCampaign?.destinationUrl || "/products";
 
   return (
-    <section className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] max-h-[860px] overflow-hidden bg-[#EAE8E4]">
+    <section className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] max-h-[860px] overflow-hidden bg-[#EAE8E4] group">
       {/* 
-        Hero Background: High-Definition Master of the Hoodies Rack (uploaded by user or campaign)
+        Hero Background: High-Definition Visual Image
       */}
       <Image
+        key={heroImage}
         src={heroImage}
         alt={headline}
         fill
         priority
         unoptimized
         sizes="100vw"
-        className="object-cover object-[center_35%] pointer-events-none transition-opacity duration-700"
+        className="object-cover object-[center_35%] pointer-events-none transition-opacity duration-1000"
       />
 
       {/* Enhanced contrast vignette ensuring bold white text pops cleanly */}
@@ -79,9 +101,9 @@ export function WardrobeExactHero() {
             </div>
           )}
 
-          {/* Signature Headline in Clean Editorial Serif (Regular font weight) */}
+          {/* Signature Headline in Clean Editorial Serif */}
           <h1
-            className="font-editorial text-5xl sm:text-7xl lg:text-[5.5rem] font-normal text-white leading-[0.98] tracking-tight"
+            className="font-editorial text-5xl sm:text-7xl lg:text-[5.5rem] font-normal text-white leading-[0.98] tracking-tight transition-all duration-500"
             style={{
               fontWeight: 400,
               textShadow: "0 2px 20px rgba(0, 0, 0, 0.65)",
@@ -119,6 +141,49 @@ export function WardrobeExactHero() {
           </div>
         </div>
       </div>
+
+      {/* Multi-Campaign Carousel Controls (Visible when 2+ Hero campaigns are active) */}
+      {campaigns.length > 1 && (
+        <>
+          {/* Navigation Arrows */}
+          <button
+            onClick={() =>
+              setCurrentIndex(
+                (prev) => (prev - 1 + campaigns.length) % campaigns.length
+              )
+            }
+            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-opacity opacity-0 group-hover:opacity-100 border border-white/20"
+            aria-label="Previous Slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() =>
+              setCurrentIndex((prev) => (prev + 1) % campaigns.length)
+            }
+            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-opacity opacity-0 group-hover:opacity-100 border border-white/20"
+            aria-label="Next Slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+
+          {/* Slide Indicator Dots */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-2">
+            {campaigns.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`transition-all rounded-full ${
+                  currentIndex === idx
+                    ? "w-7 h-2 bg-white shadow-xs"
+                    : "w-2 h-2 bg-white/50 hover:bg-white/80"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 }

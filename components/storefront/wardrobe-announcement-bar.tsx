@@ -2,11 +2,12 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { X, Sparkles, Copy, Check, ArrowRight } from "lucide-react";
+import { X, Sparkles, Copy, Check, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { AdminCampaign } from "@/lib/server/admin-store";
 
 export function WardrobeAnnouncementBar() {
-  const [campaign, setCampaign] = React.useState<AdminCampaign | null>(null);
+  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
   const [isDismissed, setIsDismissed] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
 
@@ -18,36 +19,55 @@ export function WardrobeAnnouncementBar() {
       return;
     }
 
-    // Fetch active announcement bar campaign
-    fetch("/api/campaigns?placement=announcement_bar")
+    // Fetch active announcement bar campaigns
+    fetch(`/api/campaigns?placement=announcement_bar&_t=${Date.now()}`, {
+      cache: "no-store",
+    })
       .then((res) => res.json())
       .then((data) => {
-        if (data?.status === "success" && data.campaigns?.length > 0) {
-          const active = data.campaigns[0];
-          setCampaign(active);
+        if (data?.status === "success" && Array.isArray(data.campaigns)) {
+          setCampaigns(data.campaigns);
 
-          // Track impression beacon
-          fetch("/api/admin/campaigns/track", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ campaignId: active.id, event: "impression" }),
-          }).catch(() => {});
+          if (data.campaigns.length > 0) {
+            // Track impression beacon
+            fetch("/api/admin/campaigns/track", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                campaignId: data.campaigns[0].id,
+                event: "impression",
+              }),
+            }).catch(() => {});
+          }
         }
       })
       .catch((err) => console.error("Failed to load announcement campaign:", err));
   }, []);
+
+  // Auto-rotate if 2+ announcement campaigns are active
+  React.useEffect(() => {
+    if (campaigns.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % campaigns.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [campaigns.length]);
 
   const handleDismiss = () => {
     setIsDismissed(true);
     sessionStorage.setItem("wardrobe_announcement_dismissed", "true");
   };
 
+  const currentCampaign = campaigns[currentIndex] || campaigns[0] || null;
+
   const handleCtaClick = () => {
-    if (!campaign) return;
+    if (!currentCampaign) return;
     fetch("/api/admin/campaigns/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ campaignId: campaign.id, event: "click" }),
+      body: JSON.stringify({ campaignId: currentCampaign.id, event: "click" }),
     }).catch(() => {});
   };
 
@@ -57,31 +77,46 @@ export function WardrobeAnnouncementBar() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (isDismissed || !campaign) {
+  if (isDismissed || !currentCampaign) {
     return null;
   }
 
-  const couponCode = campaign.discountRule?.couponCode;
+  const couponCode = currentCampaign.discountRule?.couponCode;
 
   return (
     <div className="relative w-full bg-[#0D0D0E] text-white py-2.5 border-b border-white/10 z-50 text-xs font-sans transition-all">
       <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 flex items-center justify-between gap-3">
+        {/* If multiple campaigns, show prev arrow */}
+        {campaigns.length > 1 && (
+          <button
+            onClick={() =>
+              setCurrentIndex(
+                (prev) => (prev - 1 + campaigns.length) % campaigns.length
+              )
+            }
+            className="text-white/40 hover:text-white transition-colors p-1"
+            aria-label="Previous announcement"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+        )}
+
         {/* Center content container */}
         <div className="flex-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
-          {campaign.badgeText && (
+          {currentCampaign.badgeText && (
             <span className="inline-flex items-center gap-1 bg-[#E11D48] text-white text-[0.62rem] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded-full shadow-xs">
               <Sparkles className="w-2.5 h-2.5" />
-              {campaign.badgeText}
+              {currentCampaign.badgeText}
             </span>
           )}
 
           <span className="font-medium text-white/95 tracking-tight text-xs sm:text-[0.81rem]">
-            {campaign.headline}
+            {currentCampaign.headline}
           </span>
 
-          {campaign.subheadline && (
+          {currentCampaign.subheadline && (
             <span className="hidden md:inline text-white/60 font-light text-xs">
-              • {campaign.subheadline}
+              • {currentCampaign.subheadline}
             </span>
           )}
 
@@ -100,17 +135,36 @@ export function WardrobeAnnouncementBar() {
             </button>
           )}
 
-          {campaign.ctaText && (
+          {currentCampaign.ctaText && (
             <Link
-              href={campaign.destinationUrl || "/products"}
+              href={currentCampaign.destinationUrl || "/products"}
               onClick={handleCtaClick}
               className="inline-flex items-center gap-1 text-[0.7rem] sm:text-xs font-mono font-bold uppercase tracking-wider text-amber-300 hover:text-amber-200 underline underline-offset-2 ml-1"
             >
-              <span>{campaign.ctaText}</span>
+              <span>{currentCampaign.ctaText}</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           )}
+
+          {campaigns.length > 1 && (
+            <span className="text-[0.65rem] font-mono text-white/40 ml-2">
+              ({currentIndex + 1}/{campaigns.length})
+            </span>
+          )}
         </div>
+
+        {/* If multiple campaigns, show next arrow */}
+        {campaigns.length > 1 && (
+          <button
+            onClick={() =>
+              setCurrentIndex((prev) => (prev + 1) % campaigns.length)
+            }
+            className="text-white/40 hover:text-white transition-colors p-1"
+            aria-label="Next announcement"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        )}
 
         {/* Dismiss button */}
         <button
