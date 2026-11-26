@@ -198,6 +198,24 @@ export interface AdminShippingZone {
   isActive: boolean;
 }
 
+export interface InstagramPost {
+  id: string;
+  imageUrl: string;
+  permalink: string;
+  caption?: string;
+  likesCount?: number;
+  commentsCount?: number;
+  timestamp?: string;
+}
+
+export interface InstagramConfig {
+  handle: string;
+  profileUrl: string;
+  accessToken?: string;
+  autoSync: boolean;
+  posts: InstagramPost[];
+}
+
 interface AdminState {
   products: (Product & { isArchived?: boolean; isPublished?: boolean })[];
   categories: AdminCategory[];
@@ -211,6 +229,7 @@ interface AdminState {
   settings: AdminSettings;
   taxRules: AdminTaxRule[];
   shippingZones: AdminShippingZone[];
+  instagramConfig?: InstagramConfig;
 }
 
 const STATE_FILE = path.join(process.cwd(), "data", "admin-state.json");
@@ -888,6 +907,51 @@ function getInitialState(): AdminState {
     },
   ];
 
+  const initialInstagramConfig: InstagramConfig = {
+    handle: "kora.winter",
+    profileUrl: "https://instagram.com/kora.winter",
+    accessToken: "",
+    autoSync: false,
+    posts: [
+      {
+        id: "ig-001",
+        imageUrl: "/images/wardrobe/bZjYMI83pPwIDnCh0nG79sedo.jpg",
+        permalink: "https://instagram.com/kora.winter",
+        caption: "Sub-Zero Expedition Parka field testing in Tromsø, Norway. 850 fill goose down with Toray waterproof membrane.",
+        likesCount: 1420,
+        commentsCount: 84,
+        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
+      },
+      {
+        id: "ig-002",
+        imageUrl: "/images/wardrobe/uSP5ea5zqNJXxT5jmPWYTI3wZMc.jpg",
+        permalink: "https://instagram.com/kora.winter",
+        caption: "Layering essentials. Heavyweight Merino knitwear designed for arctic sub-zero comfort.",
+        likesCount: 2190,
+        commentsCount: 132,
+        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4).toISOString(),
+      },
+      {
+        id: "ig-003",
+        imageUrl: "/images/wardrobe/lIT6XTSJ7w7ldhyW6UnppvsA.jpg",
+        permalink: "https://instagram.com/kora.winter",
+        caption: "Quiet confidence. Cashmere overcoat in natural alpine lighting.",
+        likesCount: 3840,
+        commentsCount: 215,
+        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 6).toISOString(),
+      },
+      {
+        id: "ig-004",
+        imageUrl: "/images/wardrobe/VHE2QuCOl6cE6GR0KXglRilpug.jpg",
+        permalink: "https://instagram.com/kora.winter",
+        caption: "Heavy gauge turtleneck with cold weather protection accessories.",
+        likesCount: 1850,
+        commentsCount: 96,
+        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 8).toISOString(),
+      },
+    ],
+  };
+
   return {
     products: initialProducts,
     categories: initialCategories,
@@ -901,6 +965,7 @@ function getInitialState(): AdminState {
     settings: initialSettings,
     taxRules: initialTaxRules,
     shippingZones: initialShippingZones,
+    instagramConfig: initialInstagramConfig,
   };
 }
 
@@ -924,6 +989,10 @@ function loadState(): AdminState {
       }
       if (!memoryState!.shippingZones || memoryState!.shippingZones.length === 0) {
         memoryState!.shippingZones = getInitialState().shippingZones;
+        saveState(memoryState!);
+      }
+      if (!memoryState!.instagramConfig || !memoryState!.instagramConfig.posts) {
+        memoryState!.instagramConfig = getInitialState().instagramConfig;
         saveState(memoryState!);
       }
       return memoryState!;
@@ -2053,5 +2122,127 @@ export const AdminStore = {
 
     saveState(state);
     return zone;
+  },
+
+  // 14. Instagram Feed & Social Media Integration
+  getInstagramConfig(): InstagramConfig {
+    const state = loadState();
+    return state.instagramConfig || {
+      handle: "kora.winter",
+      profileUrl: "https://instagram.com/kora.winter",
+      accessToken: "",
+      autoSync: false,
+      posts: [],
+    };
+  },
+
+  updateInstagramConfig(
+    updates: Partial<InstagramConfig>,
+    actor?: { name: string; email: string }
+  ): InstagramConfig {
+    const state = loadState();
+    if (!state.instagramConfig) {
+      state.instagramConfig = {
+        handle: "kora.winter",
+        profileUrl: "https://instagram.com/kora.winter",
+        accessToken: "",
+        autoSync: false,
+        posts: [],
+      };
+    }
+
+    state.instagramConfig = { ...state.instagramConfig, ...updates };
+
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Instagram Config Updated",
+        entity: "Marketing",
+        entityId: "instagram",
+        details: `Updated Instagram account handle to "${updates.handle || state.instagramConfig.handle}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return state.instagramConfig;
+  },
+
+  addInstagramPost(
+    post: Omit<InstagramPost, "id">,
+    actor?: { name: string; email: string }
+  ): InstagramConfig {
+    const state = loadState();
+    if (!state.instagramConfig) {
+      state.instagramConfig = {
+        handle: "kora.winter",
+        profileUrl: "https://instagram.com/kora.winter",
+        accessToken: "",
+        autoSync: false,
+        posts: [],
+      };
+    }
+
+    const newPost: InstagramPost = {
+      ...post,
+      id: `ig-${Date.now()}`,
+      timestamp: post.timestamp || new Date().toISOString(),
+      likesCount: post.likesCount ?? Math.floor(Math.random() * 2000 + 800),
+      commentsCount: post.commentsCount ?? Math.floor(Math.random() * 150 + 20),
+    };
+
+    state.instagramConfig.posts.unshift(newPost);
+
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Instagram Post Added",
+        entity: "Marketing",
+        entityId: newPost.id,
+        details: `Added new Instagram look with permalink "${newPost.permalink}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return state.instagramConfig;
+  },
+
+  deleteInstagramPost(
+    postId: string,
+    actor?: { name: string; email: string }
+  ): InstagramConfig {
+    const state = loadState();
+    if (!state.instagramConfig) {
+      state.instagramConfig = {
+        handle: "kora.winter",
+        profileUrl: "https://instagram.com/kora.winter",
+        accessToken: "",
+        autoSync: false,
+        posts: [],
+      };
+    }
+
+    state.instagramConfig.posts = state.instagramConfig.posts.filter((p) => p.id !== postId);
+
+    if (actor) {
+      state.auditLogs.unshift({
+        id: `log-${Date.now()}`,
+        actorName: actor.name,
+        actorEmail: actor.email,
+        action: "Instagram Post Removed",
+        entity: "Marketing",
+        entityId: postId,
+        details: `Removed Instagram post ID "${postId}".`,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    saveState(state);
+    return state.instagramConfig;
   },
 };

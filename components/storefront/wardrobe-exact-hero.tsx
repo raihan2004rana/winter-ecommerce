@@ -79,13 +79,12 @@ export function WardrobeExactHero() {
             </div>
           )}
 
-          {/* Signature Headline in Bold Editorial Serif */}
+          {/* Signature Headline in Clean Editorial Serif (Regular font weight) */}
           <h1
-            className="font-editorial text-5xl sm:text-7xl lg:text-[5.5rem] font-bold text-white leading-[0.98] tracking-tight"
+            className="font-editorial text-5xl sm:text-7xl lg:text-[5.5rem] font-normal text-white leading-[0.98] tracking-tight"
             style={{
-              fontWeight: 700,
-              WebkitTextStroke: "0.8px currentColor",
-              textShadow: "0 4px 24px rgba(0, 0, 0, 0.75), 0 1px 4px rgba(0, 0, 0, 0.9)",
+              fontWeight: 400,
+              textShadow: "0 2px 20px rgba(0, 0, 0, 0.65)",
             }}
           >
             {headline}

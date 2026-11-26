@@ -18,11 +18,16 @@ import {
   Plane,
   ArrowRight,
   TrendingUp,
+  Trash2,
+  Plus,
+  ExternalLink,
 } from "lucide-react";
 import {
   AdminSettings,
   AdminTaxRule,
   AdminShippingZone,
+  InstagramConfig,
+  InstagramPost,
 } from "@/lib/server/admin-store";
 import {
   COUNTRIES_REGISTRY,
@@ -30,8 +35,26 @@ import {
 } from "@/lib/international/countries";
 import { formatLocalizedCurrency } from "@/lib/international/formatters";
 
+function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
 export default function AdminSettingsPage() {
-  const [activeTab, setActiveTab] = React.useState<"general" | "taxes" | "shipping" | "fx">("general");
+  const [activeTab, setActiveTab] = React.useState<"general" | "taxes" | "shipping" | "fx" | "instagram">("general");
 
   const [settings, setSettings] = React.useState<AdminSettings>({
     storeName: "KØRA Winter Editorial",
@@ -48,6 +71,17 @@ export default function AdminSettingsPage() {
 
   const [taxRules, setTaxRules] = React.useState<AdminTaxRule[]>([]);
   const [shippingZones, setShippingZones] = React.useState<AdminShippingZone[]>([]);
+  const [instagramConfig, setInstagramConfig] = React.useState<InstagramConfig>({
+    handle: "kora.winter",
+    profileUrl: "https://instagram.com/kora.winter",
+    accessToken: "",
+    autoSync: false,
+    posts: [],
+  });
+  const [newPostImageUrl, setNewPostImageUrl] = React.useState("");
+  const [newPostPermalink, setNewPostPermalink] = React.useState("");
+  const [newPostCaption, setNewPostCaption] = React.useState("");
+
   const [ratesData, setRatesData] = React.useState<{
     rates: Record<string, number>;
     date?: string;
@@ -63,9 +97,10 @@ export default function AdminSettingsPage() {
   const fetchAllData = React.useCallback(async () => {
     try {
       setLoading(true);
-      const [settingsRes, ratesRes] = await Promise.all([
+      const [settingsRes, ratesRes, igRes] = await Promise.all([
         fetch("/api/admin/settings"),
         fetch("/api/international/rates"),
+        fetch("/api/instagram"),
       ]);
 
       const data = await settingsRes.json();
@@ -82,6 +117,11 @@ export default function AdminSettingsPage() {
       const ratesJson = await ratesRes.json();
       if (ratesJson && ratesJson.rates) {
         setRatesData(ratesJson);
+      }
+
+      const igJson = await igRes.json();
+      if (igJson && igJson.data) {
+        setInstagramConfig(igJson.data);
       }
     } catch (err) {
       console.error("Failed to load store settings & international registry:", err);
@@ -185,6 +225,86 @@ export default function AdminSettingsPage() {
     });
   };
 
+  const handleSaveInstagram = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setSaving(true);
+      const res = await fetch("/api/instagram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update_config",
+          handle: instagramConfig.handle,
+          profileUrl: instagramConfig.profileUrl,
+          accessToken: instagramConfig.accessToken,
+          autoSync: instagramConfig.autoSync,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to update Instagram configuration");
+      setSuccessToast("Instagram account configuration saved!");
+      setTimeout(() => setSuccessToast(null), 3000);
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to save Instagram");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAddInstagramPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPostImageUrl.trim()) return;
+    try {
+      setSaving(true);
+      const res = await fetch("/api/instagram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "add_post",
+          imageUrl: newPostImageUrl.trim(),
+          permalink: newPostPermalink.trim() || `https://instagram.com/${instagramConfig.handle}`,
+          caption: newPostCaption.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (data?.data) {
+        setInstagramConfig(data.data);
+        setNewPostImageUrl("");
+        setNewPostPermalink("");
+        setNewPostCaption("");
+        setSuccessToast("New Instagram post added to storefront feed!");
+        setTimeout(() => setSuccessToast(null), 3000);
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to add post");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeleteInstagramPost = async (postId: string) => {
+    try {
+      setSaving(true);
+      const res = await fetch("/api/instagram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "delete_post",
+          postId,
+        }),
+      });
+      const data = await res.json();
+      if (data?.data) {
+        setInstagramConfig(data.data);
+        setSuccessToast("Post removed from Instagram feed.");
+        setTimeout(() => setSuccessToast(null), 3000);
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to delete post");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-16">
       {/* Toast Notification */}
@@ -273,6 +393,19 @@ export default function AdminSettingsPage() {
         >
           <TrendingUp className="w-3.5 h-3.5" />
           <span>Live FX Rates Status</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("instagram")}
+          className={`flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold border-b-2 transition-all ${
+            activeTab === "instagram"
+              ? "border-neutral-900 text-neutral-900"
+              : "border-transparent text-neutral-500 hover:text-neutral-800"
+          }`}
+        >
+          <InstagramIcon className="w-3.5 h-3.5" />
+          <span>Instagram Feed ({instagramConfig?.posts?.length || 0})</span>
         </button>
       </div>
 
@@ -760,6 +893,209 @@ export default function AdminSettingsPage() {
                     })}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: INSTAGRAM FEED & SOCIAL MEDIA INTEGRATION */}
+          {activeTab === "instagram" && (
+            <div className="space-y-6">
+              {/* Account Connection Settings */}
+              <div className="bg-white rounded-lg border border-neutral-200 shadow-xs p-6 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-100 pb-3">
+                  <div className="flex items-center space-x-2">
+                    <InstagramIcon className="w-4 h-4 text-neutral-700" />
+                    <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-wider">
+                      Instagram Account Connection
+                    </h3>
+                  </div>
+                  <span className="text-2xs font-mono bg-pink-50 text-pink-700 border border-pink-200 px-2 py-0.5 rounded font-semibold">
+                    @{instagramConfig.handle || "kora.winter"} Connected
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Instagram Handle (@username)
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. kora.winter"
+                      value={instagramConfig.handle}
+                      onChange={(e) =>
+                        setInstagramConfig({
+                          ...instagramConfig,
+                          handle: e.target.value.replace(/^@/, ""),
+                          profileUrl: `https://instagram.com/${e.target.value.replace(/^@/, "")}`,
+                        })
+                      }
+                      className="w-full px-3 py-2 text-xs font-mono bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Direct Profile URL
+                    </label>
+                    <input
+                      type="url"
+                      required
+                      value={instagramConfig.profileUrl}
+                      onChange={(e) =>
+                        setInstagramConfig({ ...instagramConfig, profileUrl: e.target.value })
+                      }
+                      className="w-full px-3 py-2 text-xs font-mono bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    Meta Graph API Access Token (Optional for automatic live feed polling)
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="IGQVJ... (Meta Instagram Basic Display Access Token)"
+                    value={instagramConfig.accessToken || ""}
+                    onChange={(e) =>
+                      setInstagramConfig({ ...instagramConfig, accessToken: e.target.value })
+                    }
+                    className="w-full px-3 py-2 text-xs font-mono bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                  <p className="text-2xs text-neutral-500 mt-1">
+                    When provided, the storefront automatically synchronizes with the real Instagram Graph API. You can also add or curate individual posts below.
+                  </p>
+                </div>
+
+                <div className="pt-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={handleSaveInstagram}
+                    disabled={saving}
+                    className="inline-flex items-center space-x-2 px-4 py-2 bg-neutral-900 hover:bg-black text-white text-xs font-semibold uppercase tracking-wider rounded-md transition-colors"
+                  >
+                    <span>Save Account Settings</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Add New Instagram Look */}
+              <div className="bg-white rounded-lg border border-neutral-200 shadow-xs p-6 space-y-4">
+                <div className="flex items-center space-x-2 pb-3 border-b border-neutral-100">
+                  <Plus className="w-4 h-4 text-neutral-500" />
+                  <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-wider">
+                    Add Real Instagram Post to Storefront
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Image URL (Photo or Upload)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. /images/products/... or https://..."
+                      value={newPostImageUrl}
+                      onChange={(e) => setNewPostImageUrl(e.target.value)}
+                      className="w-full px-3 py-2 text-xs font-mono bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Instagram Post Permalink
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://www.instagram.com/p/..."
+                      value={newPostPermalink}
+                      onChange={(e) => setNewPostPermalink(e.target.value)}
+                      className="w-full px-3 py-2 text-xs font-mono bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Post Caption
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Sub-zero thermal parka expedition test in Tromsø..."
+                      value={newPostCaption}
+                      onChange={(e) => setNewPostCaption(e.target.value)}
+                      className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-1">
+                  <button
+                    type="button"
+                    onClick={handleAddInstagramPost}
+                    disabled={saving || !newPostImageUrl}
+                    className="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white text-xs font-semibold uppercase tracking-wider rounded-md transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add to Instagram Feed</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Live Posts Gallery */}
+              <div className="bg-white rounded-lg border border-neutral-200 shadow-xs p-6 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-neutral-100">
+                  <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-wider">
+                    Storefront Live Instagram Gallery ({instagramConfig.posts?.length || 0} Posts)
+                  </h3>
+                  <a
+                    href={instagramConfig.profileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-1 text-xs font-mono text-neutral-600 hover:text-black"
+                  >
+                    <span>View @{instagramConfig.handle} on Instagram</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {instagramConfig.posts?.map((post) => (
+                    <div
+                      key={post.id}
+                      className="group relative rounded-lg border border-neutral-200 overflow-hidden bg-neutral-50 flex flex-col"
+                    >
+                      <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-200">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={post.imageUrl}
+                          alt={post.caption || "Instagram look"}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteInstagramPost(post.id)}
+                          className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 hover:bg-rose-600 text-white transition-colors"
+                          title="Remove Post"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      <div className="p-3 text-2xs space-y-1 bg-white flex-1 flex flex-col justify-between">
+                        <p className="text-neutral-700 line-clamp-2 leading-relaxed">
+                          {post.caption || "No caption"}
+                        </p>
+                        <div className="flex items-center justify-between text-neutral-400 font-mono pt-1 border-t border-neutral-100">
+                          <span>❤️ {post.likesCount || 0}</span>
+                          <span>💬 {post.commentsCount || 0}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}

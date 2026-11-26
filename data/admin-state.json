@@ -1352,7 +1352,7 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4916,
+      "impressions": 4918,
       "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
@@ -1373,7 +1373,7 @@
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
       "isActive": true,
-      "impressions": 12474,
+      "impressions": 12476,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1401,7 +1401,7 @@
       "startDate": "2026-11-25T16:15:56.272Z",
       "endDate": "2026-11-27T16:15:56.272Z",
       "isActive": true,
-      "impressions": 6204,
+      "impressions": 6206,
       "clicks": 1240,
       "countdownTimer": {
         "enabled": true,
@@ -1431,7 +1431,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3433,
+      "impressions": 3435,
       "clicks": 497,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
@@ -1634,5 +1634,49 @@
       "estimatedDaysMax": 12,
       "isActive": true
     }
-  ]
+  ],
+  "instagramConfig": {
+    "handle": "kora.winter",
+    "profileUrl": "https://instagram.com/kora.winter",
+    "accessToken": "",
+    "autoSync": false,
+    "posts": [
+      {
+        "id": "ig-001",
+        "imageUrl": "/images/wardrobe/bZjYMI83pPwIDnCh0nG79sedo.jpg",
+        "permalink": "https://instagram.com/kora.winter",
+        "caption": "Sub-Zero Expedition Parka field testing in Tromsø, Norway. 850 fill goose down with Toray waterproof membrane.",
+        "likesCount": 1420,
+        "commentsCount": 84,
+        "timestamp": "2026-11-24T06:37:28.983Z"
+      },
+      {
+        "id": "ig-002",
+        "imageUrl": "/images/wardrobe/uSP5ea5zqNJXxT5jmPWYTI3wZMc.jpg",
+        "permalink": "https://instagram.com/kora.winter",
+        "caption": "Layering essentials. Heavyweight Merino knitwear designed for arctic sub-zero comfort.",
+        "likesCount": 2190,
+        "commentsCount": 132,
+        "timestamp": "2026-11-22T06:37:28.983Z"
+      },
+      {
+        "id": "ig-003",
+        "imageUrl": "/images/wardrobe/lIT6XTSJ7w7ldhyW6UnppvsA.jpg",
+        "permalink": "https://instagram.com/kora.winter",
+        "caption": "Quiet confidence. Cashmere overcoat in natural alpine lighting.",
+        "likesCount": 3840,
+        "commentsCount": 215,
+        "timestamp": "2026-11-20T06:37:28.983Z"
+      },
+      {
+        "id": "ig-004",
+        "imageUrl": "/images/wardrobe/VHE2QuCOl6cE6GR0KXglRilpug.jpg",
+        "permalink": "https://instagram.com/kora.winter",
+        "caption": "Heavy gauge turtleneck with cold weather protection accessories.",
+        "likesCount": 1850,
+        "commentsCount": 96,
+        "timestamp": "2026-11-18T06:37:28.983Z"
+      }
+    ]
+  }
 }

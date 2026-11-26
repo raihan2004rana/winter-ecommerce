@@ -4,6 +4,7 @@ import * as React from "react";
 import { WardrobeAnnouncementBar } from "@/components/storefront/wardrobe-announcement-bar";
 import { WardrobeExactHeader } from "@/components/storefront/wardrobe-exact-header";
 import { WardrobeExactHero } from "@/components/storefront/wardrobe-exact-hero";
+import { WardrobeExactPartners } from "@/components/storefront/wardrobe-exact-partners";
 import { WardrobeExactBestSellers } from "@/components/storefront/wardrobe-exact-best-sellers";
 import { WardrobeExactCategories } from "@/components/storefront/wardrobe-exact-categories";
 import { WardrobeExactUgc } from "@/components/storefront/wardrobe-exact-ugc";
@@ -145,6 +146,9 @@ export default function StorefrontHomePage() {
       <main className="flex-1">
         {/* 2. Hero Section: "Designed for colder days" Hoodie Rack Banner */}
         <WardrobeExactHero />
+
+        {/* 2.5 Partners Marquee Section: Famous Innovation & Retail Partners Auto-Slider */}
+        <WardrobeExactPartners />
 
         {/* 3. Section 2: Best sellers (Winter Down Parkas & Heavy Outerwear) */}
         <WardrobeExactBestSellers
