@@ -120,14 +120,6 @@
         {
           "name": "Espresso Brown",
           "hex": "#3A2924"
-        },
-        {
-          "name": "Onyx Black",
-          "hex": "#141517"
-        },
-        {
-          "name": "Raw Ecru",
-          "hex": "#EDE9E1"
         }
       ],
       "sizes": [
@@ -145,7 +137,9 @@
       "rating": 4.96,
       "reviewCount": 39,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Espresso Brown",
+      "colorHex": "#3A2924"
     },
     {
       "id": "prod-003",
@@ -1073,6 +1067,16 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795661444147",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-002",
+      "details": "Updated product \"Belted Longline Down Cocoon Coat\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T02:50:44.147Z"
+    },
     {
       "id": "log-1",
       "actorName": "Raihan Rana",

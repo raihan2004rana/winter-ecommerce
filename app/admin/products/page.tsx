@@ -16,6 +16,12 @@ import {
   X,
   AlertCircle,
   RefreshCw,
+  Upload,
+  ImageIcon,
+  Link as LinkIcon,
+  Loader2,
+  Sparkles,
+  Star,
 } from "lucide-react";
 import { Product } from "@/data/products";
 
@@ -37,11 +43,20 @@ export default function AdminProductsPage() {
     compareAtPrice: 0,
     stockCount: 20,
     primaryImage: "",
+    galleryImages: [] as string[],
     description: "",
     sizes: "S, M, L, XL",
     colorName: "Obsidian",
     colorHex: "#111111",
   });
+
+  // Image Upload state
+  const [uploadingImage, setUploadingImage] = React.useState(false);
+  const [uploadError, setUploadError] = React.useState<string | null>(null);
+  const [imageInputMode, setImageInputMode] = React.useState<"upload" | "url">("upload");
+  const [isDragOver, setIsDragOver] = React.useState(false);
+  const primaryFileInputRef = React.useRef<HTMLInputElement | null>(null);
+  const galleryFileInputRef = React.useRef<HTMLInputElement | null>(null);
 
   // Delete Confirmation Dialog
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
@@ -71,9 +86,49 @@ export default function AdminProductsPage() {
     fetchProducts();
   };
 
+  // Upload handler to /api/admin/upload
+  const handleUploadFile = async (file: File, isGallery = false) => {
+    if (!file) return;
+    try {
+      setUploadingImage(true);
+      setUploadError(null);
+
+      const bodyData = new FormData();
+      bodyData.append("file", file);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: bodyData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.status !== "success") {
+        throw new Error(data.message || "Failed to upload image file");
+      }
+
+      if (isGallery) {
+        setFormData((prev) => ({
+          ...prev,
+          galleryImages: [...(prev.galleryImages || []), data.url],
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          primaryImage: data.url,
+        }));
+      }
+    } catch (err: any) {
+      console.error("Upload error:", err);
+      setUploadError(err.message || "Upload error");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   // Open Create Modal
   const handleOpenCreate = () => {
     setEditingProduct(null);
+    setUploadError(null);
     setFormData({
       title: "",
       subtitle: "Winter 26/27 Drop",
@@ -82,6 +137,7 @@ export default function AdminProductsPage() {
       compareAtPrice: 350,
       stockCount: 25,
       primaryImage: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=800",
+      galleryImages: [],
       description: "Premium winter insulation tailored with goose down and weather-resistant shell.",
       sizes: "S, M, L, XL",
       colorName: "Obsidian",
@@ -93,6 +149,7 @@ export default function AdminProductsPage() {
   // Open Edit Modal
   const handleOpenEdit = (p: any) => {
     setEditingProduct(p);
+    setUploadError(null);
     setFormData({
       title: p.title,
       subtitle: p.subtitle || "",
@@ -100,7 +157,8 @@ export default function AdminProductsPage() {
       price: p.price,
       compareAtPrice: p.compareAtPrice || 0,
       stockCount: p.stockCount,
-      primaryImage: p.primaryImage,
+      primaryImage: p.primaryImage || p.image || "",
+      galleryImages: p.galleryImages || [],
       description: p.description || "",
       sizes: p.sizes ? p.sizes.join(", ") : "S, M, L, XL",
       colorName: p.colorways?.[0]?.name || "Standard",
@@ -481,18 +539,272 @@ export default function AdminProductsPage() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="font-mono text-2xs uppercase text-neutral-600 font-semibold">
-                  Primary Image URL *
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={formData.primaryImage}
-                  onChange={(e) => setFormData({ ...formData, primaryImage: e.target.value })}
-                  placeholder="https://images.unsplash.com/..."
-                  className="w-full border border-neutral-300 p-2 text-xs focus:outline-none focus:border-black font-mono"
-                />
+              {/* Product Image Management Section */}
+              <div className="space-y-3 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-neutral-200">
+                  <div>
+                    <label className="font-mono text-2xs uppercase text-neutral-900 font-bold flex items-center space-x-1.5">
+                      <ImageIcon className="w-3.5 h-3.5" />
+                      <span>Garment Editorial Images & Media *</span>
+                    </label>
+                    <p className="text-[11px] text-neutral-500">
+                      Upload from local device, drag-and-drop, or paste web image URL
+                    </p>
+                  </div>
+
+                  {/* Mode switcher tabs */}
+                  <div className="flex items-center space-x-1 bg-white p-1 rounded border border-neutral-200 text-[11px]">
+                    <button
+                      type="button"
+                      onClick={() => setImageInputMode("upload")}
+                      className={`px-2.5 py-1 rounded font-semibold transition-colors flex items-center space-x-1 ${
+                        imageInputMode === "upload"
+                          ? "bg-neutral-900 text-white"
+                          : "text-neutral-600 hover:text-black"
+                      }`}
+                    >
+                      <Upload className="w-3 h-3" />
+                      <span>Device Upload</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setImageInputMode("url")}
+                      className={`px-2.5 py-1 rounded font-semibold transition-colors flex items-center space-x-1 ${
+                        imageInputMode === "url"
+                          ? "bg-neutral-900 text-white"
+                          : "text-neutral-600 hover:text-black"
+                      }`}
+                    >
+                      <LinkIcon className="w-3 h-3" />
+                      <span>Image URL</span>
+                    </button>
+                  </div>
+                </div>
+
+                {uploadError && (
+                  <div className="p-2.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded flex items-center space-x-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{uploadError}</span>
+                  </div>
+                )}
+
+                {/* Primary Image Preview & Uploader */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
+                  {/* Visual Preview */}
+                  <div className="relative aspect-[3/4] bg-neutral-200 rounded-md overflow-hidden border border-neutral-300 group">
+                    {formData.primaryImage ? (
+                      <>
+                        <Image
+                          src={formData.primaryImage}
+                          alt="Primary Garment Preview"
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute top-2 left-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-mono uppercase px-2 py-0.5 rounded font-bold">
+                          Primary Cover
+                        </div>
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-2">
+                          <button
+                            type="button"
+                            onClick={() => primaryFileInputRef.current?.click()}
+                            className="p-1.5 bg-white text-neutral-900 rounded shadow hover:bg-neutral-100 text-xs font-semibold flex items-center space-x-1"
+                          >
+                            <Upload className="w-3 h-3" />
+                            <span>Replace</span>
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="h-full flex flex-col items-center justify-center text-neutral-400 p-4 text-center">
+                        <ImageIcon className="w-8 h-8 mb-1" />
+                        <span className="text-[11px]">No cover selected</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Uploader / URL Input Controls */}
+                  <div className="sm:col-span-2 space-y-3">
+                    {imageInputMode === "upload" ? (
+                      <div>
+                        {/* Hidden Native File Input */}
+                        <input
+                          ref={primaryFileInputRef}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleUploadFile(file, false);
+                          }}
+                        />
+
+                        {/* Drag and Drop Zone */}
+                        <div
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            setIsDragOver(true);
+                          }}
+                          onDragLeave={() => setIsDragOver(false)}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            setIsDragOver(false);
+                            const file = e.dataTransfer.files?.[0];
+                            if (file) handleUploadFile(file, false);
+                          }}
+                          onClick={() => primaryFileInputRef.current?.click()}
+                          className={`border-2 border-dashed rounded-lg p-5 text-center cursor-pointer transition-all ${
+                            isDragOver
+                              ? "border-neutral-900 bg-neutral-100"
+                              : "border-neutral-300 hover:border-neutral-400 bg-white"
+                          }`}
+                        >
+                          <div className="flex flex-col items-center justify-center space-y-2">
+                            <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-700">
+                              {uploadingImage ? (
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                              ) : (
+                                <Upload className="w-5 h-5" />
+                              )}
+                            </div>
+                            <div>
+                              <span className="text-xs font-semibold text-neutral-900 underline underline-offset-2">
+                                Click to choose image
+                              </span>
+                              <span className="text-xs text-neutral-500"> or drag and drop</span>
+                            </div>
+                            <p className="text-[10px] text-neutral-400">
+                              PNG, JPG, WEBP, AVIF up to 10MB
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] font-semibold text-neutral-700">
+                          Primary Image URL
+                        </label>
+                        <input
+                          type="url"
+                          required
+                          value={formData.primaryImage}
+                          onChange={(e) => setFormData({ ...formData, primaryImage: e.target.value })}
+                          placeholder="https://images.unsplash.com/..."
+                          className="w-full border border-neutral-300 p-2 text-xs focus:outline-none focus:border-black font-mono bg-white"
+                        />
+                      </div>
+                    )}
+
+                    {/* Quick Winter Editorial Presets */}
+                    <div className="pt-2 border-t border-neutral-200">
+                      <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block mb-1.5">
+                        Quick Winter Presets (1-Click Change):
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {[
+                          { label: "Nordic Parka", url: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=800" },
+                          { label: "Cocoon Coat", url: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=800" },
+                          { label: "Cashmere Overcoat", url: "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=800" },
+                          { label: "Thermal Shell", url: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=800" },
+                          { label: "Cable Knit", url: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=800" },
+                        ].map((preset) => (
+                          <button
+                            key={preset.label}
+                            type="button"
+                            onClick={() => setFormData({ ...formData, primaryImage: preset.url })}
+                            className={`px-2 py-1 text-[10px] font-mono rounded border transition-colors ${
+                              formData.primaryImage === preset.url
+                                ? "bg-neutral-900 text-white border-neutral-900 font-bold"
+                                : "bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-100"
+                            }`}
+                          >
+                            {preset.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Gallery Angles */}
+                <div className="pt-3 border-t border-neutral-200 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-2xs uppercase text-neutral-700 font-semibold">
+                      Gallery Angles & Detail Views ({formData.galleryImages?.length || 0})
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => galleryFileInputRef.current?.click()}
+                      className="inline-flex items-center space-x-1 text-xs text-neutral-900 font-semibold hover:underline"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add Angle Photo</span>
+                    </button>
+                    <input
+                      ref={galleryFileInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) handleUploadFile(file, true);
+                      }}
+                    />
+                  </div>
+
+                  {formData.galleryImages && formData.galleryImages.length > 0 ? (
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {formData.galleryImages.map((img, idx) => (
+                        <div
+                          key={idx}
+                          className="relative w-16 h-20 rounded bg-neutral-200 overflow-hidden border border-neutral-300 group"
+                        >
+                          <Image
+                            src={img}
+                            alt={`Gallery image ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-1">
+                            <button
+                              type="button"
+                              title="Make Primary Cover"
+                              onClick={() => {
+                                const oldPrimary = formData.primaryImage;
+                                const newGallery = formData.galleryImages.filter((_, i) => i !== idx);
+                                if (oldPrimary) newGallery.unshift(oldPrimary);
+                                setFormData({
+                                  ...formData,
+                                  primaryImage: img,
+                                  galleryImages: newGallery,
+                                });
+                              }}
+                              className="p-1 bg-white text-neutral-900 rounded hover:bg-neutral-100"
+                            >
+                              <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                            </button>
+                            <button
+                              type="button"
+                              title="Delete Photo"
+                              onClick={() => {
+                                setFormData({
+                                  ...formData,
+                                  galleryImages: formData.galleryImages.filter((_, i) => i !== idx),
+                                });
+                              }}
+                              className="p-1 bg-white text-rose-600 rounded hover:bg-neutral-100"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-[11px] text-neutral-400 italic">
+                      No additional angles uploaded. Click &ldquo;Add Angle Photo&rdquo; to add lookbook views.
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
