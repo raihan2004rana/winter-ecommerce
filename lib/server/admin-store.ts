@@ -230,12 +230,22 @@ export interface AdminPartner {
   updatedAt: string;
 }
 
+export interface JournalSection {
+  id: string;
+  title?: string;
+  paragraph?: string;
+  image?: string;
+  imageCaption?: string;
+}
+
 export interface AdminJournalArticle {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
   content?: string;
+  sections?: JournalSection[];
+  galleryImages?: string[];
   category: string;
   readTime: string;
   image: string;
@@ -1178,6 +1188,22 @@ When every piece in your rotation is cut to exacting proportions and neutral mon
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
       isPublished: true,
       order: 1,
+      sections: [
+        {
+          id: "sec-1",
+          title: "The Core Thermal Mid-Layer",
+          paragraph: "Our 450 GSM pure Merino wool knits create a breathable thermal microclimate around the chest and torso. Designed with a high-density ribbed collar to prevent wind entry.",
+          image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Dense 450 GSM cable knit photographed at the St. Moritz design retreat.",
+        },
+        {
+          id: "sec-2",
+          title: "Weather-Sealed Exterior Down Envelopes",
+          paragraph: "Finished in water-repellent Japanese micro-ripstop, filled with certified RDS 800 Fill Power white goose down. Dual-direction YKK Excella zippers ensure smooth movement.",
+          image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Tailored longline down cocoon coat tested in sub-zero alpine conditions.",
+        },
+      ],
     },
     {
       id: "art-2",
@@ -1198,6 +1224,22 @@ Add a shearling-lined collar or throw an unlined cashmere overcoat on top, and y
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
       isPublished: true,
       order: 2,
+      sections: [
+        {
+          id: "sec-3",
+          title: "13.5 oz Raw Japanese Selvedge",
+          paragraph: "Woven on vintage shuttle looms in Okayama, Japan. The tight weave acts as a natural windbreaker while developing personal patina over years of wear.",
+          image: "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Selvedge denim jacket layered with heavyweight charcoal cashmere.",
+        },
+        {
+          id: "sec-4",
+          title: "Shearling Collars & Alpine Boots",
+          paragraph: "Pairing structural denim with Vibram Arctic Grip footwear balances casual metropolitan styling with expedition-level ice safety.",
+          image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Shearling-lined trekking boots with water-sealed storm welt.",
+        },
+      ],
     },
     {
       id: "art-3",
@@ -1220,6 +1262,22 @@ Garments that don't wrinkle in luggage, coats with fleece-lined handwarmer pocke
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12).toISOString(),
       isPublished: true,
       order: 3,
+      sections: [
+        {
+          id: "sec-5",
+          title: "The Belted Cocoon Down Coat",
+          paragraph: "Engineered with storm flaps and microfiber-lined pockets so you can skip gloves on short morning walks between transit stops.",
+          image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Minimalist metropolitan winter silhouette in glacial ivory.",
+        },
+        {
+          id: "sec-6",
+          title: "Arctic Vibram Traction",
+          paragraph: "Trek through slush, wet pavement, and freezing city intersections with deep lugged Vibram Arctic Grip outsoles that stay flexible in freezing cold.",
+          image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Italian calfskin trekking boots with storm welt construction.",
+        },
+      ],
     },
     {
       id: "art-4",
@@ -1240,6 +1298,22 @@ Standard commercial knitwear typically weighs between 200 and 280 grams per squa
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 18).toISOString(),
       isPublished: true,
       order: 4,
+      sections: [
+        {
+          id: "sec-7",
+          title: "Harvesting 14-Micron Underfleece",
+          paragraph: "Sourced through traditional hand-combing during the spring molt. Zero shearing ensures full staple length and prevents fiber breakage.",
+          image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Unbleached Mongolian cashmere ready for spinning in northern Italy.",
+        },
+        {
+          id: "sec-8",
+          title: "Dense 450 GSM Double-Faced Weave",
+          paragraph: "Knitted at half-speed on slow-tension gauges to preserve fiber elasticity and prevent pilling across decades of seasonal wear.",
+          image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&q=85&w=800",
+          imageCaption: "Seamless high-gauge turtleneck tested in Swiss alpine sub-zero conditions.",
+        },
+      ],
     },
   ];
 
@@ -2819,6 +2893,8 @@ export const AdminStore = {
         data.excerpt?.trim() ||
         "Archival notes and styling direction for sub-zero climates.",
       content: data.content || "",
+      sections: data.sections || [],
+      galleryImages: data.galleryImages || [],
       category: data.category?.trim() || "Style guide",
       readTime: data.readTime?.trim() || "5 min read",
       image:

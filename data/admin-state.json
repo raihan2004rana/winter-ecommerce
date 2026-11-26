@@ -1377,7 +1377,7 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4933,
+      "impressions": 4935,
       "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
@@ -1398,7 +1398,7 @@
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
       "isActive": true,
-      "impressions": 12509,
+      "impressions": 12517,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1426,7 +1426,7 @@
       "startDate": "2026-11-25T16:15:56.272Z",
       "endDate": "2026-11-27T16:15:56.272Z",
       "isActive": true,
-      "impressions": 6221,
+      "impressions": 6223,
       "clicks": 1240,
       "countdownTimer": {
         "enabled": true,
@@ -1456,7 +1456,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3450,
+      "impressions": 3452,
       "clicks": 497,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
@@ -1859,7 +1859,23 @@
       "publishedAt": "2026-11-23T08:49:15.548Z",
       "isPublished": true,
       "order": 1,
-      "content": "Winter morning dressing should never feel like a high-friction negotiation with your closet. When temperatures plunge below freezing, the instinct is often to throw on excessive bulk—layer upon layer until silhouettes disappear and natural mobility is compromised.\n\nThe philosophy of a quiet winter wardrobe is radically simple: invest in fewer, exceptional garments that handle thermal regulation naturally. A 450 GSM pure Merino cable knit creates an insulating microclimate around your core, while an 800 Fill Power down parka shields against biting winds without burdensome weight.\n\n### The Foundation of Cold-Weather Layering\n\n1. **Base Layer:** Fine-spun thermal turtlenecks or technical merino tees that pull moisture away from the skin while retaining body heat.\n2. **Thermal Mid-Layer:** Unbrushed Mongolian cashmere or high-pile fleece that traps warm air in microscopic pockets.\n3. **Weatherproof Outer Shell:** Tailored down cocoon coats or 3-layer GORE-grade alpine hard shells that repel freezing rain and mountain snow.\n\nWhen every piece in your rotation is cut to exacting proportions and neutral monochromatic palettes, getting dressed becomes an effortless, confident daily ritual."
+      "content": "Winter morning dressing should never feel like a high-friction negotiation with your closet. When temperatures plunge below freezing, the instinct is often to throw on excessive bulk—layer upon layer until silhouettes disappear and natural mobility is compromised.\n\nThe philosophy of a quiet winter wardrobe is radically simple: invest in fewer, exceptional garments that handle thermal regulation naturally. A 450 GSM pure Merino cable knit creates an insulating microclimate around your core, while an 800 Fill Power down parka shields against biting winds without burdensome weight.\n\n### The Foundation of Cold-Weather Layering\n\n1. **Base Layer:** Fine-spun thermal turtlenecks or technical merino tees that pull moisture away from the skin while retaining body heat.\n2. **Thermal Mid-Layer:** Unbrushed Mongolian cashmere or high-pile fleece that traps warm air in microscopic pockets.\n3. **Weatherproof Outer Shell:** Tailored down cocoon coats or 3-layer GORE-grade alpine hard shells that repel freezing rain and mountain snow.\n\nWhen every piece in your rotation is cut to exacting proportions and neutral monochromatic palettes, getting dressed becomes an effortless, confident daily ritual.",
+      "sections": [
+        {
+          "id": "sec-1",
+          "title": "The Core Thermal Mid-Layer",
+          "paragraph": "Our 450 GSM pure Merino wool knits create a breathable thermal microclimate around the chest and torso. Designed with a high-density ribbed collar to prevent wind entry.",
+          "image": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Dense 450 GSM cable knit photographed at the St. Moritz design retreat."
+        },
+        {
+          "id": "sec-2",
+          "title": "Weather-Sealed Exterior Down Envelopes",
+          "paragraph": "Finished in water-repellent Japanese micro-ripstop, filled with certified RDS 800 Fill Power white goose down. Dual-direction YKK Excella zippers ensure smooth movement.",
+          "image": "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Tailored longline down cocoon coat tested in sub-zero alpine conditions."
+        }
+      ]
     },
     {
       "id": "art-2",
@@ -1873,7 +1889,23 @@
       "publishedAt": "2026-11-19T08:49:15.548Z",
       "isPublished": true,
       "order": 2,
-      "content": "Transitional seasonal weather is notorious for steep temperature swings: crisp 35°F mornings that warm up to 60°F by mid-afternoon. Denim is the ultimate transitional textile—heavy enough to block the wind, yet breathable enough for all-day city movement.\n\n### The Double-Denim Rule for Winter\n\nPairing a raw selvedge jacket over a ribbed merino turtleneck breaks the monotony of traditional winter wools. To prevent feeling stiff, look for 13.5 oz Japanese or Italian denim that has been pre-washed or blended with 1% elastane for unrestricted alpine range of motion.\n\nAdd a shearling-lined collar or throw an unlined cashmere overcoat on top, and you have an architectural look that seamlessly transitions from brisk outdoor strolls to heated gallery interiors."
+      "content": "Transitional seasonal weather is notorious for steep temperature swings: crisp 35°F mornings that warm up to 60°F by mid-afternoon. Denim is the ultimate transitional textile—heavy enough to block the wind, yet breathable enough for all-day city movement.\n\n### The Double-Denim Rule for Winter\n\nPairing a raw selvedge jacket over a ribbed merino turtleneck breaks the monotony of traditional winter wools. To prevent feeling stiff, look for 13.5 oz Japanese or Italian denim that has been pre-washed or blended with 1% elastane for unrestricted alpine range of motion.\n\nAdd a shearling-lined collar or throw an unlined cashmere overcoat on top, and you have an architectural look that seamlessly transitions from brisk outdoor strolls to heated gallery interiors.",
+      "sections": [
+        {
+          "id": "sec-3",
+          "title": "13.5 oz Raw Japanese Selvedge",
+          "paragraph": "Woven on vintage shuttle looms in Okayama, Japan. The tight weave acts as a natural windbreaker while developing personal patina over years of wear.",
+          "image": "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Selvedge denim jacket layered with heavyweight charcoal cashmere."
+        },
+        {
+          "id": "sec-4",
+          "title": "Shearling Collars & Alpine Boots",
+          "paragraph": "Pairing structural denim with Vibram Arctic Grip footwear balances casual metropolitan styling with expedition-level ice safety.",
+          "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Shearling-lined trekking boots with water-sealed storm welt."
+        }
+      ]
     },
     {
       "id": "art-3",
@@ -1887,7 +1919,23 @@
       "publishedAt": "2026-11-14T08:49:15.548Z",
       "isPublished": true,
       "order": 3,
-      "content": "Real life doesn't happen on a catwalk. Between early-morning commutes, airport security lines, client meetings, and evening dinners, what people really need is functional elegance.\n\nGarments that don't wrinkle in luggage, coats with fleece-lined handwarmer pockets, and boots engineered with Vibram Arctic Grip that prevent slipping on black ice.\n\n### Key Pieces for High-Motion Days\n\n- **The Cocoon Coat:** Roomy enough to slip over thick tailoring without shoulder pinch or fabric bunching.\n- **The Seamless Cashmere Knit:** Lightweight, pill-resistant, and breathable under intense office heating.\n- **Waterproof Trekking Boots:** Refined enough for metropolitan streets, rugged enough for unexpected snowdrifts."
+      "content": "Real life doesn't happen on a catwalk. Between early-morning commutes, airport security lines, client meetings, and evening dinners, what people really need is functional elegance.\n\nGarments that don't wrinkle in luggage, coats with fleece-lined handwarmer pockets, and boots engineered with Vibram Arctic Grip that prevent slipping on black ice.\n\n### Key Pieces for High-Motion Days\n\n- **The Cocoon Coat:** Roomy enough to slip over thick tailoring without shoulder pinch or fabric bunching.\n- **The Seamless Cashmere Knit:** Lightweight, pill-resistant, and breathable under intense office heating.\n- **Waterproof Trekking Boots:** Refined enough for metropolitan streets, rugged enough for unexpected snowdrifts.",
+      "sections": [
+        {
+          "id": "sec-5",
+          "title": "The Belted Cocoon Down Coat",
+          "paragraph": "Engineered with storm flaps and microfiber-lined pockets so you can skip gloves on short morning walks between transit stops.",
+          "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Minimalist metropolitan winter silhouette in glacial ivory."
+        },
+        {
+          "id": "sec-6",
+          "title": "Arctic Vibram Traction",
+          "paragraph": "Trek through slush, wet pavement, and freezing city intersections with deep lugged Vibram Arctic Grip outsoles that stay flexible in freezing cold.",
+          "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Italian calfskin trekking boots with storm welt construction."
+        }
+      ]
     },
     {
       "id": "art-4",
@@ -1901,7 +1949,23 @@
       "publishedAt": "2026-11-08T08:49:15.548Z",
       "isPublished": true,
       "order": 4,
-      "content": "High in the Altai Mountains of Mongolia, winter temperatures consistently fall below -40°C. In response to this extreme habitat, the native Capra hircus goats develop a dense, remarkably fine underfleece beneath their coarse outer hair.\n\nEach fiber measures between 14 and 16 microns in diameter—almost six times finer than human hair. When spun into dense 4-ply and 8-ply yarns, this fiber creates millions of microscopic air pockets that trap body heat far more efficiently than standard sheep's wool.\n\n### Crafting 450 GSM Knitwear\n\nStandard commercial knitwear typically weighs between 200 and 280 grams per square meter. At WARDROBE, our heavyweight sweaters are woven at 450 GSM, resulting in garments that drape with substantial presence and resist the biting winds of northern winters without requiring artificial synthetic blends."
+      "content": "High in the Altai Mountains of Mongolia, winter temperatures consistently fall below -40°C. In response to this extreme habitat, the native Capra hircus goats develop a dense, remarkably fine underfleece beneath their coarse outer hair.\n\nEach fiber measures between 14 and 16 microns in diameter—almost six times finer than human hair. When spun into dense 4-ply and 8-ply yarns, this fiber creates millions of microscopic air pockets that trap body heat far more efficiently than standard sheep's wool.\n\n### Crafting 450 GSM Knitwear\n\nStandard commercial knitwear typically weighs between 200 and 280 grams per square meter. At WARDROBE, our heavyweight sweaters are woven at 450 GSM, resulting in garments that drape with substantial presence and resist the biting winds of northern winters without requiring artificial synthetic blends.",
+      "sections": [
+        {
+          "id": "sec-7",
+          "title": "Harvesting 14-Micron Underfleece",
+          "paragraph": "Sourced through traditional hand-combing during the spring molt. Zero shearing ensures full staple length and prevents fiber breakage.",
+          "image": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Unbleached Mongolian cashmere ready for spinning in northern Italy."
+        },
+        {
+          "id": "sec-8",
+          "title": "Dense 450 GSM Double-Faced Weave",
+          "paragraph": "Knitted at half-speed on slow-tension gauges to preserve fiber elasticity and prevent pilling across decades of seasonal wear.",
+          "image": "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&q=85&w=800",
+          "imageCaption": "Seamless high-gauge turtleneck tested in Swiss alpine sub-zero conditions."
+        }
+      ]
     }
   ]
 }

@@ -17,7 +17,19 @@ import {
   Clock,
   Tag,
   ArrowUpRight,
+  Upload,
+  ImageIcon,
+  Layers,
+  FileText,
 } from "lucide-react";
+
+interface JournalSection {
+  id: string;
+  title?: string;
+  paragraph?: string;
+  image?: string;
+  imageCaption?: string;
+}
 
 interface JournalArticle {
   id: string;
@@ -25,6 +37,8 @@ interface JournalArticle {
   title: string;
   excerpt: string;
   content?: string;
+  sections?: JournalSection[];
+  galleryImages?: string[];
   category: string;
   readTime: string;
   image: string;
@@ -32,6 +46,133 @@ interface JournalArticle {
   publishedAt: string;
   isPublished: boolean;
   order: number;
+}
+
+function ImageUploadField({
+  label,
+  value,
+  onChange,
+  folder = "journal",
+  required = false,
+  helperText = "Upload directly from your device or paste a public web image URL",
+}: {
+  label: string;
+  value: string;
+  onChange: (url: string) => void;
+  folder?: string;
+  required?: boolean;
+  helperText?: string;
+}) {
+  const [uploading, setUploading] = React.useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("folder", folder);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: fd,
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await res.json();
+      if (data && data.url) {
+        onChange(data.url);
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      alert("Failed to upload image from device.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+          {label} {required && "*"}
+        </label>
+        <span className="text-[11px] text-neutral-400">Device Upload or Web URL</span>
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-2">
+        <div className="relative flex-1">
+          <input
+            type="text"
+            required={required && !value}
+            placeholder="/images/wardrobe/... or https://..."
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+          />
+        </div>
+
+        {/* Hidden File Input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+
+        {/* Device Upload Trigger Button */}
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+          className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-semibold rounded-md border border-neutral-300 transition-colors shrink-0 disabled:opacity-50"
+        >
+          {uploading ? (
+            <>
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              <span>Uploading...</span>
+            </>
+          ) : (
+            <>
+              <Upload className="w-3.5 h-3.5" />
+              <span>Upload From Device</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      <p className="text-[11px] text-neutral-400">{helperText}</p>
+
+      {/* Preview Card */}
+      {value && (
+        <div className="relative h-32 w-full rounded-md overflow-hidden border border-neutral-200 bg-neutral-50 group">
+          <Image
+            src={value}
+            alt="Uploaded Preview"
+            fill
+            unoptimized
+            className="object-cover"
+          />
+          <button
+            type="button"
+            onClick={() => onChange("")}
+            className="absolute top-2 right-2 p-1 bg-black/70 hover:bg-black text-white rounded-full transition-colors opacity-90 group-hover:opacity-100"
+            title="Remove image"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function AdminJournalPage() {
@@ -46,7 +187,18 @@ export default function AdminJournalPage() {
   const [successToast, setSuccessToast] = React.useState<string | null>(null);
 
   // Form State
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<{
+    title: string;
+    slug: string;
+    excerpt: string;
+    content: string;
+    category: string;
+    readTime: string;
+    image: string;
+    author: string;
+    isPublished: boolean;
+    sections: JournalSection[];
+  }>({
     title: "",
     slug: "",
     excerpt: "",
@@ -56,6 +208,7 @@ export default function AdminJournalPage() {
     image: "",
     author: "WARDROBE Editorial",
     isPublished: true,
+    sections: [],
   });
 
   const fetchArticles = React.useCallback(async () => {
@@ -101,6 +254,7 @@ export default function AdminJournalPage() {
       image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=800",
       author: "WARDROBE Editorial",
       isPublished: true,
+      sections: [],
     });
     setErrorMsg(null);
     setIsModalOpen(true);
@@ -118,9 +272,43 @@ export default function AdminJournalPage() {
       image: article.image,
       author: article.author || "WARDROBE Editorial",
       isPublished: article.isPublished,
+      sections: article.sections ? JSON.parse(JSON.stringify(article.sections)) : [],
     });
     setErrorMsg(null);
     setIsModalOpen(true);
+  };
+
+  // Section handling
+  const addSection = () => {
+    setFormData((prev) => ({
+      ...prev,
+      sections: [
+        ...prev.sections,
+        {
+          id: `sec-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          title: "",
+          paragraph: "",
+          image: "",
+          imageCaption: "",
+        },
+      ],
+    }));
+  };
+
+  const updateSection = (index: number, updates: Partial<JournalSection>) => {
+    setFormData((prev) => {
+      const next = [...prev.sections];
+      next[index] = { ...next[index], ...updates };
+      return { ...prev, sections: next };
+    });
+  };
+
+  const removeSection = (index: number) => {
+    setFormData((prev) => {
+      const next = [...prev.sections];
+      next.splice(index, 1);
+      return { ...prev, sections: next };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -225,14 +413,14 @@ export default function AdminJournalPage() {
         <div>
           <div className="flex items-center space-x-3 mb-1">
             <h1 className="text-2xl font-bold tracking-tight text-neutral-900">
-              Journal & Editorial Stories
+              Journal &amp; Editorial Stories
             </h1>
             <span className="text-xs bg-neutral-100 text-neutral-600 px-2.5 py-0.5 rounded-full font-mono border border-neutral-200">
               {articles.length} Stories
             </span>
           </div>
           <p className="text-sm text-neutral-500">
-            Publish styling guides, editorial lookbooks, and winter wardrobe guides visible in the storefront mega menu.
+            Publish styling guides, multiple images, and winter wardrobe lookbooks from your device or web URLs.
           </p>
         </div>
 
@@ -359,7 +547,12 @@ export default function AdminJournalPage() {
                     className="object-cover group-hover:scale-104 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute top-3 right-3">
+                  <div className="absolute top-3 right-3 flex items-center space-x-1.5">
+                    {article.sections && article.sections.length > 0 && (
+                      <span className="text-2xs font-mono bg-white/90 text-neutral-800 px-2 py-0.5 rounded-full font-semibold shadow-xs">
+                        +{article.sections.length} Photos
+                      </span>
+                    )}
                     <button
                       onClick={() => togglePublish(article)}
                       className={`text-2xs font-semibold px-2 py-0.5 rounded-full flex items-center space-x-1 shadow-sm backdrop-blur-sm transition-colors ${
@@ -432,10 +625,10 @@ export default function AdminJournalPage() {
         </div>
       )}
 
-      {/* Create / Edit Modal */}
+      {/* Create / Edit Modal (Wide 4-Column Layout for Multi-Image Builder) */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="bg-white rounded-lg border border-neutral-200 shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95">
+          <div className="bg-white rounded-lg border border-neutral-200 shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-neutral-50 sticky top-0 z-10">
               <div className="flex items-center space-x-2.5">
                 <div className="w-8 h-8 rounded-md bg-neutral-900 text-white flex items-center justify-center">
@@ -446,7 +639,7 @@ export default function AdminJournalPage() {
                     {editingArticle ? "Edit Journal Story" : "Create New Journal Story"}
                   </h3>
                   <p className="text-[11px] text-neutral-500">
-                    Displayed in storefront Journal navigation and homepage
+                    Upload photos directly from your device, add multiple image sections, and compose editorial articles
                   </p>
                 </div>
               </div>
@@ -458,7 +651,7 @@ export default function AdminJournalPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {errorMsg && (
                 <div className="p-3 rounded-md bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center space-x-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
@@ -466,124 +659,248 @@ export default function AdminJournalPage() {
                 </div>
               )}
 
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                  Story Title *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Building a quiet winter wardrobe"
-                  value={formData.title}
-                  onChange={(e) => handleTitleChange(e.target.value)}
-                  className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-                />
-              </div>
+              {/* Basic Metadata */}
+              <div className="space-y-4">
+                <h4 className="text-xs font-mono uppercase tracking-wider font-bold text-neutral-900 border-b pb-1">
+                  1. Story Metadata
+                </h4>
 
-              <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                    Category Tag
-                  </label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
-                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-                  >
-                    <option value="Style guide">Style guide</option>
-                    <option value="How to wear">How to wear</option>
-                    <option value="Lifestyle">Lifestyle</option>
-                    <option value="Material craft">Material craft</option>
-                    <option value="Lookbook">Lookbook</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                    Read Time
+                    Story Title *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. 5 min read"
-                    value={formData.readTime}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, readTime: e.target.value }))}
+                    placeholder="e.g. Building a quiet winter wardrobe"
+                    value={formData.title}
+                    onChange={(e) => handleTitleChange(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                  URL Slug
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-mono">
-                    /journal/
-                  </span>
-                  <input
-                    type="text"
-                    required
-                    placeholder="building-a-quiet-winter-wardrobe"
-                    value={formData.slug}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
-                    className="w-full pl-20 pr-3 py-2 text-xs bg-white border border-neutral-300 rounded-md font-mono text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-                  />
-                </div>
-              </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Category Tag
+                    </label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
+                      className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    >
+                      <option value="Style guide">Style guide</option>
+                      <option value="How to wear">How to wear</option>
+                      <option value="Lifestyle">Lifestyle</option>
+                      <option value="Material craft">Material craft</option>
+                      <option value="Lookbook">Lookbook</option>
+                    </select>
+                  </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                  Short Excerpt *
-                </label>
-                <textarea
-                  rows={2}
-                  required
-                  placeholder="Fewer pieces, warmer layers, and coats that do more than one job."
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                  Full Story Content / Article Body
-                </label>
-                <textarea
-                  rows={6}
-                  placeholder="Write the full editorial article here. Markdown headings (###), paragraphs, bullet points, and tips are supported."
-                  value={formData.content}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-mono bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900 leading-relaxed"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
-                  Cover Photo Image URL *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="/images/wardrobe/AFa3pXi6rgIjU1cTtgBzlijk5o.jpg or https://..."
-                  value={formData.image}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, image: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-                />
-                {formData.image && (
-                  <div className="mt-2 relative h-28 w-full rounded-md overflow-hidden border border-neutral-200">
-                    <Image
-                      src={formData.image}
-                      alt="Story Preview"
-                      fill
-                      unoptimized
-                      className="object-cover"
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Read Time
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. 5 min read"
+                      value={formData.readTime}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, readTime: e.target.value }))}
+                      className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                      Author / Byline
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Elena Rostova"
+                      value={formData.author}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, author: e.target.value }))}
+                      className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    URL Slug
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-mono">
+                      /journal/
+                    </span>
+                    <input
+                      type="text"
+                      required
+                      placeholder="building-a-quiet-winter-wardrobe"
+                      value={formData.slug}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
+                      className="w-full pl-20 pr-3 py-2 text-xs bg-white border border-neutral-300 rounded-md font-mono text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    Short Excerpt / Lead Summary *
+                  </label>
+                  <textarea
+                    rows={2}
+                    required
+                    placeholder="Fewer pieces, warmer layers, and coats that do more than one job."
+                    value={formData.excerpt}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
+                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                </div>
+              </div>
+
+              {/* Main Cover Image with Device Upload */}
+              <div className="space-y-4 pt-2">
+                <h4 className="text-xs font-mono uppercase tracking-wider font-bold text-neutral-900 border-b pb-1">
+                  2. Hero Cover Photo
+                </h4>
+
+                <ImageUploadField
+                  label="Cover Photo"
+                  value={formData.image}
+                  onChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+                  folder="journal"
+                  required
+                  helperText="Upload high-res JPG/PNG from your computer or provide a direct web image link"
+                />
+              </div>
+
+              {/* Opening Story Content */}
+              <div className="space-y-4 pt-2">
+                <h4 className="text-xs font-mono uppercase tracking-wider font-bold text-neutral-900 border-b pb-1">
+                  3. Opening Narrative &amp; Main Body
+                </h4>
+
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1">
+                    Story Introduction / Body Text
+                  </label>
+                  <textarea
+                    rows={5}
+                    placeholder="Write the introduction or full story. Markdown headings (###), paragraphs, and bullet points are cleanly formatted."
+                    value={formData.content}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
+                    className="w-full px-3 py-2 text-xs font-sans bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* MULTIPLE IMAGE & STORY SECTIONS (User Request: 1tar beshi image + information title + paragraph) */}
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center justify-between border-b pb-2">
+                  <div>
+                    <h4 className="text-xs font-mono uppercase tracking-wider font-bold text-neutral-900">
+                      4. Additional Image &amp; Story Sections ({formData.sections.length} Added)
+                    </h4>
+                    <p className="text-[11px] text-neutral-500">
+                      Add multiple photos interspersed with section headings, photography captions, and narrative paragraphs.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={addSection}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold rounded-md shadow-xs transition-colors shrink-0"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Photo &amp; Text Section</span>
+                  </button>
+                </div>
+
+                {formData.sections.length === 0 ? (
+                  <div className="p-6 border border-dashed border-neutral-300 rounded-md text-center bg-neutral-50/50">
+                    <ImageIcon className="w-8 h-8 text-neutral-400 mx-auto mb-2" />
+                    <p className="text-xs font-medium text-neutral-700">No additional photo sections yet</p>
+                    <p className="text-[11px] text-neutral-500 mt-0.5">
+                      Click the &ldquo;Add Photo &amp; Text Section&rdquo; button above to add secondary images, titles, and paragraphs.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {formData.sections.map((sec, idx) => (
+                      <div
+                        key={sec.id || idx}
+                        className="p-4 bg-neutral-50 border border-neutral-200 rounded-md space-y-3 relative group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-mono font-bold text-neutral-800">
+                            Section #{idx + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => removeSection(idx)}
+                            className="text-xs text-rose-600 hover:text-rose-800 flex items-center space-x-1 font-semibold"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            <span>Remove Section</span>
+                          </button>
+                        </div>
+
+                        <div>
+                          <label className="block text-2xs font-semibold text-neutral-600 uppercase tracking-wider mb-1">
+                            Section Subheading / Title
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="e.g. The Core Thermal Mid-Layer"
+                            value={sec.title || ""}
+                            onChange={(e) => updateSection(idx, { title: e.target.value })}
+                            className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                          />
+                        </div>
+
+                        {/* Section Image with Device Upload */}
+                        <ImageUploadField
+                          label={`Section #${idx + 1} Image`}
+                          value={sec.image || ""}
+                          onChange={(url) => updateSection(idx, { image: url })}
+                          folder="journal"
+                          helperText="Upload image for this specific section from your device or paste URL"
+                        />
+
+                        <div>
+                          <label className="block text-2xs font-semibold text-neutral-600 uppercase tracking-wider mb-1">
+                            Image Caption / Styling Note
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Dense 450 GSM cable knit photographed in the Swiss Alps."
+                            value={sec.imageCaption || ""}
+                            onChange={(e) => updateSection(idx, { imageCaption: e.target.value })}
+                            className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-2xs font-semibold text-neutral-600 uppercase tracking-wider mb-1">
+                            Section Story Paragraph
+                          </label>
+                          <textarea
+                            rows={3}
+                            placeholder="Explain the textile craft, styling suggestions, or details shown in the photo above."
+                            value={sec.paragraph || ""}
+                            onChange={(e) => updateSection(idx, { paragraph: e.target.value })}
+                            className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-md text-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900 leading-relaxed"
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
 
-              <div className="flex items-center space-x-2 pt-2">
+              {/* Publish Toggle */}
+              <div className="flex items-center space-x-2 pt-2 border-t">
                 <input
                   type="checkbox"
                   id="isPublished"
@@ -596,6 +913,7 @@ export default function AdminJournalPage() {
                 </label>
               </div>
 
+              {/* Footer Save Actions */}
               <div className="flex items-center justify-end space-x-3 pt-4 border-t border-neutral-200">
                 <button
                   type="button"
@@ -607,10 +925,10 @@ export default function AdminJournalPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center space-x-2 px-5 py-2 bg-neutral-900 hover:bg-neutral-800 disabled:opacity-50 text-white text-xs font-semibold uppercase tracking-wider rounded-md transition-colors shadow-sm"
+                  className="inline-flex items-center space-x-2 px-6 py-2 bg-neutral-900 hover:bg-neutral-800 disabled:opacity-50 text-white text-xs font-semibold uppercase tracking-wider rounded-md transition-colors shadow-sm"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  <span>{saving ? "Saving..." : editingArticle ? "Save Changes" : "Create Story"}</span>
+                  <span>{saving ? "Saving..." : editingArticle ? "Save All Changes" : "Create Story"}</span>
                 </button>
               </div>
             </form>

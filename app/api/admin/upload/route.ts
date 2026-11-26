@@ -6,7 +6,12 @@ import { getAdminSessionFromRequest, hasPermission } from "@/lib/server/admin-au
 export async function POST(request: NextRequest) {
   try {
     const session = getAdminSessionFromRequest(request);
-    if (!hasPermission(session.role, "products:write")) {
+    const canUpload =
+      hasPermission(session.role, "products:write") ||
+      hasPermission(session.role, "categories:write") ||
+      hasPermission(session.role, "campaigns:write");
+
+    if (!canUpload) {
       return NextResponse.json(
         { status: "fail", message: "Forbidden: insufficient permissions." },
         { status: 403 }
@@ -15,6 +20,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
+    const folder = (formData.get("folder") as string) || "uploads";
 
     if (!file) {
       return NextResponse.json(
@@ -26,8 +32,9 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Target directory: public/images/products
-    const uploadDir = path.join(process.cwd(), "public", "images", "products");
+    // Target directory: public/images/{folder}
+    const safeFolder = folder.replace(/[^a-z0-9_-]/gi, "");
+    const uploadDir = path.join(process.cwd(), "public", "images", safeFolder || "uploads");
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
@@ -39,12 +46,12 @@ export async function POST(request: NextRequest) {
       .toLowerCase()
       .replace(/[^a-z0-9]/g, "-")
       .replace(/-+/g, "-");
-    const uniqueFileName = `${baseName || "product"}-${Date.now()}${ext.toLowerCase()}`;
+    const uniqueFileName = `${baseName || "asset"}-${Date.now()}${ext.toLowerCase()}`;
     const filePath = path.join(uploadDir, uniqueFileName);
 
     fs.writeFileSync(filePath, buffer);
 
-    const publicUrl = `/images/products/${uniqueFileName}`;
+    const publicUrl = `/images/${safeFolder || "uploads"}/${uniqueFileName}`;
 
     return NextResponse.json({
       status: "success",
