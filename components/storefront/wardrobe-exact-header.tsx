@@ -7,6 +7,7 @@ import { useInternationalStore } from "@/lib/international/i18n";
 import { getCountryConfig } from "@/lib/international/countries";
 import { InternationalSelectorModal } from "./international-selector-modal";
 import { InternationalShippingModal } from "./international-shipping-modal";
+import { useFlyToCart } from "./fly-to-cart-provider";
 
 interface WardrobeExactHeaderProps {
   cartCount: number;
@@ -25,6 +26,7 @@ export function WardrobeExactHeader({
 
   const { country, currency, language, t } = useInternationalStore();
   const currentConfig = getCountryConfig(country);
+  const { isCartBouncing } = useFlyToCart();
 
   return (
     <>
@@ -116,8 +118,13 @@ export function WardrobeExactHeader({
 
             {/* Black Pill: Cart (Count) */}
             <button
+              id="storefront-cart-button"
               onClick={onOpenCart}
-              className="bg-[#111111] hover:bg-black text-white px-4 py-1.5 rounded-full text-xs font-mono font-medium tracking-tight flex items-center space-x-1.5 transition-transform hover:scale-104 shadow-xs"
+              className={`bg-[#111111] hover:bg-black text-white px-4 py-1.5 rounded-full text-xs font-mono font-medium tracking-tight flex items-center space-x-1.5 transition-all shadow-xs ${
+                isCartBouncing
+                  ? "animate-cart-bounce ring-2 ring-emerald-500 bg-black"
+                  : "hover:scale-104"
+              }`}
               aria-label="Shopping Cart"
             >
               <ShoppingBag className="h-3.5 w-3.5" />

@@ -17,6 +17,7 @@ import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer, CartItem } from "@/components/storefront/mini-cart-drawer";
 import { Product, PRODUCTS_CATALOG } from "@/data/products";
 import { useCartStore } from "@/lib/store/cart-store";
+import { FlyToCartProvider } from "@/components/storefront/fly-to-cart-provider";
 
 export default function StorefrontHomePage() {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
@@ -92,7 +93,11 @@ export default function StorefrontHomePage() {
         },
       ];
     });
-    setIsCartOpen(true);
+
+    // Open side cart drawer right after the flying thumbnail lands in header cart
+    setTimeout(() => {
+      setIsCartOpen(true);
+    }, 680);
   };
 
   const handleUpdateQuantity = (id: string, delta: number) => {
@@ -114,80 +119,82 @@ export default function StorefrontHomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#111] font-sans selection:bg-[#111] selection:text-white">
-      {/* Top Announcement Bar (Live Marketing Campaign with Coupon & Real-time Tracking) */}
-      <WardrobeAnnouncementBar />
+    <FlyToCartProvider>
+      <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#111] font-sans selection:bg-[#111] selection:text-white">
+        {/* Top Announcement Bar (Live Marketing Campaign with Coupon & Real-time Tracking) */}
+        <WardrobeAnnouncementBar />
 
-      {/* 1. Header (WARDROBE logo, Women, Men, Journal, About, Cart Pill) */}
-      <WardrobeExactHeader
-        cartCount={totalCartCount}
-        onOpenCart={() => setIsCartOpen(true)}
-        onOpenSearch={() => setIsSearchOpen(true)}
-      />
-
-      {/* Interactive Search Modal */}
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        currency="USD"
-        onSelectProduct={(p) => handleAddToCart(p, p.sizes[0] || "M")}
-      />
-
-      {/* Slide-Over Cart Drawer */}
-      <MiniCartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        currency="USD"
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />
-
-      <main className="flex-1">
-        {/* 2. Hero Section: "Designed for colder days" Hoodie Rack Banner */}
-        <WardrobeExactHero />
-
-        {/* 2.5 Partners Marquee Section: Famous Innovation & Retail Partners Auto-Slider */}
-        <WardrobeExactPartners />
-
-        {/* 3. Section 2: Best sellers (Winter Down Parkas & Heavy Outerwear) */}
-        <WardrobeExactBestSellers
-          title="Best sellers"
-          subtitle="Curated winter down outerwear, insulated shells & weather protection."
-          items={products.slice(0, 4)}
-          startIndex={0}
-          count={4}
-          onAddToCart={handleAddToCart}
+        {/* 1. Header (WARDROBE logo, Women, Men, Journal, About, Cart Pill) */}
+        <WardrobeExactHeader
+          cartCount={totalCartCount}
+          onOpenCart={() => setIsCartOpen(true)}
+          onOpenSearch={() => setIsSearchOpen(true)}
         />
 
-        {/* 4. Section 3: Shop by category (50/50 Split Women & Men with red tags) */}
-        <WardrobeExactCategories />
-
-        {/* 5. Section 4: Second Best sellers collection row (Winter Essentials & Knitwear) */}
-        <WardrobeExactBestSellers
-          title="Winter Essentials"
-          subtitle="Merino knitwear, thermal fleece hoodies, trekking boots & accessories."
-          items={products.slice(4, 8)}
-          startIndex={4}
-          count={4}
-          onAddToCart={handleAddToCart}
+        {/* Interactive Search Modal */}
+        <SearchModal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          currency="USD"
+          onSelectProduct={(p) => handleAddToCart(p, p.sizes[0] || "M")}
         />
 
-        {/* 6. Section 5: As seen on you (Coverflow / 3D Fan Carousel) */}
-        <WardrobeExactUgc />
+        {/* Slide-Over Cart Drawer */}
+        <MiniCartDrawer
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          currency="USD"
+          items={cartItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+        />
 
-        {/* 7. Section 6: Black Friday deals are live (50/50 Split Promo + Digital Timer) */}
-        <WardrobeExactPromo />
+        <main className="flex-1">
+          {/* 2. Hero Section: "Designed for colder days" Hoodie Rack Banner */}
+          <WardrobeExactHero />
 
-        {/* 8. Section 7: Get dressed, feel better (3-Column Journal Articles) */}
-        <WardrobeExactJournal />
+          {/* 2.5 Partners Marquee Section: Famous Innovation & Retail Partners Auto-Slider */}
+          <WardrobeExactPartners />
 
-        {/* 9. Section 8: Follow us on Instagram (4-Column Photo Grid) */}
-        <WardrobeExactInstagram />
-      </main>
+          {/* 3. Section 2: Best sellers (Winter Down Parkas & Heavy Outerwear) */}
+          <WardrobeExactBestSellers
+            title="Best sellers"
+            subtitle="Curated winter down outerwear, insulated shells & weather protection."
+            items={products.slice(0, 4)}
+            startIndex={0}
+            count={4}
+            onAddToCart={handleAddToCart}
+          />
 
-      {/* 10. Footer (3 Guarantee Pillars + WARDROBE Newsletter, Links & Payments) */}
-      <WardrobeExactFooter />
-    </div>
+          {/* 4. Section 3: Shop by category (50/50 Split Women & Men with red tags) */}
+          <WardrobeExactCategories />
+
+          {/* 5. Section 4: Second Best sellers collection row (Winter Essentials & Knitwear) */}
+          <WardrobeExactBestSellers
+            title="Winter Essentials"
+            subtitle="Merino knitwear, thermal fleece hoodies, trekking boots & accessories."
+            items={products.slice(4, 8)}
+            startIndex={4}
+            count={4}
+            onAddToCart={handleAddToCart}
+          />
+
+          {/* 6. Section 5: As seen on you (Coverflow / 3D Fan Carousel) */}
+          <WardrobeExactUgc />
+
+          {/* 7. Section 6: Black Friday deals are live (50/50 Split Promo + Digital Timer) */}
+          <WardrobeExactPromo />
+
+          {/* 8. Section 7: Get dressed, feel better (3-Column Journal Articles) */}
+          <WardrobeExactJournal />
+
+          {/* 9. Section 8: Follow us on Instagram (4-Column Photo Grid) */}
+          <WardrobeExactInstagram />
+        </main>
+
+        {/* 10. Footer (3 Guarantee Pillars + WARDROBE Newsletter, Links & Payments) */}
+        <WardrobeExactFooter />
+      </div>
+    </FlyToCartProvider>
   );
 }

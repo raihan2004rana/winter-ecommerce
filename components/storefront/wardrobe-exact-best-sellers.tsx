@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Check, ShoppingBag } from "lucide-react";
 import { Product, PRODUCTS_CATALOG } from "@/data/products";
+import { useFlyToCart } from "./fly-to-cart-provider";
 
 interface WardrobeExactBestSellersProps {
   title?: string;
@@ -26,6 +27,7 @@ export function WardrobeExactBestSellers({
   onAddToCart,
 }: WardrobeExactBestSellersProps) {
   const [added, setAdded] = React.useState<string | null>(null);
+  const { triggerFlyToCart } = useFlyToCart();
 
   // Use passed items or slice from catalog
   const displayProducts = items || PRODUCTS_CATALOG.slice(startIndex, startIndex + count);
@@ -33,6 +35,15 @@ export function WardrobeExactBestSellers({
   const handleAdd = (product: Product, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // Trigger luxurious fly-to-cart animation directly from card image
+    const card = (e.currentTarget as HTMLElement).closest(".group");
+    const imgEl = card?.querySelector("img");
+    triggerFlyToCart(
+      product.primaryImage,
+      (imgEl as HTMLElement) || (e.currentTarget as HTMLElement)
+    );
+
     if (onAddToCart) {
       onAddToCart(product, product.sizes[0] || "M");
       setAdded(product.id);
