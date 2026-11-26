@@ -166,6 +166,16 @@ export function WardrobeExactHeader({
   // Dynamic mega menu categories from Admin
   const [womenCategories, setWomenCategories] = React.useState<CategoryItem[]>(DEFAULT_WOMEN_CATEGORIES);
   const [menCategories, setMenCategories] = React.useState<CategoryItem[]>(DEFAULT_MEN_CATEGORIES);
+  const [womenFeatured, setWomenFeatured] = React.useState({
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800",
+    title: "The Sub-Zero Metropolitan Silhouette",
+    description: "Pure Mongolian cashmere turtlenecks, belted cocoon down coats, and arctic Vibram footwear.",
+  });
+  const [menFeatured, setMenFeatured] = React.useState({
+    image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=800",
+    title: "Nordic Expedition Down & Alpine Shells",
+    description: "800 Fill Power goose down parkas, 3-layer waterproof hard shells, and heavy cable knits.",
+  });
 
   const { country, currency, language, t } = useInternationalStore();
   const currentConfig = getCountryConfig(country);
@@ -183,9 +193,9 @@ export function WardrobeExactHeader({
       .catch(() => {});
   }, []);
 
-  // Load live categories from server
-  React.useEffect(() => {
-    fetch("/api/categories")
+  // Load live categories from server with no-cache
+  const loadCategories = React.useCallback(() => {
+    fetch(`/api/categories?t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((resData) => {
         if (resData && resData.status === "success" && Array.isArray(resData.data)) {
@@ -214,6 +224,18 @@ export function WardrobeExactHeader({
             );
           }
 
+          // Women main / featured card
+          const womenMain = list.find((c) => c.slug === "women");
+          if (womenMain && womenMain.image) {
+            setWomenFeatured({
+              image: womenMain.image || womenMain.imageUrl,
+              title: womenMain.name || "The Sub-Zero Metropolitan Silhouette",
+              description:
+                womenMain.description ||
+                "Pure Mongolian cashmere turtlenecks, belted cocoon down coats, and arctic Vibram footwear.",
+            });
+          }
+
           // Men subcategories
           const menSpecific = list.filter((c) => c.gender === "men" && c.slug !== "men");
           if (menSpecific.length > 0) {
@@ -236,14 +258,33 @@ export function WardrobeExactHeader({
               }))
             );
           }
+
+          // Men main / featured card
+          const menMain = list.find((c) => c.slug === "men");
+          if (menMain && menMain.image) {
+            setMenFeatured({
+              image: menMain.image || menMain.imageUrl,
+              title: menMain.name || "Nordic Expedition Down & Alpine Shells",
+              description:
+                menMain.description ||
+                "800 Fill Power goose down parkas, 3-layer waterproof hard shells, and heavy cable knits.",
+            });
+          }
         }
       })
       .catch((err) => console.error("Failed to load header categories:", err));
   }, []);
 
+  React.useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
+
   const handleMouseEnter = (menu: "women" | "men" | "journal") => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setActiveMenu(menu);
+    if (menu === "women" || menu === "men") {
+      loadCategories();
+    }
   };
 
   const handleMouseLeave = () => {
@@ -493,7 +534,7 @@ export function WardrobeExactHeader({
                   <div className="col-span-4 pl-4 border-l border-neutral-100 flex flex-col justify-between">
                     <div className="relative aspect-[16/10] w-full rounded-md overflow-hidden bg-neutral-100 mb-4 group">
                       <Image
-                        src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800"
+                        src={womenFeatured.image}
                         alt="Women Lookbook"
                         fill
                         unoptimized
@@ -506,14 +547,14 @@ export function WardrobeExactHeader({
                           Lookbook Editorial
                         </span>
                         <h4 className="text-sm font-editorial font-normal mt-0.5 leading-snug">
-                          The Sub-Zero Metropolitan Silhouette
+                          {womenFeatured.title}
                         </h4>
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <p className="text-xs text-neutral-500 leading-relaxed">
-                        Pure Mongolian cashmere turtlenecks, belted cocoon down coats, and arctic Vibram footwear.
+                        {womenFeatured.description}
                       </p>
                       <Link
                         href="/collections/women"
@@ -593,7 +634,7 @@ export function WardrobeExactHeader({
                   <div className="col-span-4 pl-4 border-l border-neutral-100 flex flex-col justify-between">
                     <div className="relative aspect-[16/10] w-full rounded-md overflow-hidden bg-neutral-100 mb-4 group">
                       <Image
-                        src="https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=800"
+                        src={menFeatured.image}
                         alt="Men Lookbook"
                         fill
                         unoptimized
@@ -606,14 +647,14 @@ export function WardrobeExactHeader({
                           Tested At -30°C
                         </span>
                         <h4 className="text-sm font-editorial font-normal mt-0.5 leading-snug">
-                          Nordic Expedition Down & Alpine Shells
+                          {menFeatured.title}
                         </h4>
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <p className="text-xs text-neutral-500 leading-relaxed">
-                        800 Fill Power goose down parkas, 3-layer waterproof hard shells, and heavy cable knits.
+                        {menFeatured.description}
                       </p>
                       <Link
                         href="/collections/men"

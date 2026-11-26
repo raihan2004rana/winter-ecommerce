@@ -691,7 +691,7 @@
       "name": "Boots & Accessories",
       "slug": "women-boots",
       "description": "Shearling-lined alpine boots, cashmere beanies & scarves",
-      "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=600",
+      "image": "/images/categories/boots-accessories1-1795687765848.jpg",
       "productCount": 3,
       "gender": "women",
       "featured": true,
@@ -703,7 +703,7 @@
       "name": "Winter Essentials",
       "slug": "women-essentials",
       "description": "Curated metropolitan silhouettes designed for extreme cold",
-      "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=600",
+      "image": "/images/categories/winter-essentials-1795687811427.webp",
       "productCount": 6,
       "gender": "women",
       "featured": true,
@@ -727,7 +727,7 @@
       "name": "Expedition Parkas & Shells",
       "slug": "men-parkas",
       "description": "800 Fill Power down parkas & 3-layer GORE hard shells",
-      "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=600",
+      "image": "/images/categories/expedition-parkas-shells-1795687926592.webp",
       "productCount": 5,
       "gender": "men",
       "featured": true,
@@ -739,7 +739,7 @@
       "name": "Merino Knits & Fleece",
       "slug": "men-fleece",
       "description": "Heavyweight cable knits & Polartec thermal hoodies",
-      "image": "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=80&w=600",
+      "image": "/images/categories/merino-knits-fleece-1795688016981.webp",
       "productCount": 4,
       "gender": "men",
       "featured": true,
@@ -751,7 +751,7 @@
       "name": "Alpine Boots & Gloves",
       "slug": "men-boots",
       "description": "Vibram Arctic Grip trekking boots & PrimaLoft gloves",
-      "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=80&w=600",
+      "image": "/images/categories/alpine-boots-gloves1-1795688108024.avif",
       "productCount": 3,
       "gender": "men",
       "featured": true,
@@ -763,7 +763,7 @@
       "name": "Technical Alpine Systems",
       "slug": "men-systems",
       "description": "Rugged performance layering engineered for sub-zero climates",
-      "image": "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&q=80&w=600",
+      "image": "/images/categories/technical-alpine-systems-1795688185219.webp",
       "productCount": 6,
       "gender": "men",
       "featured": true,
@@ -775,7 +775,7 @@
       "name": "Men Technical Collection",
       "slug": "men",
       "description": "Technical alpine insulation and rugged performance layering.",
-      "image": "/images/categories/thermal-insulated-shell-coat1-1795685601754.avif",
+      "image": "/images/categories/technical-collection-1795688234744.webp",
       "productCount": 6,
       "gender": "men",
       "featured": true,
@@ -1239,6 +1239,106 @@
   ],
   "auditLogs": [
     {
+      "id": "log-1795688890167",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-003",
+      "details": "Updated campaign \"Black Friday Sub-Zero Outerwear Flash Sale\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:28:10.167Z"
+    },
+    {
+      "id": "log-1795688770075",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Journal Article Updated",
+      "entity": "Journal",
+      "entityId": "art-4",
+      "details": "Updated journal story \"Sub-zero thermal craft & Mongolian cashmere\".",
+      "createdAt": "2026-11-26T10:26:10.075Z"
+    },
+    {
+      "id": "log-1795688235845",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-5",
+      "details": "Updated category \"Men Technical Collection\".",
+      "createdAt": "2026-11-26T10:17:15.845Z"
+    },
+    {
+      "id": "log-1795688186015",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-m-4",
+      "details": "Updated category \"Technical Alpine Systems\".",
+      "createdAt": "2026-11-26T10:16:26.015Z"
+    },
+    {
+      "id": "log-1795688108992",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-m-3",
+      "details": "Updated category \"Alpine Boots & Gloves\".",
+      "createdAt": "2026-11-26T10:15:08.992Z"
+    },
+    {
+      "id": "log-1795688019132",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-m-2",
+      "details": "Updated category \"Merino Knits & Fleece\".",
+      "createdAt": "2026-11-26T10:13:39.132Z"
+    },
+    {
+      "id": "log-1795687928014",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-m-1",
+      "details": "Updated category \"Expedition Parkas & Shells\".",
+      "createdAt": "2026-11-26T10:12:08.014Z"
+    },
+    {
+      "id": "log-1795687812335",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-w-4",
+      "details": "Updated category \"Winter Essentials\".",
+      "createdAt": "2026-11-26T10:10:12.335Z"
+    },
+    {
+      "id": "log-1795687766998",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-w-3",
+      "details": "Updated category \"Boots & Accessories\".",
+      "createdAt": "2026-11-26T10:09:26.998Z"
+    },
+    {
+      "id": "log-1795687740795",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Category Updated",
+      "entity": "Category",
+      "entityId": "cat-w-3",
+      "details": "Updated category \"Boots & Accessories\".",
+      "createdAt": "2026-11-26T10:09:00.795Z"
+    },
+    {
       "id": "log-1795687662751",
       "actorName": "Raihan Rana",
       "actorEmail": "admin@winter-fashion.com",
@@ -1578,7 +1678,7 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4939,
+      "impressions": 4945,
       "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
@@ -1599,7 +1699,7 @@
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
       "isActive": true,
-      "impressions": 12527,
+      "impressions": 12540,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1626,8 +1726,8 @@
       "destinationUrl": "/products",
       "startDate": "2026-11-25T16:15:56.272Z",
       "endDate": "2026-11-27T16:15:56.272Z",
-      "isActive": true,
-      "impressions": 6227,
+      "isActive": false,
+      "impressions": 6232,
       "clicks": 1240,
       "countdownTimer": {
         "enabled": true,
@@ -1640,7 +1740,7 @@
       },
       "priority": 1,
       "createdAt": "2026-11-25T16:15:56.272Z",
-      "updatedAt": "2026-11-26T08:28:08.365Z"
+      "updatedAt": "2026-11-26T10:28:10.167Z"
     },
     {
       "id": "camp-004",
@@ -1657,7 +1757,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3456,
+      "impressions": 3462,
       "clicks": 497,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
@@ -2141,7 +2241,7 @@
     {
       "id": "art-4",
       "slug": "sub-zero-thermal-craft-and-mongolian-cashmere",
-      "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=800",
+      "image": "/images/journal/sub-zero-thermal-craft-mongolian-cashmere-1795688714728.webp",
       "category": "Material craft",
       "readTime": "7 min read",
       "title": "Sub-zero thermal craft & Mongolian cashmere",
@@ -2156,14 +2256,14 @@
           "id": "sec-7",
           "title": "Harvesting 14-Micron Underfleece",
           "paragraph": "Sourced through traditional hand-combing during the spring molt. Zero shearing ensures full staple length and prevents fiber breakage.",
-          "image": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=800",
+          "image": "/images/journal/thistle-brushed-pure-cashmere-scarf1-1795688742793.webp",
           "imageCaption": "Unbleached Mongolian cashmere ready for spinning in northern Italy."
         },
         {
           "id": "sec-8",
           "title": "Dense 450 GSM Double-Faced Weave",
           "paragraph": "Knitted at half-speed on slow-tension gauges to preserve fiber elasticity and prevent pilling across decades of seasonal wear.",
-          "image": "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&q=85&w=800",
+          "image": "/images/journal/seamless-cashmere-thermal-turtleneck1-1795688765308.avif",
           "imageCaption": "Seamless high-gauge turtleneck tested in Swiss alpine sub-zero conditions."
         }
       ]

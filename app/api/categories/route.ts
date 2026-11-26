@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { PRODUCTS_CATALOG } from "@/data/products";
 import { AdminStore } from "@/lib/server/admin-store";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const adminCategories = AdminStore.getCategories();
@@ -59,14 +62,23 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json({
-      status: "success",
-      data: categories,
-      meta: {
-        total: categories.length,
-        timestamp: new Date().toISOString(),
+    return NextResponse.json(
+      {
+        status: "success",
+        data: categories,
+        meta: {
+          total: categories.length,
+          timestamp: new Date().toISOString(),
+        },
       },
-    });
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json(
       {

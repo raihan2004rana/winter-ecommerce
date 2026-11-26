@@ -8,6 +8,8 @@ import { Sparkles } from "lucide-react";
 
 export function WardrobeExactCategories() {
   const [campaign, setCampaign] = React.useState<AdminCampaign | null>(null);
+  const [womenImage, setWomenImage] = React.useState<string>("/images/wardrobe/new arrival-women.avif");
+  const [menImage, setMenImage] = React.useState<string>("/images/wardrobe/new arrival-men.webp");
 
   React.useEffect(() => {
     fetch("/api/campaigns?placement=category_header")
@@ -26,6 +28,24 @@ export function WardrobeExactCategories() {
         }
       })
       .catch((err) => console.error("Failed to load category campaign:", err));
+
+    // Load dynamic category images from admin
+    fetch(`/api/categories?t=${Date.now()}`, { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data && Array.isArray(data.data)) {
+          const womenCat =
+            data.data.find((c: any) => c.slug === "women") ||
+            data.data.find((c: any) => c.gender === "women");
+          if (womenCat?.image) setWomenImage(womenCat.image);
+
+          const menCat =
+            data.data.find((c: any) => c.slug === "men") ||
+            data.data.find((c: any) => c.gender === "men");
+          if (menCat?.image) setMenImage(menCat.image);
+        }
+      })
+      .catch((err) => console.error("Failed to load category images:", err));
   }, []);
 
   const handleCtaClick = () => {
@@ -73,7 +93,7 @@ export function WardrobeExactCategories() {
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >
             <Image
-              src="/images/wardrobe/new arrival-women.avif"
+              src={womenImage}
               alt="Women Collection"
               fill
               unoptimized
@@ -106,7 +126,7 @@ export function WardrobeExactCategories() {
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >
             <Image
-              src="/images/wardrobe/new arrival-men.webp"
+              src={menImage}
               alt="Men Collection"
               fill
               unoptimized
