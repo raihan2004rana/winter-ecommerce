@@ -5,6 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/lib/store/cart-store";
+import { useInternationalStore } from "@/lib/international/i18n";
+import {
+  COUNTRIES_REGISTRY,
+  getCountryConfig,
+  CountryConfig,
+} from "@/lib/international/countries";
+import {
+  formatLocalizedCurrency,
+  formatCurrencySettlementNotice,
+} from "@/lib/international/formatters";
+import { convertCurrency } from "@/lib/server/exchange-rates";
 import {
   ShieldCheck,
   Lock,
@@ -53,6 +64,15 @@ export default function CheckoutPage() {
     syncServerQuote,
   } = useCartStore();
 
+  const {
+    currency,
+    rates,
+    country: internationalCountry,
+    setCountry: setInternationalCountry,
+  } = useInternationalStore();
+
+  const targetCountryConfig = getCountryConfig(shippingCountry);
+
   // Customer Contact
   const [email, setEmail] = React.useState("julian.vance@geneva-capital.ch");
   const [isGuest, setIsGuest] = React.useState(true);
@@ -90,6 +110,9 @@ export default function CheckoutPage() {
   const [nameOnCard, setNameOnCard] = React.useState("JULIAN VANCE");
 
   // State Management
+  const [paymentMethod, setPaymentMethod] = React.useState<"card" | "klarna" | "ideal" | "sepa_debit">("card");
+  const [idealBank, setIdealBank] = React.useState("ing");
+  const [iban, setIban] = React.useState("NL91 ABNA 0417 1643 00");
   const [inputCoupon, setInputCoupon] = React.useState(couponCode || "");
   const [couponError, setCouponError] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -104,6 +127,7 @@ export default function CheckoutPage() {
   // Keep country synchronized
   const handleCountryChange = (code: string) => {
     setShippingCountry(code);
+    setInternationalCountry(code);
     setShippingAddress((prev) => ({ ...prev, country: code }));
     if (sameAsShipping) {
       setBillingAddress((prev) => ({ ...prev, country: code }));
@@ -310,15 +334,20 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div className="sm:col-span-2 space-y-1.5">
-                    <label className="text-xs font-mono text-gray-600">Destination Country / Region</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-mono text-gray-600">Destination Country / Region</label>
+                      <span className="text-2xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                        {targetCountryConfig.isTaxInclusive ? "VAT Included in Pricing" : "Tax Calculated at Checkout"}
+                      </span>
+                    </div>
                     <select
                       value={shippingAddress.country}
                       onChange={(e) => handleCountryChange(e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-3.5 py-2.5 text-xs text-black focus:outline-none focus:border-black font-sans"
+                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-3.5 py-2.5 text-xs text-black focus:outline-none focus:border-black font-sans font-medium"
                     >
-                      {COUNTRIES.map((c) => (
+                      {Object.values(COUNTRIES_REGISTRY).map((c) => (
                         <option key={c.code} value={c.code}>
-                          {c.name} ({c.code})
+                          {c.flag} {c.name} ({c.code}) • {c.defaultCurrency}
                         </option>
                       ))}
                     </select>
@@ -351,7 +380,7 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Rue du Rhône 42"
+                      placeholder="e.g. Rue du Rhône 42 / 123 Main St"
                       value={shippingAddress.street}
                       onChange={(e) => setShippingAddress({ ...shippingAddress, street: e.target.value })}
                       className="w-full bg-gray-50 border border-gray-200 rounded-md px-3.5 py-2.5 text-xs text-black focus:outline-none focus:border-black"
@@ -381,10 +410,14 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-mono text-gray-600">State / Canton / Province</label>
+                    <label className="text-xs font-mono text-gray-600">
+                      {targetCountryConfig.addressFormat.regionLabel}
+                      {!targetCountryConfig.addressFormat.regionRequired && " (Optional)"}
+                    </label>
                     <input
                       type="text"
-                      required
+                      required={targetCountryConfig.addressFormat.regionRequired}
+                      placeholder={`e.g. ${targetCountryConfig.addressFormat.regionLabel}`}
                       value={shippingAddress.state}
                       onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value })}
                       className="w-full bg-gray-50 border border-gray-200 rounded-md px-3.5 py-2.5 text-xs text-black focus:outline-none focus:border-black"
@@ -392,10 +425,13 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-mono text-gray-600">Postal / ZIP Code</label>
+                    <label className="text-xs font-mono text-gray-600">
+                      {targetCountryConfig.addressFormat.postalCodeLabel}
+                    </label>
                     <input
                       type="text"
                       required
+                      placeholder={`e.g. ${targetCountryConfig.addressFormat.postalCodePlaceholder}`}
                       value={shippingAddress.postalCode}
                       onChange={(e) => setShippingAddress({ ...shippingAddress, postalCode: e.target.value })}
                       className="w-full bg-gray-50 border border-gray-200 rounded-md px-3.5 py-2.5 text-xs text-black focus:outline-none focus:border-black"
@@ -406,7 +442,7 @@ export default function CheckoutPage() {
                     <label className="text-xs font-mono text-gray-600">Phone (for Courier Tracking)</label>
                     <input
                       type="tel"
-                      required
+                      required={targetCountryConfig.addressFormat.requirePhone}
                       value={shippingAddress.phone}
                       onChange={(e) => setShippingAddress({ ...shippingAddress, phone: e.target.value })}
                       className="w-full bg-gray-50 border border-gray-200 rounded-md px-3.5 py-2.5 text-xs text-black focus:outline-none focus:border-black"
@@ -442,8 +478,12 @@ export default function CheckoutPage() {
                         className="accent-black"
                       />
                       <div>
-                        <div className="font-semibold text-xs text-black">Standard International Delivery</div>
-                        <div className="text-2xs text-gray-500 font-mono">5–7 business days via Swiss Post / DHL Global</div>
+                        <div className="font-semibold text-xs text-black">
+                          Standard Delivery ({targetCountryConfig.flag} {targetCountryConfig.name})
+                        </div>
+                        <div className="text-2xs text-gray-500 font-mono">
+                          Delivered Duty Paid (DDP) • 5–7 business days via National Postal / DHL Global
+                        </div>
                       </div>
                     </div>
                     <span className="font-mono text-xs font-semibold text-black">
@@ -468,8 +508,12 @@ export default function CheckoutPage() {
                         className="accent-black"
                       />
                       <div>
-                        <div className="font-semibold text-xs text-black">Alpine Express Air Courier</div>
-                        <div className="text-2xs text-gray-500 font-mono">2–3 business days priority dispatch with direct signature</div>
+                        <div className="font-semibold text-xs text-black">
+                          Alpine Express Priority Courier
+                        </div>
+                        <div className="text-2xs text-gray-500 font-mono">
+                          2–3 business days insured air courier with direct signature
+                        </div>
                       </div>
                     </div>
                     <span className="font-mono text-xs font-semibold text-black">$45.00</span>
@@ -521,10 +565,25 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-mono text-gray-600">Postal Code</label>
+                      <label className="text-xs font-mono text-gray-600">
+                        {targetCountryConfig.addressFormat.regionLabel}
+                      </label>
+                      <input
+                        type="text"
+                        required={targetCountryConfig.addressFormat.regionRequired}
+                        value={billingAddress.state}
+                        onChange={(e) => setBillingAddress({ ...billingAddress, state: e.target.value })}
+                        className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-xs"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-mono text-gray-600">
+                        {targetCountryConfig.addressFormat.postalCodeLabel}
+                      </label>
                       <input
                         type="text"
                         required
+                        placeholder={`e.g. ${targetCountryConfig.addressFormat.postalCodePlaceholder}`}
                         value={billingAddress.postalCode}
                         onChange={(e) => setBillingAddress({ ...billingAddress, postalCode: e.target.value })}
                         className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-xs"
@@ -534,72 +593,226 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              {/* Step 5: Stripe Payment & Test Simulator */}
+              {/* Step 5: International Payment Authorization & Stripe Integration */}
               <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-5">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
                     <span className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-xs font-mono font-bold">
                       5
                     </span>
                     <h2 className="font-editorial text-xl font-normal text-black">Payment Authorization</h2>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs font-mono text-gray-500">
-                    <CreditCard className="w-4 h-4" />
-                    <span>Stripe Test Mode</span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-2xs font-mono bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded border border-neutral-200">
+                      {targetCountryConfig.flag} {targetCountryConfig.code} Available
+                    </span>
+                    <div className="flex items-center gap-1 text-2xs font-mono text-gray-500">
+                      <CreditCard className="w-3.5 h-3.5 text-neutral-700" />
+                      <span>Stripe Test Mode</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Card Information Box */}
-                <div className="border border-gray-200 rounded-lg p-5 bg-gray-50/50 space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-mono text-gray-600">Card Number (Test Mode Ready)</label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black"
-                      />
-                      <span className="absolute right-3 top-2.5 text-2xs font-mono bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
-                        VISA
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-mono text-gray-600">Expiration Date</label>
-                      <input
-                        type="text"
-                        value={cardExpiry}
-                        onChange={(e) => setCardExpiry(e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black"
-                        placeholder="MM/YY"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-mono text-gray-600">Security CVC</label>
-                      <input
-                        type="password"
-                        value={cardCvc}
-                        onChange={(e) => setCardCvc(e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black"
-                        placeholder="CVC"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-mono text-gray-600">Cardholder Name</label>
-                    <input
-                      type="text"
-                      value={nameOnCard}
-                      onChange={(e) => setNameOnCard(e.target.value.toUpperCase())}
-                      className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono uppercase focus:outline-none focus:border-black"
-                    />
-                  </div>
+                {/* Country-Specific Available Payment Badges */}
+                <div className="flex items-center gap-1.5 flex-wrap pb-2 border-b border-gray-100">
+                  <span className="text-2xs font-mono text-gray-500 mr-1">Accepted:</span>
+                  <span className="text-2xs font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-700 border border-gray-200">
+                    Visa / Mastercard / Amex
+                  </span>
+                  <span className="text-2xs font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-700 border border-gray-200">
+                    Apple Pay & Google Pay
+                  </span>
+                  {targetCountryConfig.supportedPaymentMethods.includes("ideal") && (
+                    <span className="text-2xs font-mono px-2 py-0.5 rounded bg-pink-50 text-pink-700 border border-pink-200 font-semibold">
+                      🇳🇱 iDEAL Direct
+                    </span>
+                  )}
+                  {targetCountryConfig.supportedPaymentMethods.includes("klarna") && (
+                    <span className="text-2xs font-mono px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 font-semibold">
+                      Klarna Pay Later
+                    </span>
+                  )}
+                  {targetCountryConfig.supportedPaymentMethods.includes("sepa_debit") && (
+                    <span className="text-2xs font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 font-semibold">
+                      🇪🇺 SEPA Direct Debit
+                    </span>
+                  )}
                 </div>
+
+                {/* Payment Method Selector */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("card")}
+                    className={`p-3 rounded-lg border text-left transition-all ${
+                      paymentMethod === "card"
+                        ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className="text-xs font-semibold text-black">Credit Card</div>
+                    <div className="text-2xs text-gray-500 font-mono mt-0.5">Global Visa/MC</div>
+                  </button>
+
+                  {targetCountryConfig.supportedPaymentMethods.includes("klarna") && (
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod("klarna")}
+                      className={`p-3 rounded-lg border text-left transition-all ${
+                        paymentMethod === "klarna"
+                          ? "border-black bg-rose-50/50 shadow-xs ring-1 ring-black"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="text-xs font-semibold text-rose-950">Klarna</div>
+                      <div className="text-2xs text-rose-700 font-mono mt-0.5">Pay in 30d / 3x</div>
+                    </button>
+                  )}
+
+                  {targetCountryConfig.supportedPaymentMethods.includes("ideal") && (
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod("ideal")}
+                      className={`p-3 rounded-lg border text-left transition-all ${
+                        paymentMethod === "ideal"
+                          ? "border-black bg-pink-50/50 shadow-xs ring-1 ring-black"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="text-xs font-semibold text-pink-950">iDEAL</div>
+                      <div className="text-2xs text-pink-700 font-mono mt-0.5">Dutch Bank</div>
+                    </button>
+                  )}
+
+                  {targetCountryConfig.supportedPaymentMethods.includes("sepa_debit") && (
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod("sepa_debit")}
+                      className={`p-3 rounded-lg border text-left transition-all ${
+                        paymentMethod === "sepa_debit"
+                          ? "border-black bg-blue-50/50 shadow-xs ring-1 ring-black"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="text-xs font-semibold text-blue-950">SEPA Debit</div>
+                      <div className="text-2xs text-blue-700 font-mono mt-0.5">EUR IBAN</div>
+                    </button>
+                  )}
+                </div>
+
+                {/* Conditional Method Content */}
+                {paymentMethod === "card" && (
+                  <div className="border border-gray-200 rounded-lg p-5 bg-gray-50/50 space-y-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-gray-600">Card Number (Stripe Simulator Ready)</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={cardNumber}
+                          onChange={(e) => setCardNumber(e.target.value)}
+                          className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black"
+                        />
+                        <span className="absolute right-3 top-2.5 text-2xs font-mono bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
+                          VISA
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-mono text-gray-600">Expiration Date</label>
+                        <input
+                          type="text"
+                          value={cardExpiry}
+                          onChange={(e) => setCardExpiry(e.target.value)}
+                          className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black"
+                          placeholder="MM/YY"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-mono text-gray-600">Security CVC</label>
+                        <input
+                          type="password"
+                          value={cardCvc}
+                          onChange={(e) => setCardCvc(e.target.value)}
+                          className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black"
+                          placeholder="CVC"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-gray-600">Cardholder Name</label>
+                      <input
+                        type="text"
+                        value={nameOnCard}
+                        onChange={(e) => setNameOnCard(e.target.value.toUpperCase())}
+                        className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono uppercase focus:outline-none focus:border-black"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {paymentMethod === "klarna" && (
+                  <div className="border border-rose-200 rounded-lg p-5 bg-rose-50/30 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-editorial text-sm font-semibold text-rose-950">Klarna Flexible Financing</span>
+                      <span className="text-2xs font-mono text-rose-700 bg-rose-100 px-2 py-0.5 rounded">0% APR</span>
+                    </div>
+                    <p className="text-xs text-rose-900 leading-relaxed font-sans">
+                      Pay after delivery in 30 days, or split into 3 interest-free installments of{" "}
+                      <strong>
+                        {formatLocalizedCurrency(
+                          convertCurrency(total / 3, currency, rates).amount,
+                          currency
+                        )}
+                      </strong>{" "}
+                      per month. Klarna handles the direct bank settlement automatically.
+                    </p>
+                  </div>
+                )}
+
+                {paymentMethod === "ideal" && (
+                  <div className="border border-pink-200 rounded-lg p-5 bg-pink-50/30 space-y-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-pink-950">Select Netherlands Banking Partner</label>
+                      <select
+                        value={idealBank}
+                        onChange={(e) => setIdealBank(e.target.value)}
+                        className="w-full bg-white border border-pink-200 rounded px-3 py-2 text-xs font-sans focus:outline-none focus:border-pink-500"
+                      >
+                        <option value="ing">ING Bank</option>
+                        <option value="abn_amro">ABN AMRO</option>
+                        <option value="rabobank">Rabobank</option>
+                        <option value="asn">ASN Bank</option>
+                        <option value="bunq">bunq</option>
+                        <option value="sns">SNS Bank</option>
+                      </select>
+                    </div>
+                    <p className="text-2xs text-pink-800 font-sans">
+                      You will authorize this order through your bank app using secure iDEAL instant transfer.
+                    </p>
+                  </div>
+                )}
+
+                {paymentMethod === "sepa_debit" && (
+                  <div className="border border-blue-200 rounded-lg p-5 bg-blue-50/30 space-y-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-blue-950">Eurozone IBAN Account</label>
+                      <input
+                        type="text"
+                        value={iban}
+                        onChange={(e) => setIban(e.target.value.toUpperCase())}
+                        className="w-full bg-white border border-blue-200 rounded px-3.5 py-2 text-xs font-mono focus:outline-none focus:border-blue-500"
+                        placeholder="e.g. DE89 3704 0044 0532 0130 00"
+                      />
+                    </div>
+                    <p className="text-2xs text-blue-800 font-sans">
+                      By authorizing this payment, you authorize KØRA and Stripe to send instructions to your bank to debit your account in EUR.
+                    </p>
+                  </div>
+                )}
 
                 {/* Developer Mode & Webhook Simulator Toggle */}
                 <div className="bg-amber-50/70 border border-amber-200 rounded-lg p-4 space-y-2">
@@ -646,7 +859,16 @@ export default function CheckoutPage() {
                   ) : (
                     <>
                       <Lock className="w-4 h-4" />
-                      <span>Authorize Payment (${total.toFixed(2)} USD)</span>
+                      <span>
+                        Authorize Payment ($
+                        {total.toFixed(2)} USD
+                        {currency !== "USD" &&
+                          ` • ~${formatLocalizedCurrency(
+                            convertCurrency(total, currency, rates).amount,
+                            currency
+                          )}`}
+                        )
+                      </span>
                     </>
                   )}
                 </Button>
@@ -738,36 +960,101 @@ export default function CheckoutPage() {
                   {couponError && <p className="text-2xs text-rose-600 font-mono">{couponError}</p>}
                 </div>
 
-                {/* Final Recalculated Breakdown */}
-                <div className="space-y-2 text-xs pt-3 border-t border-gray-100">
-                  <div className="flex justify-between text-gray-600">
+                {/* Final Recalculated Breakdown with Dual Currency Display */}
+                <div className="space-y-2.5 text-xs pt-3 border-t border-gray-100">
+                  <div className="flex justify-between items-center text-gray-600">
                     <span>Items Subtotal</span>
-                    <span className="font-mono text-black">${subtotal.toFixed(2)}</span>
+                    <div className="text-right">
+                      <div className="font-mono text-black">${subtotal.toFixed(2)} USD</div>
+                      {currency !== "USD" && (
+                        <div className="text-2xs font-mono text-gray-500">
+                          ~{formatLocalizedCurrency(convertCurrency(subtotal, currency, rates).amount, currency)}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {discountAmount > 0 && (
-                    <div className="flex justify-between text-emerald-700 font-medium">
+                    <div className="flex justify-between items-center text-emerald-700 font-medium">
                       <span>Promotional Discount</span>
-                      <span className="font-mono">-${discountAmount.toFixed(2)}</span>
+                      <div className="text-right">
+                        <span className="font-mono">-${discountAmount.toFixed(2)} USD</span>
+                        {currency !== "USD" && (
+                          <div className="text-2xs font-mono text-emerald-600">
+                            ~-{formatLocalizedCurrency(convertCurrency(discountAmount, currency, rates).amount, currency)}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
 
-                  <div className="flex justify-between text-gray-600">
-                    <span>Shipping ({shippingMethod === "express" ? "Express" : "Standard"})</span>
-                    <span className="font-mono text-black">
-                      {shippingFee === 0 ? "FREE" : `$${shippingFee.toFixed(2)}`}
-                    </span>
+                  <div className="flex justify-between items-center text-gray-600">
+                    <div>
+                      <span>Shipping ({shippingMethod === "express" ? "Express" : "Standard"})</span>
+                      <div className="text-2xs text-gray-400 font-mono">DDP Insured Transit</div>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-mono text-black">
+                        {shippingFee === 0 ? "FREE" : `$${shippingFee.toFixed(2)} USD`}
+                      </span>
+                      {shippingFee > 0 && currency !== "USD" && (
+                        <div className="text-2xs font-mono text-gray-500">
+                          ~{formatLocalizedCurrency(convertCurrency(shippingFee, currency, rates).amount, currency)}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="flex justify-between text-gray-600">
-                    <span>Import Duties & VAT ({shippingCountry})</span>
-                    <span className="font-mono text-black">${taxAmount.toFixed(2)}</span>
+                  <div className="flex justify-between items-center text-gray-600">
+                    <div>
+                      <span>
+                        Import Duties & {targetCountryConfig.taxType.toUpperCase()} ({targetCountryConfig.code})
+                      </span>
+                      <div className="text-2xs text-gray-400 font-mono">
+                        {targetCountryConfig.isTaxInclusive ? "Price includes local VAT" : "Calculated country rate"}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-mono text-black">${taxAmount.toFixed(2)} USD</span>
+                      {currency !== "USD" && (
+                        <div className="text-2xs font-mono text-gray-500">
+                          ~{formatLocalizedCurrency(convertCurrency(taxAmount, currency, rates).amount, currency)}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex justify-between items-baseline pt-3 border-t border-gray-200">
-                    <span className="font-editorial text-lg text-black font-semibold">Total to Pay</span>
-                    <span className="font-mono text-xl font-bold text-black">${total.toFixed(2)} USD</span>
+                    <div>
+                      <span className="font-editorial text-lg text-black font-semibold block">Total to Pay</span>
+                      <span className="text-2xs font-mono text-gray-500">
+                        Authorized & charged in USD
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-mono text-xl font-bold text-black">
+                        ${total.toFixed(2)} USD
+                      </div>
+                      {currency !== "USD" && (
+                        <div className="text-xs font-mono font-semibold text-emerald-700">
+                          ~{formatLocalizedCurrency(convertCurrency(total, currency, rates).amount, currency)}
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  {/* Guaranteed Settlement Notice */}
+                  {currency !== "USD" && (
+                    <div className="p-3 bg-neutral-50 rounded border border-neutral-200 text-2xs font-sans text-neutral-600 space-y-1">
+                      <div className="font-semibold text-neutral-900 flex items-center gap-1">
+                        <Info className="w-3 h-3 text-neutral-700" />
+                        <span>Currency Conversion Transparency</span>
+                      </div>
+                      <p>
+                        {formatCurrencySettlementNotice(currency, "USD", rates[currency] || 1.0)}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Guarantee Note */}

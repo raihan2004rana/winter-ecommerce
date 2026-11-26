@@ -176,6 +176,28 @@ export interface AdminSettings {
   maintenanceMode: boolean;
 }
 
+export interface AdminTaxRule {
+  id: string;
+  countryCode: string;
+  countryName: string;
+  taxType: "vat" | "gst" | "sales_tax" | "custom";
+  rate: number; // Decimal (e.g. 0.20 for 20%)
+  isInclusive: boolean;
+  isActive: boolean;
+}
+
+export interface AdminShippingZone {
+  id: string;
+  name: string;
+  countries: string[]; // ISO-2 codes
+  standardFee: number; // in USD
+  expressFee: number; // in USD
+  freeShippingThreshold: number; // in USD
+  estimatedDaysMin: number;
+  estimatedDaysMax: number;
+  isActive: boolean;
+}
+
 interface AdminState {
   products: (Product & { isArchived?: boolean; isPublished?: boolean })[];
   categories: AdminCategory[];
@@ -187,6 +209,8 @@ interface AdminState {
   campaigns: AdminCampaign[];
   auditLogs: AdminAuditLog[];
   settings: AdminSettings;
+  taxRules: AdminTaxRule[];
+  shippingZones: AdminShippingZone[];
 }
 
 const STATE_FILE = path.join(process.cwd(), "data", "admin-state.json");
@@ -781,6 +805,89 @@ function getInitialState(): AdminState {
     },
   ];
 
+  const initialTaxRules: AdminTaxRule[] = [
+    { id: "tax-us", countryCode: "US", countryName: "United States", taxType: "sales_tax", rate: 0.085, isInclusive: false, isActive: true },
+    { id: "tax-gb", countryCode: "GB", countryName: "United Kingdom", taxType: "vat", rate: 0.20, isInclusive: true, isActive: true },
+    { id: "tax-ch", countryCode: "CH", countryName: "Switzerland", taxType: "vat", rate: 0.081, isInclusive: true, isActive: true },
+    { id: "tax-de", countryCode: "DE", countryName: "Germany", taxType: "vat", rate: 0.19, isInclusive: true, isActive: true },
+    { id: "tax-fr", countryCode: "FR", countryName: "France", taxType: "vat", rate: 0.20, isInclusive: true, isActive: true },
+    { id: "tax-nl", countryCode: "NL", countryName: "Netherlands", taxType: "vat", rate: 0.21, isInclusive: true, isActive: true },
+    { id: "tax-ca", countryCode: "CA", countryName: "Canada", taxType: "gst", rate: 0.13, isInclusive: false, isActive: true },
+    { id: "tax-au", countryCode: "AU", countryName: "Australia", taxType: "gst", rate: 0.10, isInclusive: true, isActive: true },
+    { id: "tax-jp", countryCode: "JP", countryName: "Japan", taxType: "gst", rate: 0.10, isInclusive: true, isActive: true },
+    { id: "tax-se", countryCode: "SE", countryName: "Sweden", taxType: "vat", rate: 0.25, isInclusive: true, isActive: true },
+    { id: "tax-no", countryCode: "NO", countryName: "Norway", taxType: "vat", rate: 0.25, isInclusive: true, isActive: true },
+  ];
+
+  const initialShippingZones: AdminShippingZone[] = [
+    {
+      id: "zone-domestic",
+      name: "Domestic United States",
+      countries: ["US"],
+      standardFee: 15.0,
+      expressFee: 35.0,
+      freeShippingThreshold: 200.0,
+      estimatedDaysMin: 3,
+      estimatedDaysMax: 5,
+      isActive: true,
+    },
+    {
+      id: "zone-europe-west",
+      name: "Western Europe & Switzerland",
+      countries: ["GB", "CH", "DE", "FR", "NL", "IT", "ES", "BE", "AT", "IE"],
+      standardFee: 25.0,
+      expressFee: 45.0,
+      freeShippingThreshold: 200.0,
+      estimatedDaysMin: 4,
+      estimatedDaysMax: 6,
+      isActive: true,
+    },
+    {
+      id: "zone-nordic",
+      name: "Nordics & Scandinavia",
+      countries: ["SE", "NO", "DK", "FI", "IS"],
+      standardFee: 28.0,
+      expressFee: 50.0,
+      freeShippingThreshold: 220.0,
+      estimatedDaysMin: 4,
+      estimatedDaysMax: 7,
+      isActive: true,
+    },
+    {
+      id: "zone-north-america",
+      name: "Canada & Trans-Border",
+      countries: ["CA"],
+      standardFee: 20.0,
+      expressFee: 40.0,
+      freeShippingThreshold: 200.0,
+      estimatedDaysMin: 3,
+      estimatedDaysMax: 5,
+      isActive: true,
+    },
+    {
+      id: "zone-asia-pacific",
+      name: "Asia-Pacific Region",
+      countries: ["AU", "JP", "SG", "NZ", "KR", "HK"],
+      standardFee: 35.0,
+      expressFee: 55.0,
+      freeShippingThreshold: 250.0,
+      estimatedDaysMin: 5,
+      estimatedDaysMax: 8,
+      isActive: true,
+    },
+    {
+      id: "zone-row",
+      name: "Global Rest of World",
+      countries: [],
+      standardFee: 40.0,
+      expressFee: 65.0,
+      freeShippingThreshold: 300.0,
+      estimatedDaysMin: 7,
+      estimatedDaysMax: 12,
+      isActive: true,
+    },
+  ];
+
   return {
     products: initialProducts,
     categories: initialCategories,
@@ -792,6 +899,8 @@ function getInitialState(): AdminState {
     campaigns: initialCampaigns,
     auditLogs: initialAuditLogs,
     settings: initialSettings,
+    taxRules: initialTaxRules,
+    shippingZones: initialShippingZones,
   };
 }
 
@@ -807,6 +916,14 @@ function loadState(): AdminState {
       memoryState = JSON.parse(data);
       if (!memoryState!.campaigns || memoryState!.campaigns.length === 0) {
         memoryState!.campaigns = getInitialState().campaigns;
+        saveState(memoryState!);
+      }
+      if (!memoryState!.taxRules || memoryState!.taxRules.length === 0) {
+        memoryState!.taxRules = getInitialState().taxRules;
+        saveState(memoryState!);
+      }
+      if (!memoryState!.shippingZones || memoryState!.shippingZones.length === 0) {
+        memoryState!.shippingZones = getInitialState().shippingZones;
         saveState(memoryState!);
       }
       return memoryState!;
@@ -1269,30 +1386,37 @@ export const AdminStore = {
       }
     }
 
-    // Shipping calculation
+    // 1. Configurable International Shipping Zone (Never hardcoded)
+    const country = (params.shippingCountry || "US").toUpperCase();
+    const matchedZone =
+      state.shippingZones?.find((z) => z.countries.includes(country) && z.isActive) ||
+      state.shippingZones?.find((z) => z.id === "zone-row" || z.name.toLowerCase().includes("rest of world"));
+
+    const freeThreshold = matchedZone ? matchedZone.freeShippingThreshold : (settings.freeShippingThreshold || 200);
+    const isFreeShipping = subtotal >= freeThreshold || appliedCoupon?.discountType === "free_shipping";
+
     const shippingMethod = params.shippingMethod || "standard";
     let shippingFee = 0;
-
     if (shippingMethod === "express") {
-      shippingFee = 45; // Express Alpine Courier
+      shippingFee = matchedZone ? matchedZone.expressFee : 45;
     } else {
-      const isFreeShipping =
-        subtotal >= settings.freeShippingThreshold || appliedCoupon?.discountType === "free_shipping";
-      shippingFee = isFreeShipping ? 0 : settings.standardShippingFee || 25;
+      shippingFee = isFreeShipping ? 0 : (matchedZone ? matchedZone.standardFee : (settings.standardShippingFee || 25));
     }
 
-    // International Duties / VAT Tax Rate calculation
-    const country = (params.shippingCountry || "US").toUpperCase();
-    let rawTaxRate = settings.taxRate || 0.08;
-    if (["GB", "FR", "DE", "IT", "ES", "NL", "CH", "SE", "NO"].includes(country)) {
-      rawTaxRate = 0.20; // 20% VAT
-    } else if (country === "CA") {
-      rawTaxRate = 0.13; // 13% GST/HST
-    } else if (country === "AU") {
-      rawTaxRate = 0.10; // 10% GST
+    // 2. Configurable International Tax Rules (Never hardcoded)
+    const matchedTaxRule = state.taxRules?.find((r) => r.countryCode.toUpperCase() === country && r.isActive);
+    let taxRate = 0.085;
+    let isInclusive = false;
+    let taxType = "sales_tax";
+
+    if (matchedTaxRule) {
+      taxRate = matchedTaxRule.rate > 1 ? matchedTaxRule.rate / 100 : matchedTaxRule.rate;
+      isInclusive = matchedTaxRule.isInclusive;
+      taxType = matchedTaxRule.taxType;
+    } else {
+      taxRate = settings.taxRate > 1 ? settings.taxRate / 100 : (settings.taxRate || 0.085);
     }
 
-    const taxRate = rawTaxRate > 1 ? rawTaxRate / 100 : rawTaxRate;
     const taxableAmount = Math.max(0, subtotal - discountAmount);
     const taxAmount = Math.round(taxableAmount * taxRate * 100) / 100;
     const total = Math.round((taxableAmount + shippingFee + taxAmount) * 100) / 100;
@@ -1308,8 +1432,11 @@ export const AdminStore = {
         shippingFee: Math.round(shippingFee * 100) / 100,
         taxAmount,
         taxRate,
+        taxType,
+        isTaxInclusive: isInclusive,
         total,
         currency: settings.defaultCurrency || "USD",
+        shippingZoneName: matchedZone?.name || "Standard International Zone",
       },
       appliedCoupon: appliedCoupon
         ? {
@@ -1318,8 +1445,8 @@ export const AdminStore = {
             value: appliedCoupon.value,
           }
         : null,
-      freeShippingThreshold: settings.freeShippingThreshold || 200,
-      remainingForFreeShipping: Math.max(0, (settings.freeShippingThreshold || 200) - subtotal),
+      freeShippingThreshold: freeThreshold,
+      remainingForFreeShipping: Math.max(0, freeThreshold - subtotal),
     };
   },
 
@@ -1690,7 +1817,12 @@ export const AdminStore = {
   },
 
   // 11. Marketing & Campaign Management
-  getCampaigns(query?: { placement?: string; type?: string; status?: "all" | "active" | "scheduled" | "expired" }) {
+  getCampaigns(query?: {
+    placement?: string;
+    type?: string;
+    status?: "all" | "active" | "scheduled" | "expired";
+    visitorTimezone?: string;
+  }) {
     const state = loadState();
     let campaigns = [...(state.campaigns || [])];
     const now = new Date();
@@ -1705,7 +1837,9 @@ export const AdminStore = {
 
     if (query?.status && query.status !== "all") {
       if (query.status === "active") {
-        campaigns = campaigns.filter((c) => c.isActive && now >= new Date(c.startDate) && now <= new Date(c.endDate));
+        campaigns = campaigns.filter(
+          (c) => c.isActive && now >= new Date(c.startDate) && now <= new Date(c.endDate)
+        );
       } else if (query.status === "scheduled") {
         campaigns = campaigns.filter((c) => now < new Date(c.startDate));
       } else if (query.status === "expired") {
@@ -1843,5 +1977,81 @@ export const AdminStore = {
   // 12. Audit Logs
   getAuditLogs() {
     return loadState().auditLogs;
+  },
+
+  // 13. International Configuration (Taxes & Shipping Zones)
+  getTaxRules() {
+    return loadState().taxRules || [];
+  },
+
+  updateTaxRule(
+    countryCode: string,
+    updates: Partial<AdminTaxRule>,
+    actor: { name: string; email: string }
+  ) {
+    const state = loadState();
+    if (!state.taxRules) state.taxRules = [];
+    const ruleIndex = state.taxRules.findIndex(
+      (r) => r.countryCode.toUpperCase() === countryCode.toUpperCase()
+    );
+
+    if (ruleIndex > -1) {
+      state.taxRules[ruleIndex] = { ...state.taxRules[ruleIndex], ...updates };
+    } else {
+      state.taxRules.push({
+        id: `tax-${countryCode.toLowerCase()}`,
+        countryCode: countryCode.toUpperCase(),
+        countryName: updates.countryName || countryCode,
+        taxType: updates.taxType || "vat",
+        rate: updates.rate ?? 0.20,
+        isInclusive: updates.isInclusive ?? true,
+        isActive: updates.isActive ?? true,
+      });
+    }
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: actor.name,
+      actorEmail: actor.email,
+      action: "Tax Rule Updated",
+      entity: "International",
+      entityId: countryCode,
+      details: `Updated tax rule for ${countryCode} (rate: ${updates.rate ?? "same"}).`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return state.taxRules.find((r) => r.countryCode.toUpperCase() === countryCode.toUpperCase());
+  },
+
+  getShippingZones() {
+    return loadState().shippingZones || [];
+  },
+
+  updateShippingZone(
+    zoneId: string,
+    updates: Partial<AdminShippingZone>,
+    actor: { name: string; email: string }
+  ) {
+    const state = loadState();
+    if (!state.shippingZones) state.shippingZones = [];
+    const zone = state.shippingZones.find((z) => z.id === zoneId);
+    if (!zone) return null;
+
+    Object.assign(zone, updates);
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: actor.name,
+      actorEmail: actor.email,
+      action: "Shipping Zone Updated",
+      entity: "International",
+      entityId: zoneId,
+      details: `Updated shipping zone "${zone.name}".`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return zone;
   },
 };

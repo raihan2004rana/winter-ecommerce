@@ -1352,8 +1352,8 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4904,
-      "clicks": 814,
+      "impressions": 4916,
+      "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
       "updatedAt": "2026-11-26T04:15:56.272Z"
@@ -1373,7 +1373,7 @@
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
       "isActive": true,
-      "impressions": 12462,
+      "impressions": 12474,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1401,7 +1401,7 @@
       "startDate": "2026-11-25T16:15:56.272Z",
       "endDate": "2026-11-27T16:15:56.272Z",
       "isActive": true,
-      "impressions": 6192,
+      "impressions": 6204,
       "clicks": 1240,
       "countdownTimer": {
         "enabled": true,
@@ -1431,11 +1431,208 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3421,
-      "clicks": 495,
+      "impressions": 3433,
+      "clicks": 497,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
       "updatedAt": "2026-11-26T04:15:56.272Z"
+    }
+  ],
+  "taxRules": [
+    {
+      "id": "tax-us",
+      "countryCode": "US",
+      "countryName": "United States",
+      "taxType": "sales_tax",
+      "rate": 0.085,
+      "isInclusive": false,
+      "isActive": true
+    },
+    {
+      "id": "tax-gb",
+      "countryCode": "GB",
+      "countryName": "United Kingdom",
+      "taxType": "vat",
+      "rate": 0.2,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-ch",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "taxType": "vat",
+      "rate": 0.081,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-de",
+      "countryCode": "DE",
+      "countryName": "Germany",
+      "taxType": "vat",
+      "rate": 0.19,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-fr",
+      "countryCode": "FR",
+      "countryName": "France",
+      "taxType": "vat",
+      "rate": 0.2,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-nl",
+      "countryCode": "NL",
+      "countryName": "Netherlands",
+      "taxType": "vat",
+      "rate": 0.21,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-ca",
+      "countryCode": "CA",
+      "countryName": "Canada",
+      "taxType": "gst",
+      "rate": 0.13,
+      "isInclusive": false,
+      "isActive": true
+    },
+    {
+      "id": "tax-au",
+      "countryCode": "AU",
+      "countryName": "Australia",
+      "taxType": "gst",
+      "rate": 0.1,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-jp",
+      "countryCode": "JP",
+      "countryName": "Japan",
+      "taxType": "gst",
+      "rate": 0.1,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-se",
+      "countryCode": "SE",
+      "countryName": "Sweden",
+      "taxType": "vat",
+      "rate": 0.25,
+      "isInclusive": true,
+      "isActive": true
+    },
+    {
+      "id": "tax-no",
+      "countryCode": "NO",
+      "countryName": "Norway",
+      "taxType": "vat",
+      "rate": 0.25,
+      "isInclusive": true,
+      "isActive": true
+    }
+  ],
+  "shippingZones": [
+    {
+      "id": "zone-domestic",
+      "name": "Domestic United States",
+      "countries": [
+        "US"
+      ],
+      "standardFee": 15,
+      "expressFee": 35,
+      "freeShippingThreshold": 200,
+      "estimatedDaysMin": 3,
+      "estimatedDaysMax": 5,
+      "isActive": true
+    },
+    {
+      "id": "zone-europe-west",
+      "name": "Western Europe & Switzerland",
+      "countries": [
+        "GB",
+        "CH",
+        "DE",
+        "FR",
+        "NL",
+        "IT",
+        "ES",
+        "BE",
+        "AT",
+        "IE"
+      ],
+      "standardFee": 25,
+      "expressFee": 45,
+      "freeShippingThreshold": 200,
+      "estimatedDaysMin": 4,
+      "estimatedDaysMax": 6,
+      "isActive": true
+    },
+    {
+      "id": "zone-nordic",
+      "name": "Nordics & Scandinavia",
+      "countries": [
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "IS"
+      ],
+      "standardFee": 28,
+      "expressFee": 50,
+      "freeShippingThreshold": 220,
+      "estimatedDaysMin": 4,
+      "estimatedDaysMax": 7,
+      "isActive": true
+    },
+    {
+      "id": "zone-north-america",
+      "name": "Canada & Trans-Border",
+      "countries": [
+        "CA"
+      ],
+      "standardFee": 20,
+      "expressFee": 40,
+      "freeShippingThreshold": 200,
+      "estimatedDaysMin": 3,
+      "estimatedDaysMax": 5,
+      "isActive": true
+    },
+    {
+      "id": "zone-asia-pacific",
+      "name": "Asia-Pacific Region",
+      "countries": [
+        "AU",
+        "JP",
+        "SG",
+        "NZ",
+        "KR",
+        "HK"
+      ],
+      "standardFee": 35,
+      "expressFee": 55,
+      "freeShippingThreshold": 250,
+      "estimatedDaysMin": 5,
+      "estimatedDaysMax": 8,
+      "isActive": true
+    },
+    {
+      "id": "zone-row",
+      "name": "Global Rest of World",
+      "countries": [],
+      "standardFee": 40,
+      "expressFee": 65,
+      "freeShippingThreshold": 300,
+      "estimatedDaysMin": 7,
+      "estimatedDaysMax": 12,
+      "isActive": true
     }
   ]
 }
