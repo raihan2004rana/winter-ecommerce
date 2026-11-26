@@ -37,7 +37,10 @@ export function WardrobeExactHero() {
     }).catch(() => { });
   };
 
-  const heroImage = campaign?.desktopImage || "/images/wardrobe/super-hero.jpg";
+  const heroImage =
+    campaign?.desktopImage && campaign.desktopImage !== "/images/wardrobe/hero-hoodies-hd.jpg"
+      ? campaign.desktopImage
+      : "/images/wardrobe/super-hero.jpg";
   const badgeText = campaign?.badgeText || "NEW DROP";
   const headline = campaign?.headline || "Designed for colder days";
   const subheadline =
