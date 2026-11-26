@@ -246,11 +246,13 @@
       "price": 345,
       "compareAtPrice": 395,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/heavyweight-merino-cable-knit-sweater-1795664325211.avif",
+      "secondaryImage": "/images/products/heavyweight-merino-cable-knit-sweater2-1795664331805.jpg",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/heavyweight-merino-cable-knit-sweater2-1795664331805.jpg",
+        "/images/products/heavyweight-merino-cable-knit-sweater3-1795664339483.webp",
+        "/images/products/heavyweight-merino-cable-knit-sweater4-1795664344694.jpg",
+        "/images/products/heavyweight-merino-cable-knit-sweater5-1795664348611.webp"
       ],
       "temperatureRating": "-15°C Mid-Layer",
       "materials": [
@@ -262,14 +264,6 @@
         {
           "name": "Raw Ecru",
           "hex": "#EDE9E1"
-        },
-        {
-          "name": "Highland Charcoal",
-          "hex": "#2B2D2F"
-        },
-        {
-          "name": "Alpine Pine",
-          "hex": "#2B3D2E"
         }
       ],
       "sizes": [
@@ -285,7 +279,9 @@
       "rating": 4.89,
       "reviewCount": 42,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Raw Ecru",
+      "colorHex": "#EDE9E1"
     },
     {
       "id": "prod-006",
@@ -299,11 +295,13 @@
       "collectionSlug": "women",
       "price": 295,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/seamless-cashmere-thermal-turtleneck-1795664472634.avif",
+      "secondaryImage": "/images/products/seamless-cashmere-thermal-turtleneck1-1795664485140.avif",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/seamless-cashmere-thermal-turtleneck1-1795664485140.avif",
+        "/images/products/seamless-cashmere-thermal-turtleneck2-1795664490247.webp",
+        "/images/products/seamless-cashmere-thermal-turtleneck3-1795664493271.webp",
+        "/images/products/seamless-cashmere-thermal-turtleneck4-1795664498079.webp"
       ],
       "temperatureRating": "-10°C Base Layer",
       "materials": [
@@ -315,10 +313,6 @@
         {
           "name": "Oatmeal",
           "hex": "#D8D2C5"
-        },
-        {
-          "name": "Obsidian",
-          "hex": "#18191A"
         }
       ],
       "sizes": [
@@ -332,7 +326,9 @@
       "rating": 4.94,
       "reviewCount": 18,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Oatmeal",
+      "colorHex": "#D8D2C5"
     },
     {
       "id": "prod-007",
@@ -347,10 +343,13 @@
       "price": 225,
       "compareAtPrice": 260,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/technical-polartec-thermal-zip-hoodie-1795664627713.jxl",
+      "secondaryImage": "/images/products/technical-polartec-thermal-zip-hoodie1-1795664635118.jpg",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/technical-polartec-thermal-zip-hoodie1-1795664635118.jpg",
+        "/images/products/technical-polartec-thermal-zip-hoodie2-1795664638183.jpg",
+        "/images/products/technical-polartec-thermal-zip-hoodie3-1795664642121.jpg",
+        "/images/products/technical-polartec-thermal-zip-hoodie4-1795664644785.jxl"
       ],
       "temperatureRating": "-10°C Mountain Mid-Layer",
       "materials": [
@@ -363,10 +362,6 @@
         {
           "name": "Slate Grey",
           "hex": "#5C6570"
-        },
-        {
-          "name": "Spruce Forest",
-          "hex": "#2B3D2E"
         }
       ],
       "sizes": [
@@ -381,7 +376,9 @@
       "rating": 4.84,
       "reviewCount": 25,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Slate Grey",
+      "colorHex": "#5C6570"
     },
     {
       "id": "prod-008",
@@ -395,11 +392,12 @@
       "collectionSlug": "new-arrivals",
       "price": 495,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/alpine-shearling-lined-trekking-boot-1795664767917.webp",
+      "secondaryImage": "/images/products/alpine-shearling-lined-trekking-boot1-1795664773920.jpg",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/alpine-shearling-lined-trekking-boot1-1795664773920.jpg",
+        "/images/products/alpine-shearling-lined-trekking-boot2-1795664777234.webp",
+        "/images/products/alpine-shearling-lined-trekking-boot3-1795664780366.jpg"
       ],
       "temperatureRating": "-25°C Thermal Footwear",
       "waterproofRating": "Fully Seam-Sealed",
@@ -414,10 +412,6 @@
         {
           "name": "Tuscan Tan",
           "hex": "#9E6D38"
-        },
-        {
-          "name": "Mineral Black",
-          "hex": "#111213"
         }
       ],
       "sizes": [
@@ -434,7 +428,9 @@
       "rating": 4.95,
       "reviewCount": 36,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Tuscan Tan",
+      "colorHex": "#9E6D38"
     },
     {
       "id": "prod-009",
@@ -449,11 +445,12 @@
       "price": 185,
       "compareAtPrice": 220,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/thistle-brushed-pure-cashmere-scarf-1795666928308.webp",
+      "secondaryImage": "/images/products/thistle-brushed-pure-cashmere-scarf1-1795666933710.webp",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/thistle-brushed-pure-cashmere-scarf1-1795666933710.webp",
+        "/images/products/thistle-brushed-pure-cashmere-scarf2-1795666936955.webp",
+        "/images/products/thistle-brushed-pure-cashmere-scarf3-1795666940040.webp"
       ],
       "temperatureRating": "-20°C Thermal Accessory",
       "materials": [
@@ -465,14 +462,6 @@
         {
           "name": "Raw Ecru",
           "hex": "#EDE9E1"
-        },
-        {
-          "name": "Alpine Pine",
-          "hex": "#2B3D2E"
-        },
-        {
-          "name": "Obsidian",
-          "hex": "#18191A"
         }
       ],
       "sizes": [
@@ -484,7 +473,9 @@
       "rating": 4.97,
       "reviewCount": 58,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Raw Ecru",
+      "colorHex": "#EDE9E1"
     },
     {
       "id": "prod-010",
@@ -498,10 +489,12 @@
       "collectionSlug": "new-arrivals",
       "price": 145,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/gold-gloves-1795666688340.webp",
+      "secondaryImage": "/images/products/gold-gloves1-1795666694277.webp",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/gold-gloves1-1795666694277.webp",
+        "/images/products/gold-gloves2-1795666707328.webp",
+        "/images/products/gold-gloves3-1795666710411.webp"
       ],
       "temperatureRating": "-20°C Hand Warmth",
       "materials": [
@@ -515,10 +508,6 @@
         {
           "name": "Nutmeg Tan",
           "hex": "#9E6D38"
-        },
-        {
-          "name": "Coal Black",
-          "hex": "#18191A"
         }
       ],
       "sizes": [
@@ -531,7 +520,9 @@
       "rating": 4.92,
       "reviewCount": 34,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Nutmeg Tan",
+      "colorHex": "#9E6D38"
     },
     {
       "id": "prod-011",
@@ -545,11 +536,12 @@
       "collectionSlug": "men",
       "price": 520,
       "currency": "USD",
-      "primaryImage": "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
-      "secondaryImage": "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
+      "primaryImage": "/images/products/glacier-3-layer-gore-alpine-shell-1795666825827.webp",
+      "secondaryImage": "/images/products/glacier-3-layer-gore-alpine-shell1-1795666830721.webp",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&q=85&w=1200"
+        "/images/products/glacier-3-layer-gore-alpine-shell1-1795666830721.webp",
+        "/images/products/glacier-3-layer-gore-alpine-shell2-1795666833754.webp",
+        "/images/products/glacier-3-layer-gore-alpine-shell3-1795666836677.webp"
       ],
       "temperatureRating": "Storm Armor (Wind/Rain/Snow)",
       "waterproofRating": "28,000mm GORE-TEX Pro",
@@ -563,10 +555,6 @@
         {
           "name": "Arctic Slate",
           "hex": "#95A1AD"
-        },
-        {
-          "name": "Spruce Forest",
-          "hex": "#2B3D2E"
         }
       ],
       "sizes": [
@@ -581,7 +569,9 @@
       "rating": 4.95,
       "reviewCount": 29,
       "isPublished": true,
-      "isArchived": false
+      "isArchived": false,
+      "colorName": "Arctic Slate",
+      "colorHex": "#95A1AD"
     },
     {
       "id": "prod-012",
@@ -1053,6 +1043,76 @@
   ],
   "auditLogs": [
     {
+      "id": "log-1795666941798",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-009",
+      "details": "Updated product \"Thistle-Brushed Pure Cashmere Scarf\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T04:22:21.798Z"
+    },
+    {
+      "id": "log-1795666837982",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-011",
+      "details": "Updated product \"Glacier 3-Layer GORE Alpine Shell\". Fields changed: title, subtitle, category, price, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T04:20:37.982Z"
+    },
+    {
+      "id": "log-1795666713473",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-010",
+      "details": "Updated product \"Wild Deerskin PrimaLoft Gold Gloves\". Fields changed: title, subtitle, category, price, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T04:18:33.473Z"
+    },
+    {
+      "id": "log-1795664786405",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-008",
+      "details": "Updated product \"Alpine Shearling Lined Trekking Boot\". Fields changed: title, subtitle, category, price, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T03:46:26.405Z"
+    },
+    {
+      "id": "log-1795664646775",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-007",
+      "details": "Updated product \"Technical Polartec Thermal Zip Hoodie\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T03:44:06.775Z"
+    },
+    {
+      "id": "log-1795664500611",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-006",
+      "details": "Updated product \"Seamless Cashmere Thermal Turtleneck\". Fields changed: title, subtitle, category, price, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T03:41:40.611Z"
+    },
+    {
+      "id": "log-1795664350295",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Product Updated",
+      "entity": "Product",
+      "entityId": "prod-005",
+      "details": "Updated product \"Heavyweight Merino Cable Knit Sweater\". Fields changed: title, subtitle, category, price, compareAtPrice, stockCount, primaryImage, galleryImages, description, sizes, colorName, colorHex, colorways.",
+      "createdAt": "2026-11-26T03:39:10.295Z"
+    },
+    {
       "id": "log-1795662048574",
       "actorName": "Raihan Rana",
       "actorEmail": "admin@winter-fashion.com",
@@ -1154,5 +1214,108 @@
     "taxRate": 8.5,
     "lowStockThreshold": 5,
     "maintenanceMode": false
-  }
+  },
+  "campaigns": [
+    {
+      "id": "camp-001",
+      "title": "Hero Winter 26/27 Drop - Designed for Colder Days",
+      "slug": "colder-days-hero",
+      "type": "banner",
+      "placement": "hero",
+      "desktopImage": "/images/wardrobe/hero-hoodies-hd.jpg",
+      "mobileImage": "/images/wardrobe/hero-hoodies-hd.jpg",
+      "headline": "Designed for colder days",
+      "subheadline": "Our winter pieces focus on comfort, form, and quiet confidence. Easy to wear. Easy to keep.",
+      "badgeText": "NEW DROP",
+      "ctaText": "Shop the Collection",
+      "destinationUrl": "/products",
+      "startDate": "2026-11-19T04:15:56.272Z",
+      "endDate": "2027-01-25T04:15:56.272Z",
+      "isActive": true,
+      "impressions": 4892,
+      "clicks": 814,
+      "priority": 1,
+      "createdAt": "2026-11-19T04:15:56.272Z",
+      "updatedAt": "2026-11-26T04:15:56.272Z"
+    },
+    {
+      "id": "camp-002",
+      "title": "Top Announcement Bar - Global Express Transit & 25% Off",
+      "slug": "free-shipping-announcement",
+      "type": "announcement",
+      "placement": "announcement_bar",
+      "desktopImage": "",
+      "headline": "Complimentary Worldwide Express Transit on Orders Over $200",
+      "subheadline": "Enter Code ARCTIC25 at checkout for 25% off",
+      "badgeText": "LIMITED TIME",
+      "ctaText": "Claim 25% Off",
+      "destinationUrl": "/products",
+      "startDate": "2026-11-16T04:15:56.272Z",
+      "endDate": "2026-12-26T04:15:56.272Z",
+      "isActive": true,
+      "impressions": 12450,
+      "clicks": 1620,
+      "discountRule": {
+        "type": "percentage",
+        "value": 25,
+        "minPurchase": 200,
+        "couponCode": "ARCTIC25"
+      },
+      "priority": 1,
+      "createdAt": "2026-11-16T04:15:56.272Z",
+      "updatedAt": "2026-11-26T04:15:56.272Z"
+    },
+    {
+      "id": "camp-003",
+      "title": "Black Friday Sub-Zero Outerwear Flash Sale",
+      "slug": "black-friday-flash-sale",
+      "type": "flash_sale",
+      "placement": "promo_section",
+      "desktopImage": "/images/wardrobe/black-friday.jpg",
+      "mobileImage": "/images/wardrobe/black-friday.jpg",
+      "headline": "Black Friday deals are live",
+      "subheadline": "Premium down coats, thermal shells, and cashmere tailoring up to 40% off for 48 hours.",
+      "badgeText": "FLASH SALE",
+      "ctaText": "Shop Flash Deals",
+      "destinationUrl": "/products",
+      "startDate": "2026-11-25T16:15:56.272Z",
+      "endDate": "2026-11-27T16:15:56.272Z",
+      "isActive": true,
+      "impressions": 6180,
+      "clicks": 1240,
+      "countdownTimer": {
+        "enabled": true,
+        "targetDate": "2026-11-27T16:15:56.272Z"
+      },
+      "discountRule": {
+        "type": "percentage",
+        "value": 40,
+        "minPurchase": 150
+      },
+      "priority": 1,
+      "createdAt": "2026-11-25T16:15:56.272Z",
+      "updatedAt": "2026-11-26T04:15:56.272Z"
+    },
+    {
+      "id": "camp-004",
+      "title": "Category Split Feature - Women & Men Winter Cut",
+      "slug": "category-split-promo",
+      "type": "promo",
+      "placement": "category_header",
+      "desktopImage": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=800",
+      "headline": "Curated Cold-Weather Silhouettes",
+      "subheadline": "Tailored down parkas, heavyweight knits, and architectural alpine layering.",
+      "badgeText": "2026/27 EDITION",
+      "ctaText": "Explore Departments",
+      "destinationUrl": "/products",
+      "startDate": "2026-11-12T04:15:56.272Z",
+      "endDate": "2027-01-10T04:15:56.272Z",
+      "isActive": true,
+      "impressions": 3410,
+      "clicks": 495,
+      "priority": 2,
+      "createdAt": "2026-11-12T04:15:56.272Z",
+      "updatedAt": "2026-11-26T04:15:56.272Z"
+    }
+  ]
 }

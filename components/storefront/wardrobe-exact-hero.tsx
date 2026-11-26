@@ -4,21 +4,61 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
+import { AdminCampaign } from "@/lib/server/admin-store";
 
 export function WardrobeExactHero() {
+  const [campaign, setCampaign] = React.useState<AdminCampaign | null>(null);
+
+  React.useEffect(() => {
+    fetch("/api/campaigns?placement=hero")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.status === "success" && data.campaigns?.length > 0) {
+          const active = data.campaigns[0];
+          setCampaign(active);
+
+          // Track impression beacon
+          fetch("/api/admin/campaigns/track", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ campaignId: active.id, event: "impression" }),
+          }).catch(() => {});
+        }
+      })
+      .catch((err) => console.error("Failed to load hero campaign:", err));
+  }, []);
+
+  const handleCtaClick = () => {
+    if (!campaign) return;
+    fetch("/api/admin/campaigns/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ campaignId: campaign.id, event: "click" }),
+    }).catch(() => {});
+  };
+
+  const heroImage = campaign?.desktopImage || "/images/wardrobe/hero-hoodies-hd.jpg";
+  const badgeText = campaign?.badgeText || "NEW DROP";
+  const headline = campaign?.headline || "Designed for colder days";
+  const subheadline =
+    campaign?.subheadline ||
+    "Our winter pieces focus on comfort, form, and quiet confidence. Easy to wear. Easy to keep.";
+  const ctaText = campaign?.ctaText || "Shop now";
+  const destinationUrl = campaign?.destinationUrl || "/products";
+
   return (
     <section className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] max-h-[860px] overflow-hidden bg-[#EAE8E4]">
       {/* 
-        Hero Background: High-Definition Master of the Hoodies Rack (uploaded by user)
+        Hero Background: High-Definition Master of the Hoodies Rack (uploaded by user or campaign)
       */}
       <Image
-        src="/images/wardrobe/hero-hoodies-hd.jpg"
-        alt="Designed for colder days - Wardrobe Collection"
+        src={heroImage}
+        alt={headline}
         fill
         priority
         unoptimized
         sizes="100vw"
-        className="object-cover object-[center_35%] pointer-events-none"
+        className="object-cover object-[center_35%] pointer-events-none transition-opacity duration-700"
       />
 
       {/* Enhanced contrast vignette ensuring bold white text pops cleanly */}
@@ -27,12 +67,14 @@ export function WardrobeExactHero() {
       {/* Hero Content Box (Matching Exact Framer Positioning) */}
       <div className="relative z-10 max-w-[1500px] h-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
         <div className="max-w-xl space-y-4 pt-12 sm:pt-16">
-          {/* Red Pill: NEW DROP */}
-          <div>
-            <span className="inline-block bg-[#E11D48] text-white text-[0.68rem] sm:text-xs font-mono font-bold tracking-wider uppercase px-3 py-1 rounded-full shadow-md">
-              NEW DROP
-            </span>
-          </div>
+          {/* Badge Pill: NEW DROP or Campaign Badge */}
+          {badgeText && (
+            <div>
+              <span className="inline-block bg-[#E11D48] text-white text-[0.68rem] sm:text-xs font-mono font-bold tracking-wider uppercase px-3 py-1 rounded-full shadow-md">
+                {badgeText}
+              </span>
+            </div>
+          )}
 
           {/* Signature Headline in Bold Editorial Serif */}
           <h1
@@ -43,12 +85,12 @@ export function WardrobeExactHero() {
               textShadow: "0 4px 24px rgba(0, 0, 0, 0.75), 0 1px 4px rgba(0, 0, 0, 0.9)",
             }}
           >
-            Designed for colder days
+            {headline}
           </h1>
 
           {/* Subtitle */}
           <p className="text-sm sm:text-base text-white/95 font-sans leading-relaxed max-w-lg drop-shadow-xs">
-            Our winter pieces focus on comfort, form, and quiet confidence. Easy to wear. Easy to keep.
+            {subheadline}
           </p>
 
           {/* Social Proof: 5 Gold Stars + 1M+ satisfied customers */}
@@ -63,13 +105,14 @@ export function WardrobeExactHero() {
             </span>
           </div>
 
-          {/* Dark Pill CTA: Shop now */}
+          {/* Dark Pill CTA: Shop now or Campaign CTA */}
           <div className="pt-2">
             <Link
-              href="/products"
+              href={destinationUrl}
+              onClick={handleCtaClick}
               className="inline-block bg-[#111111] hover:bg-black text-white px-8 py-3.5 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-all duration-300 hover:scale-105 shadow-lg border border-white/10"
             >
-              Shop now
+              {ctaText}
             </Link>
           </div>
         </div>

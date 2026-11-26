@@ -3,18 +3,64 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AdminCampaign } from "@/lib/server/admin-store";
+import { Sparkles } from "lucide-react";
 
 export function WardrobeExactCategories() {
+  const [campaign, setCampaign] = React.useState<AdminCampaign | null>(null);
+
+  React.useEffect(() => {
+    fetch("/api/campaigns?placement=category_header")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.status === "success" && data.campaigns?.length > 0) {
+          const active = data.campaigns[0];
+          setCampaign(active);
+
+          // Track impression beacon
+          fetch("/api/admin/campaigns/track", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ campaignId: active.id, event: "impression" }),
+          }).catch(() => {});
+        }
+      })
+      .catch((err) => console.error("Failed to load category campaign:", err));
+  }, []);
+
+  const handleCtaClick = () => {
+    if (!campaign) return;
+    fetch("/api/admin/campaigns/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ campaignId: campaign.id, event: "click" }),
+    }).catch(() => {});
+  };
+
+  const title = campaign?.headline || "Shop by category";
+  const subtitle =
+    campaign?.subheadline ||
+    "Comfortable styles for women, men, and kids. Designed to be worn every day.";
+  const badgeText = campaign?.badgeText;
+
   return (
     <section className="w-full bg-[#FFFFFF] py-14 sm:py-20 border-b border-[#F0F0F0]">
       <div className="max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16">
-        {/* Header: Shop by category */}
+        {/* Header: Shop by category or dynamic campaign */}
         <div className="mb-8 sm:mb-10 space-y-1">
+          {badgeText && (
+            <div className="pb-1">
+              <span className="inline-flex items-center gap-1 bg-[#111] text-white text-[0.62rem] font-mono font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full shadow-xs">
+                <Sparkles className="w-2.5 h-2.5 text-amber-300" />
+                {badgeText}
+              </span>
+            </div>
+          )}
           <h2 className="font-editorial text-3xl sm:text-4xl text-[#111] font-normal tracking-tight">
-            Shop by category
+            {title}
           </h2>
           <p className="text-xs sm:text-sm text-[#666] font-sans">
-            Comfortable styles for women, men, and kids. Designed to be worn every day.
+            {subtitle}
           </p>
         </div>
 
@@ -23,10 +69,11 @@ export function WardrobeExactCategories() {
           {/* WOMEN CARD */}
           <Link
             href="/collections/women"
+            onClick={handleCtaClick}
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >
             <Image
-              src="/images/wardrobe/2c1VUc3b1EOQSlNqomiLkIAnSgM.png"
+              src="/images/wardrobe/new arrival-women.avif"
               alt="Women Collection"
               fill
               unoptimized
@@ -55,10 +102,11 @@ export function WardrobeExactCategories() {
           {/* MEN CARD */}
           <Link
             href="/collections/men"
+            onClick={handleCtaClick}
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >
             <Image
-              src="/images/wardrobe/unabh09aC1jyo60sOZAMIop582c.png"
+              src="/images/wardrobe/new arrival-men.webp"
               alt="Men Collection"
               fill
               unoptimized

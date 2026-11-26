@@ -10,10 +10,21 @@ export interface AdminSession {
 
 export const ROLE_PERMISSIONS: Record<AdminSession["role"], string[]> = {
   super_admin: ["all"],
-  admin: ["products:read", "products:write", "categories:write", "inventory:write", "orders:write", "coupons:write", "reviews:write", "settings:write"],
-  catalog_manager: ["products:read", "products:write", "categories:write", "inventory:write"],
-  order_specialist: ["orders:read", "orders:write", "customers:read", "inventory:read"],
-  support_agent: ["orders:read", "customers:read", "reviews:read", "reviews:write"],
+  admin: [
+    "products:read",
+    "products:write",
+    "categories:write",
+    "inventory:write",
+    "orders:write",
+    "coupons:write",
+    "reviews:write",
+    "settings:write",
+    "campaigns:read",
+    "campaigns:write",
+  ],
+  catalog_manager: ["products:read", "products:write", "categories:write", "inventory:write", "campaigns:read", "campaigns:write"],
+  order_specialist: ["orders:read", "orders:write", "customers:read", "inventory:read", "campaigns:read"],
+  support_agent: ["orders:read", "customers:read", "reviews:read", "reviews:write", "campaigns:read"],
 };
 
 export function getAdminSessionFromRequest(request: NextRequest): AdminSession {

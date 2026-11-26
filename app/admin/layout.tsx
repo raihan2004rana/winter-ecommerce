@@ -22,6 +22,7 @@ import {
   Search,
   Bell,
   ChevronDown,
+  Megaphone,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -32,6 +33,7 @@ const NAV_ITEMS = [
   { href: "/admin/orders", label: "Orders", icon: ShoppingBag, badge: "5" },
   { href: "/admin/customers", label: "Customers", icon: Users },
   { href: "/admin/coupons", label: "Coupons & Discounts", icon: Tag },
+  { href: "/admin/campaigns", label: "Marketing & Ads", icon: Megaphone, badge: "Live" },
   { href: "/admin/reviews", label: "Reviews Moderation", icon: Star, badge: "1" },
   { href: "/admin/staff", label: "Staff & Permissions", icon: ShieldCheck },
   { href: "/admin/settings", label: "Store Configuration", icon: Settings },

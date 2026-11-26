@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { WardrobeAnnouncementBar } from "@/components/storefront/wardrobe-announcement-bar";
 import { WardrobeExactHeader } from "@/components/storefront/wardrobe-exact-header";
 import { WardrobeExactHero } from "@/components/storefront/wardrobe-exact-hero";
 import { WardrobeExactBestSellers } from "@/components/storefront/wardrobe-exact-best-sellers";
@@ -101,6 +102,9 @@ export default function StorefrontHomePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#111] font-sans selection:bg-[#111] selection:text-white">
+      {/* Top Announcement Bar (Live Marketing Campaign with Coupon & Real-time Tracking) */}
+      <WardrobeAnnouncementBar />
+
       {/* 1. Header (WARDROBE logo, Women, Men, Journal, About, Cart Pill) */}
       <WardrobeExactHeader
         cartCount={totalCartCount}

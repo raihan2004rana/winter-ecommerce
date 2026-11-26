@@ -100,6 +100,41 @@ export interface AdminAuditLog {
   createdAt: string;
 }
 
+export interface AdminCampaign {
+  id: string;
+  title: string;
+  slug: string;
+  type: "banner" | "promo" | "announcement" | "flash_sale" | "popup";
+  placement: "hero" | "announcement_bar" | "promo_section" | "category_header" | "product_page";
+  desktopImage: string;
+  mobileImage?: string;
+  headline: string;
+  subheadline?: string;
+  badgeText?: string;
+  ctaText: string;
+  destinationUrl: string;
+  startDate: string; // ISO String
+  endDate: string; // ISO String
+  isActive: boolean;
+  impressions: number;
+  clicks: number;
+  discountRule?: {
+    type: "percentage" | "fixed_amount" | "free_shipping";
+    value: number;
+    minPurchase?: number;
+    couponCode?: string;
+    targetCategory?: string;
+    targetProductId?: string;
+  };
+  countdownTimer?: {
+    enabled: boolean;
+    targetDate: string; // ISO String
+  };
+  priority: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AdminSettings {
   storeName: string;
   storeDomain: string;
@@ -121,6 +156,7 @@ interface AdminState {
   coupons: AdminCoupon[];
   reviews: AdminReview[];
   staff: AdminStaff[];
+  campaigns: AdminCampaign[];
   auditLogs: AdminAuditLog[];
   settings: AdminSettings;
 }
@@ -613,6 +649,110 @@ function getInitialState(): AdminState {
     maintenanceMode: false,
   };
 
+  const initialCampaigns: AdminCampaign[] = [
+    {
+      id: "camp-001",
+      title: "Hero Winter 26/27 Drop - Designed for Colder Days",
+      slug: "colder-days-hero",
+      type: "banner",
+      placement: "hero",
+      desktopImage: "/images/wardrobe/hero-hoodies-hd.jpg",
+      mobileImage: "/images/wardrobe/hero-hoodies-hd.jpg",
+      headline: "Designed for colder days",
+      subheadline: "Our winter pieces focus on comfort, form, and quiet confidence. Easy to wear. Easy to keep.",
+      badgeText: "NEW DROP",
+      ctaText: "Shop the Collection",
+      destinationUrl: "/products",
+      startDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
+      endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 60).toISOString(),
+      isActive: true,
+      impressions: 4892,
+      clicks: 814,
+      priority: 1,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "camp-002",
+      title: "Top Announcement Bar - Global Express Transit & 25% Off",
+      slug: "free-shipping-announcement",
+      type: "announcement",
+      placement: "announcement_bar",
+      desktopImage: "",
+      headline: "Complimentary Worldwide Express Transit on Orders Over $200",
+      subheadline: "Enter Code ARCTIC25 at checkout for 25% off",
+      badgeText: "LIMITED TIME",
+      ctaText: "Claim 25% Off",
+      destinationUrl: "/products",
+      startDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(),
+      endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
+      isActive: true,
+      impressions: 12450,
+      clicks: 1620,
+      discountRule: {
+        type: "percentage",
+        value: 25,
+        minPurchase: 200,
+        couponCode: "ARCTIC25",
+      },
+      priority: 1,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "camp-003",
+      title: "Black Friday Sub-Zero Outerwear Flash Sale",
+      slug: "black-friday-flash-sale",
+      type: "flash_sale",
+      placement: "promo_section",
+      desktopImage: "/images/wardrobe/black-friday.jpg",
+      mobileImage: "/images/wardrobe/black-friday.jpg",
+      headline: "Black Friday deals are live",
+      subheadline: "Premium down coats, thermal shells, and cashmere tailoring up to 40% off for 48 hours.",
+      badgeText: "FLASH SALE",
+      ctaText: "Shop Flash Deals",
+      destinationUrl: "/products",
+      startDate: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
+      endDate: new Date(Date.now() + 1000 * 60 * 60 * 36).toISOString(),
+      isActive: true,
+      impressions: 6180,
+      clicks: 1240,
+      countdownTimer: {
+        enabled: true,
+        targetDate: new Date(Date.now() + 1000 * 60 * 60 * 36).toISOString(),
+      },
+      discountRule: {
+        type: "percentage",
+        value: 40,
+        minPurchase: 150,
+      },
+      priority: 1,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "camp-004",
+      title: "Category Split Feature - Women & Men Winter Cut",
+      slug: "category-split-promo",
+      type: "promo",
+      placement: "category_header",
+      desktopImage: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=800",
+      headline: "Curated Cold-Weather Silhouettes",
+      subheadline: "Tailored down parkas, heavyweight knits, and architectural alpine layering.",
+      badgeText: "2026/27 EDITION",
+      ctaText: "Explore Departments",
+      destinationUrl: "/products",
+      startDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14).toISOString(),
+      endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 45).toISOString(),
+      isActive: true,
+      impressions: 3410,
+      clicks: 495,
+      priority: 2,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14).toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ];
+
   return {
     products: initialProducts,
     categories: initialCategories,
@@ -621,6 +761,7 @@ function getInitialState(): AdminState {
     coupons: initialCoupons,
     reviews: initialReviews,
     staff: initialStaff,
+    campaigns: initialCampaigns,
     auditLogs: initialAuditLogs,
     settings: initialSettings,
   };
@@ -636,6 +777,10 @@ function loadState(): AdminState {
     if (fs.existsSync(STATE_FILE)) {
       const data = fs.readFileSync(STATE_FILE, "utf-8");
       memoryState = JSON.parse(data);
+      if (!memoryState!.campaigns || memoryState!.campaigns.length === 0) {
+        memoryState!.campaigns = getInitialState().campaigns;
+        saveState(memoryState!);
+      }
       return memoryState!;
     }
   } catch (err) {
@@ -1119,7 +1264,158 @@ export const AdminStore = {
     return state.settings;
   },
 
-  // 11. Audit Logs
+  // 11. Marketing & Campaign Management
+  getCampaigns(query?: { placement?: string; type?: string; status?: "all" | "active" | "scheduled" | "expired" }) {
+    const state = loadState();
+    let campaigns = [...(state.campaigns || [])];
+    const now = new Date();
+
+    if (query?.placement && query.placement !== "all") {
+      campaigns = campaigns.filter((c) => c.placement === query.placement);
+    }
+
+    if (query?.type && query.type !== "all") {
+      campaigns = campaigns.filter((c) => c.type === query.type);
+    }
+
+    if (query?.status && query.status !== "all") {
+      if (query.status === "active") {
+        campaigns = campaigns.filter((c) => c.isActive && now >= new Date(c.startDate) && now <= new Date(c.endDate));
+      } else if (query.status === "scheduled") {
+        campaigns = campaigns.filter((c) => now < new Date(c.startDate));
+      } else if (query.status === "expired") {
+        campaigns = campaigns.filter((c) => now > new Date(c.endDate));
+      }
+    }
+
+    // Sort by priority ascending, then createdAt descending
+    return campaigns.sort((a, b) => a.priority - b.priority || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  },
+
+  getCampaignById(id: string) {
+    const state = loadState();
+    return (state.campaigns || []).find((c) => c.id === id) || null;
+  },
+
+  createCampaign(data: Partial<AdminCampaign>, actor: { name: string; email: string }) {
+    const state = loadState();
+    const now = new Date();
+    const newCampaign: AdminCampaign = {
+      id: `camp-${Date.now()}`,
+      title: data.title || "Untitled Campaign",
+      slug: (data.title || "campaign").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+      type: data.type || "banner",
+      placement: data.placement || "hero",
+      desktopImage: data.desktopImage || "/images/wardrobe/hero-hoodies-hd.jpg",
+      mobileImage: data.mobileImage || data.desktopImage || "/images/wardrobe/hero-hoodies-hd.jpg",
+      headline: data.headline || "",
+      subheadline: data.subheadline || "",
+      badgeText: data.badgeText || "",
+      ctaText: data.ctaText || "Shop Now",
+      destinationUrl: data.destinationUrl || "/products",
+      startDate: data.startDate || now.toISOString(),
+      endDate: data.endDate || new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30).toISOString(),
+      isActive: data.isActive ?? true,
+      impressions: 0,
+      clicks: 0,
+      discountRule: data.discountRule,
+      countdownTimer: data.countdownTimer,
+      priority: data.priority ?? 1,
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    };
+
+    if (!state.campaigns) state.campaigns = [];
+    state.campaigns.unshift(newCampaign);
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: actor.name,
+      actorEmail: actor.email,
+      action: "Campaign Created",
+      entity: "Campaign",
+      entityId: newCampaign.id,
+      details: `Launched campaign "${newCampaign.title}" in placement ${newCampaign.placement}.`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return newCampaign;
+  },
+
+  updateCampaign(id: string, updates: Partial<AdminCampaign>, actor: { name: string; email: string }) {
+    const state = loadState();
+    if (!state.campaigns) state.campaigns = [];
+    const idx = state.campaigns.findIndex((c) => c.id === id);
+    if (idx === -1) return null;
+
+    const previous = state.campaigns[idx];
+    state.campaigns[idx] = {
+      ...previous,
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: actor.name,
+      actorEmail: actor.email,
+      action: "Campaign Updated",
+      entity: "Campaign",
+      entityId: id,
+      details: `Updated campaign "${state.campaigns[idx].title}". Fields changed: ${Object.keys(updates).join(", ")}.`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return state.campaigns[idx];
+  },
+
+  deleteCampaign(id: string, actor: { name: string; email: string }) {
+    const state = loadState();
+    if (!state.campaigns) state.campaigns = [];
+    const idx = state.campaigns.findIndex((c) => c.id === id);
+    if (idx === -1) return false;
+
+    const deleted = state.campaigns[idx];
+    state.campaigns.splice(idx, 1);
+
+    state.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actorName: actor.name,
+      actorEmail: actor.email,
+      action: "Campaign Deleted",
+      entity: "Campaign",
+      entityId: id,
+      details: `Permanently removed marketing campaign "${deleted.title}".`,
+      createdAt: new Date().toISOString(),
+    });
+
+    saveState(state);
+    return true;
+  },
+
+  recordCampaignEvent(id: string, event: "impression" | "click") {
+    const state = loadState();
+    if (!state.campaigns) state.campaigns = [];
+    const campaign = state.campaigns.find((c) => c.id === id);
+    if (!campaign) return null;
+
+    if (event === "impression") {
+      campaign.impressions = (campaign.impressions || 0) + 1;
+    } else if (event === "click") {
+      campaign.clicks = (campaign.clicks || 0) + 1;
+    }
+
+    saveState(state);
+    return {
+      id: campaign.id,
+      impressions: campaign.impressions,
+      clicks: campaign.clicks,
+    };
+  },
+
+  // 12. Audit Logs
   getAuditLogs() {
     return loadState().auditLogs;
   },

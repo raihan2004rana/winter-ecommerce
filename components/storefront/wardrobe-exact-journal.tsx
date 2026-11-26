@@ -16,7 +16,7 @@ const ARTICLES = [
   },
   {
     id: "art-2",
-    image: "/images/wardrobe/X42XXA7yGdO53dNmecgC336H6o.jpg",
+    image: "/images/wardrobe/layer-denim.jpg",
     category: "How to wear",
     readTime: "4 min read",
     title: "Layering denim for transitional weather",

@@ -8,31 +8,31 @@ import { Star, ChevronLeft, ChevronRight, Heart } from "lucide-react";
 const SLIDES = [
   {
     id: 0,
-    image: "/images/wardrobe/2c1VUc3b1EOQSlNqomiLkIAnSgM.png",
+    image: "/images/wardrobe/slider-1.jpg",
     alt: "Customer in Navy Knit Top",
     handle: "@elena.style",
   },
   {
     id: 1,
-    image: "/images/wardrobe/uSP5ea5zqNJXxT5jmPWYTI3wZMc.jpg",
+    image: "/images/wardrobe/slider-2.avif",
     alt: "Customer in Red Sweater & Sunglasses",
     handle: "@sophia.alp",
   },
   {
     id: 2,
-    image: "/images/wardrobe/XXPFXEgfRUbG6MILrHhmeoyixII.jpg",
+    image: "/images/wardrobe/slider-3.avif",
     alt: "Customer in White Coat in Meadow",
     handle: "@nordic.kora",
   },
   {
     id: 3,
-    image: "/images/wardrobe/bZjYMI83pPwIDnCh0nG79sedo.jpg",
+    image: "/images/wardrobe/slider-4.jpg",
     alt: "Customer in Green Studio",
     handle: "@marcus.vogue",
   },
   {
     id: 4,
-    image: "/images/wardrobe/lIT6XTSJ7w7ldhyW6UnppvsA.jpg",
+    image: "/images/wardrobe/slider-5.jpg",
     alt: "Customer in Camel Overcoat",
     handle: "@clara.berlin",
   },
@@ -236,11 +236,10 @@ export function WardrobeExactUgc() {
                       "transform 650ms cubic-bezier(0.25, 1, 0.5, 1), opacity 650ms ease, filter 650ms ease",
                     pointerEvents: isVisible ? "auto" : "none",
                   }}
-                  className={`absolute w-[220px] sm:w-[280px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer ${
-                    isCenter
+                  className={`absolute w-[220px] sm:w-[280px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer ${isCenter
                       ? "shadow-[0_20px_50px_rgba(0,0,0,0.25)] border-[3px] border-white ring-1 ring-black/5"
                       : "shadow-xl border border-white/60 hover:opacity-100"
-                  }`}
+                    }`}
                 >
                   <Image
                     src={slide.image}
@@ -261,9 +260,8 @@ export function WardrobeExactUgc() {
                     aria-label="Like moment"
                   >
                     <Heart
-                      className={`h-4 w-4 ${
-                        liked[idx] ? "fill-red-500 text-red-500" : "text-white"
-                      } transition-colors`}
+                      className={`h-4 w-4 ${liked[idx] ? "fill-red-500 text-red-500" : "text-white"
+                        } transition-colors`}
                     />
                   </button>
 
@@ -286,11 +284,10 @@ export function WardrobeExactUgc() {
               key={i}
               onClick={() => setActiveIndex(i)}
               aria-label={`Jump to slide ${i + 1}`}
-              className={`h-2 transition-all duration-300 rounded-full ${
-                activeIndex === i
+              className={`h-2 transition-all duration-300 rounded-full ${activeIndex === i
                   ? "w-7 bg-[#111]"
                   : "w-2 bg-[#D1D1D6] hover:bg-[#8E8E93]"
-              }`}
+                }`}
             />
           ))}
         </div>
