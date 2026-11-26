@@ -1,0 +1,1129 @@
+{
+  "products": [
+    {
+      "id": "prod-001",
+      "slug": "nordic-expedition-down-parka",
+      "title": "Nordic Expedition Down Parka",
+      "subtitle": "850 Fill Power Goose Down with 20,000mm Toray Waterproof Shell",
+      "description": "Constructed for extreme sub-zero conditions in northern climates. Features seamless ultrasonic baffles to eliminate cold spots, an insulated wire-brimmed storm hood, internal fleece handwarmer pockets, and heavy-duty two-way YKK Aquaguard zips.",
+      "gender": "men",
+      "category": "jackets-coats",
+      "categoryLabel": "Jackets & Coats",
+      "collectionSlug": "men",
+      "price": 685,
+      "compareAtPrice": 795,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-30°C Sub-Zero",
+      "tempCelsiusMin": -30,
+      "tempCelsiusMax": -10,
+      "waterproofRating": "20,000mm DWR",
+      "fillPower": "850 Fill Goose Down",
+      "materials": [
+        "100% Recycled Japanese Polyamide Shell",
+        "90/10 RDS Certified Down",
+        "Microfleece Thermal Lining"
+      ],
+      "careInstructions": "Specialist down dry clean only. Tumble dry delicate with tennis balls.",
+      "fitType": "Expedition Fit",
+      "colorways": [
+        {
+          "name": "Obsidian Slate",
+          "hex": "#18191A"
+        },
+        {
+          "name": "Alpine Pine",
+          "hex": "#2B3D2E"
+        },
+        {
+          "name": "Glacial Frost",
+          "hex": "#768C9E"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "isNew": true,
+      "isBestSeller": true,
+      "isSale": true,
+      "stockCount": 4,
+      "stockWarning": "Only 4 units remaining in Size L",
+      "rating": 4.95,
+      "reviewCount": 48,
+      "reviews": [
+        {
+          "id": "r1",
+          "author": "Henrik L.",
+          "location": "Stockholm, Sweden",
+          "rating": 5,
+          "date": "November 2026",
+          "title": "Absolute masterclass in thermal warmth",
+          "comment": "Wore this at -25°C in northern Sweden during heavy snowfall. Not a hint of cold wind penetrated. The fleece pockets are brilliant.",
+          "fitFeedback": "true_to_size",
+          "verified": true
+        },
+        {
+          "id": "r2",
+          "author": "Marc B.",
+          "location": "Montreal, Canada",
+          "rating": 5,
+          "date": "October 2026",
+          "title": "Warmest coat I have owned",
+          "comment": "Lighter than a Canada Goose parka yet significantly warmer due to the 850 fill down loft. True to European tailoring.",
+          "fitFeedback": "true_to_size",
+          "verified": true
+        }
+      ],
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-002",
+      "slug": "belted-longline-down-coat",
+      "title": "Belted Longline Down Cocoon Coat",
+      "subtitle": "Full-Length 800 Fill Power Down with Detachable Storm Belt",
+      "description": "A tailored maxi-length down coat designed for full-body thermal insulation from neck to mid-calf. Double-faced down baffles trap radiant heat, complemented by a plush down collar and storm cuffs.",
+      "gender": "women",
+      "category": "jackets-coats",
+      "categoryLabel": "Jackets & Coats",
+      "collectionSlug": "women",
+      "price": 549,
+      "compareAtPrice": 650,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-25°C Sub-Zero",
+      "waterproofRating": "15,000mm DWR",
+      "fillPower": "800 Fill Power",
+      "materials": [
+        "Italian Matte Nylon Shell",
+        "RDS Down Insulation",
+        "Satin Interior Lining"
+      ],
+      "careInstructions": "Specialist cold dry clean.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Espresso Brown",
+          "hex": "#3A2924"
+        },
+        {
+          "name": "Onyx Black",
+          "hex": "#141517"
+        },
+        {
+          "name": "Raw Ecru",
+          "hex": "#EDE9E1"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "isBestSeller": true,
+      "isRestock": true,
+      "isSale": true,
+      "stockCount": 6,
+      "stockWarning": "Restocked for Winter 2026/27 Drop",
+      "rating": 4.96,
+      "reviewCount": 39,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-003",
+      "slug": "tailored-double-faced-cashmere-overcoat",
+      "title": "Tailored Double-Faced Cashmere Overcoat",
+      "subtitle": "100% Grade-A Mongolian Cashmere • Horn Buttons",
+      "description": "Crafted from premium double-faced Mongolian cashmere for lightweight yet profound insulation. Designed to drape cleanly over suit tailoring or heavy winter knitwear.",
+      "gender": "men",
+      "category": "jackets-coats",
+      "categoryLabel": "Jackets & Coats",
+      "collectionSlug": "men",
+      "price": 890,
+      "compareAtPrice": 1100,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-12°C City Winter",
+      "materials": [
+        "100% Grade-A Cashmere",
+        "Natural Buffalo Horn Buttons"
+      ],
+      "careInstructions": "Luxury dry clean only.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Deep Charcoal",
+          "hex": "#1C1D1F"
+        },
+        {
+          "name": "Camel Melange",
+          "hex": "#B87A47"
+        }
+      ],
+      "sizes": [
+        "46",
+        "48",
+        "50",
+        "52",
+        "54"
+      ],
+      "isNew": true,
+      "isSale": true,
+      "stockCount": 3,
+      "stockWarning": "Flash Sale • Save $210",
+      "rating": 5,
+      "reviewCount": 22,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-004",
+      "slug": "thermal-insulated-shell-coat-mint",
+      "title": "Thermal Insulated Shell Coat",
+      "subtitle": "Japanese Ripstop in Glacial Mint with 750 Fill Down",
+      "description": "A modern boxy cropped down jacket with oversized baffles, fleece-lined pocket warmers, and a protective chimney collar.",
+      "gender": "women",
+      "category": "jackets-coats",
+      "categoryLabel": "Jackets & Coats",
+      "collectionSlug": "women",
+      "price": 249,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-20°C Thermal",
+      "waterproofRating": "15,000mm DWR",
+      "fillPower": "750 Fill Power",
+      "materials": [
+        "Recycled Toray Polyamide",
+        "RDS Goose Down"
+      ],
+      "careInstructions": "Machine wash delicate cold. Low tumble dry.",
+      "fitType": "Relaxed Layering",
+      "colorways": [
+        {
+          "name": "Glacial Mint",
+          "hex": "#7BB5B4"
+        },
+        {
+          "name": "Snow Ivory",
+          "hex": "#F5F5F3"
+        },
+        {
+          "name": "Chocolate Brown",
+          "hex": "#543C32"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "isNew": true,
+      "stockCount": 8,
+      "rating": 4.9,
+      "reviewCount": 31,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-005",
+      "slug": "heavyweight-merino-cable-knit",
+      "title": "Heavyweight Merino Cable Knit Sweater",
+      "subtitle": "100% Virgin Tasmanian Merino Wool • 450 GSM",
+      "description": "Circular-knitted in Northern Italy using dense 450 GSM pure Tasmanian Merino wool. Features traditional honeycomb and rope cable motifs with shape-retaining ribbed collars.",
+      "gender": "unisex",
+      "category": "sweaters-hoodies",
+      "categoryLabel": "Sweaters & Hoodies",
+      "collectionSlug": "new-arrivals",
+      "price": 345,
+      "compareAtPrice": 395,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-15°C Mid-Layer",
+      "materials": [
+        "100% Extra-fine Tasmanian Merino Wool"
+      ],
+      "careInstructions": "Hand wash cold with wool detergent. Dry flat.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Raw Ecru",
+          "hex": "#EDE9E1"
+        },
+        {
+          "name": "Highland Charcoal",
+          "hex": "#2B2D2F"
+        },
+        {
+          "name": "Alpine Pine",
+          "hex": "#2B3D2E"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "isBestSeller": true,
+      "isSale": true,
+      "stockCount": 14,
+      "rating": 4.89,
+      "reviewCount": 42,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-006",
+      "slug": "cashmere-thermal-turtleneck",
+      "title": "Seamless Cashmere Thermal Turtleneck",
+      "subtitle": "Pure 2-Ply Mongolian Cashmere • Gauge 12",
+      "description": "Silky soft against bare skin, this seamless circular-knit turtleneck offers supreme insulation as an alpine base or elegant evening knit.",
+      "gender": "women",
+      "category": "sweaters-hoodies",
+      "categoryLabel": "Sweaters & Hoodies",
+      "collectionSlug": "women",
+      "price": 295,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-10°C Base Layer",
+      "materials": [
+        "100% Mongolian Cashmere 2-Ply"
+      ],
+      "careInstructions": "Hand wash cold. Dry flat.",
+      "fitType": "Slim Fit",
+      "colorways": [
+        {
+          "name": "Oatmeal",
+          "hex": "#D8D2C5"
+        },
+        {
+          "name": "Obsidian",
+          "hex": "#18191A"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "isNew": true,
+      "stockCount": 7,
+      "rating": 4.94,
+      "reviewCount": 18,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-007",
+      "slug": "technical-polartec-thermal-hoodie",
+      "title": "Technical Polartec Thermal Zip Hoodie",
+      "subtitle": "High-Loft Thermal Pro Fleece • Reinforced Shell Panels",
+      "description": "A rugged technical fleece engineered for active winter sports and mountain approaches. Abrasion-resistant nylon panels shield shoulders from backpack wear.",
+      "gender": "men",
+      "category": "sweaters-hoodies",
+      "categoryLabel": "Sweaters & Hoodies",
+      "collectionSlug": "men",
+      "price": 225,
+      "compareAtPrice": 260,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-10°C Mountain Mid-Layer",
+      "materials": [
+        "Polartec Thermal Pro Fleece",
+        "Cordura Nylon Shoulder Overlays"
+      ],
+      "careInstructions": "Machine wash cold. Do not use fabric softeners.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Slate Grey",
+          "hex": "#5C6570"
+        },
+        {
+          "name": "Spruce Forest",
+          "hex": "#2B3D2E"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "isSale": true,
+      "stockCount": 10,
+      "rating": 4.84,
+      "reviewCount": 25,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-008",
+      "slug": "alpine-shearling-lined-trekking-boot",
+      "title": "Alpine Shearling Lined Trekking Boot",
+      "subtitle": "Waterproof Tuscan Calfskin with Arctic Grip Vibram Outsole",
+      "description": "Hand-welted Italian leather exterior with full 18mm pure shearling lining down to the insole. The patented Vibram Arctic Grip lug sole provides maximum traction on wet ice.",
+      "gender": "unisex",
+      "category": "boots-accessories",
+      "categoryLabel": "Boots & Accessories",
+      "collectionSlug": "new-arrivals",
+      "price": 495,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-25°C Thermal Footwear",
+      "waterproofRating": "Fully Seam-Sealed",
+      "materials": [
+        "Tuscan Waxed Full-Grain Calfskin",
+        "100% Genuine Australian Shearling",
+        "Vibram Arctic Grip Rubber"
+      ],
+      "careInstructions": "Condition with beeswax leather balm twice per season.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Tuscan Tan",
+          "hex": "#9E6D38"
+        },
+        {
+          "name": "Mineral Black",
+          "hex": "#111213"
+        }
+      ],
+      "sizes": [
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ],
+      "isBestSeller": true,
+      "stockCount": 6,
+      "stockWarning": "Only 6 pairs remaining across sizes",
+      "rating": 4.95,
+      "reviewCount": 36,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-009",
+      "slug": "brushed-cashmere-ribbed-scarf",
+      "title": "Thistle-Brushed Pure Cashmere Scarf",
+      "subtitle": "220cm Length • Hand-Finished Raw Edges",
+      "description": "Woven from high-micron cashmere fibers that undergo a traditional thistle-brushing process for exceptional fluff and soft warmth without scratchiness.",
+      "gender": "unisex",
+      "category": "boots-accessories",
+      "categoryLabel": "Boots & Accessories",
+      "collectionSlug": "sale",
+      "price": 185,
+      "compareAtPrice": 220,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-20°C Thermal Accessory",
+      "materials": [
+        "100% Inner Mongolian Cashmere"
+      ],
+      "careInstructions": "Dry clean or hand wash cold.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Raw Ecru",
+          "hex": "#EDE9E1"
+        },
+        {
+          "name": "Alpine Pine",
+          "hex": "#2B3D2E"
+        },
+        {
+          "name": "Obsidian",
+          "hex": "#18191A"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "isBestSeller": true,
+      "isSale": true,
+      "stockCount": 16,
+      "rating": 4.97,
+      "reviewCount": 58,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-010",
+      "slug": "deerskin-thermal-primaloft-gloves",
+      "title": "Wild Deerskin PrimaLoft Gold Gloves",
+      "subtitle": "Supple American Deerskin • Touchscreen Compatible",
+      "description": "Naturally durable, buttery deerskin leather exterior with PrimaLoft Gold microfiber insulation and soft brushed Bemberg lining. Includes conductive leather fingertips.",
+      "gender": "unisex",
+      "category": "boots-accessories",
+      "categoryLabel": "Boots & Accessories",
+      "collectionSlug": "new-arrivals",
+      "price": 145,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-20°C Hand Warmth",
+      "materials": [
+        "100% Wild Deerskin Leather",
+        "PrimaLoft Gold Eco Microfiber",
+        "Bemberg Lining"
+      ],
+      "careInstructions": "Leather balm conditioning.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Nutmeg Tan",
+          "hex": "#9E6D38"
+        },
+        {
+          "name": "Coal Black",
+          "hex": "#18191A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stockCount": 12,
+      "rating": 4.92,
+      "reviewCount": 34,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-011",
+      "slug": "glacier-3-layer-gore-alpine-shell",
+      "title": "Glacier 3-Layer GORE Alpine Shell",
+      "subtitle": "28,000mm Waterproof Membrane with Micro-Seam Taping",
+      "description": "Our most technical weather-defense jacket. Built to withstand blowing blizzards, freezing rain, and high mountain gusts. Features helmet-compatible storm hood and dual pit ventilation zips.",
+      "gender": "men",
+      "category": "jackets-coats",
+      "categoryLabel": "Jackets & Coats",
+      "collectionSlug": "men",
+      "price": 520,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=85&w=1200",
+        "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "Storm Armor (Wind/Rain/Snow)",
+      "waterproofRating": "28,000mm GORE-TEX Pro",
+      "materials": [
+        "3-Layer Recycled GORE-TEX Pro",
+        "YKK Aquaguard Zips"
+      ],
+      "careInstructions": "Machine wash warm with technical liquid detergent.",
+      "fitType": "Expedition Fit",
+      "colorways": [
+        {
+          "name": "Arctic Slate",
+          "hex": "#95A1AD"
+        },
+        {
+          "name": "Spruce Forest",
+          "hex": "#2B3D2E"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "isNew": true,
+      "stockCount": 7,
+      "rating": 4.95,
+      "reviewCount": 29,
+      "isPublished": true,
+      "isArchived": false
+    },
+    {
+      "id": "prod-012",
+      "slug": "sub-zero-quilted-down-vest",
+      "title": "Sub-Zero Quilted Down Vest",
+      "subtitle": "800 Fill Power Goose Down with Stand Collar",
+      "description": "A versatile winter mid-layer providing core warmth without arm restriction. Japanese matte nylon exterior with two-way front zip and hidden zip waist pockets.",
+      "gender": "unisex",
+      "category": "jackets-coats",
+      "categoryLabel": "Jackets & Coats",
+      "collectionSlug": "sale",
+      "price": 295,
+      "compareAtPrice": 350,
+      "currency": "USD",
+      "primaryImage": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200",
+      "secondaryImage": "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=1200",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=1200"
+      ],
+      "temperatureRating": "-15°C Versatile Core Layer",
+      "fillPower": "800 Fill Down",
+      "materials": [
+        "Japanese Micro-Taffeta Nylon",
+        "90/10 RDS Goose Down"
+      ],
+      "careInstructions": "Machine wash delicate cold. Low tumble dry with tennis balls.",
+      "fitType": "Regular Fit",
+      "colorways": [
+        {
+          "name": "Alpine Pine",
+          "hex": "#2B3D2E"
+        },
+        {
+          "name": "Charcoal Slate",
+          "hex": "#2B2D2F"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "isSale": true,
+      "stockCount": 5,
+      "stockWarning": "Only 5 units remaining in stock",
+      "rating": 4.83,
+      "reviewCount": 21,
+      "isPublished": true,
+      "isArchived": false
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-1",
+      "name": "Jackets & Coats",
+      "slug": "jackets-coats",
+      "description": "Down parkas, high-altitude shells and tailored winter coats.",
+      "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=600",
+      "productCount": 5
+    },
+    {
+      "id": "cat-2",
+      "name": "Sweaters & Hoodies",
+      "slug": "sweaters-hoodies",
+      "description": "Merino wool cable-knits, cashmere turtlenecks and Polartec fleece.",
+      "image": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=600",
+      "productCount": 4
+    },
+    {
+      "id": "cat-3",
+      "name": "Boots & Accessories",
+      "slug": "boots-accessories",
+      "description": "Vibram Arctic Grip trekking boots, cashmere beanies and gloves.",
+      "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=600",
+      "productCount": 3
+    },
+    {
+      "id": "cat-4",
+      "name": "Women Collection",
+      "slug": "women",
+      "description": "Curated winter silhouettes designed for colder metropolitan days.",
+      "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=600",
+      "productCount": 6
+    },
+    {
+      "id": "cat-5",
+      "name": "Men Collection",
+      "slug": "men",
+      "description": "Technical alpine insulation and rugged performance layering.",
+      "image": "https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=85&w=600",
+      "productCount": 6
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-901",
+      "orderNumber": "MON-2026-8941",
+      "customerName": "Julian Vance",
+      "customerEmail": "julian.vance@geneva-capital.ch",
+      "total": 1030,
+      "currency": "USD",
+      "status": "delivered",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "fulfilled",
+      "items": [
+        {
+          "id": "prod-001",
+          "title": "Nordic Expedition Down Parka",
+          "price": 685,
+          "size": "L",
+          "color": "Obsidian Slate",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=300"
+        },
+        {
+          "id": "prod-005",
+          "title": "Heavyweight Merino Cable Knit Sweater",
+          "price": 345,
+          "size": "L",
+          "color": "Bone White",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=85&w=300"
+        }
+      ],
+      "shippingAddress": {
+        "street": "Rue du Rhône 42",
+        "city": "Geneva",
+        "state": "GE",
+        "postalCode": "1204",
+        "country": "Switzerland"
+      },
+      "trackingNumber": "DHL-CH-882941019",
+      "createdAt": "2026-11-25T21:43:58.726Z"
+    },
+    {
+      "id": "ord-902",
+      "orderNumber": "MON-2026-8942",
+      "customerName": "Elena Rostova",
+      "customerEmail": "elena.rostova@lifestyle.no",
+      "total": 794,
+      "currency": "USD",
+      "status": "processing",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "partial",
+      "items": [
+        {
+          "id": "prod-002",
+          "title": "Belted Longline Down Cocoon Coat",
+          "price": 549,
+          "size": "M",
+          "color": "Glacial Frost",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=85&w=300"
+        },
+        {
+          "id": "prod-004",
+          "title": "Thermal Insulated Shell Coat",
+          "price": 249,
+          "size": "S",
+          "color": "Glacial Mint",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&q=85&w=300"
+        }
+      ],
+      "shippingAddress": {
+        "street": "Karl Johans gate 14",
+        "city": "Oslo",
+        "state": "Oslo",
+        "postalCode": "0154",
+        "country": "Norway"
+      },
+      "trackingNumber": "DHL-NO-99120451",
+      "createdAt": "2026-11-25T12:43:58.727Z"
+    },
+    {
+      "id": "ord-903",
+      "orderNumber": "MON-2026-8943",
+      "customerName": "Maximilian Richter",
+      "customerEmail": "m.richter@alpinhaus.at",
+      "total": 890,
+      "currency": "USD",
+      "status": "shipped",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "fulfilled",
+      "items": [
+        {
+          "id": "prod-003",
+          "title": "Tailored Double-Faced Cashmere Overcoat",
+          "price": 890,
+          "size": "XL",
+          "color": "Charcoal Slate",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=85&w=300"
+        }
+      ],
+      "shippingAddress": {
+        "street": "Maria-Theresien-Straße 31",
+        "city": "Innsbruck",
+        "state": "Tirol",
+        "postalCode": "6020",
+        "country": "Austria"
+      },
+      "trackingNumber": "DHL-AT-44109823",
+      "createdAt": "2026-11-24T22:43:58.727Z"
+    },
+    {
+      "id": "ord-904",
+      "orderNumber": "MON-2026-8944",
+      "customerName": "Sophia Lindqvist",
+      "customerEmail": "sophia.lindqvist@stockholm-nord.se",
+      "total": 480,
+      "currency": "USD",
+      "status": "paid",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "unfulfilled",
+      "items": [
+        {
+          "id": "prod-006",
+          "title": "Seamless Cashmere Thermal Turtleneck",
+          "price": 295,
+          "size": "S",
+          "color": "Alabaster",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=85&w=300"
+        },
+        {
+          "id": "prod-009",
+          "title": "Thistle-Brushed Pure Cashmere Scarf",
+          "price": 185,
+          "size": "OS",
+          "color": "Heather Gray",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&q=85&w=300"
+        }
+      ],
+      "shippingAddress": {
+        "street": "Strandvägen 18",
+        "city": "Stockholm",
+        "state": "Stockholm",
+        "postalCode": "114 51",
+        "country": "Sweden"
+      },
+      "createdAt": "2026-11-24T14:43:58.727Z"
+    },
+    {
+      "id": "ord-905",
+      "orderNumber": "MON-2026-8945",
+      "customerName": "Henri de Montmirail",
+      "customerEmail": "henri@chamonix-alp.fr",
+      "total": 495,
+      "currency": "USD",
+      "status": "pending",
+      "paymentStatus": "pending",
+      "fulfillmentStatus": "unfulfilled",
+      "items": [
+        {
+          "id": "prod-008",
+          "title": "Alpine Shearling Lined Trekking Boot",
+          "price": 495,
+          "size": "43",
+          "color": "Espresso",
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&q=85&w=300"
+        }
+      ],
+      "shippingAddress": {
+        "street": "Avenue Michel Croz 8",
+        "city": "Chamonix",
+        "state": "Haute-Savoie",
+        "postalCode": "74400",
+        "country": "France"
+      },
+      "createdAt": "2026-11-24T00:43:58.727Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust-1",
+      "name": "Julian Vance",
+      "email": "julian.vance@geneva-capital.ch",
+      "phone": "+41 22 819 4022",
+      "city": "Geneva",
+      "country": "Switzerland",
+      "totalOrders": 6,
+      "totalSpent": 4890,
+      "joinedAt": "2025-10-12",
+      "status": "vip"
+    },
+    {
+      "id": "cust-2",
+      "name": "Elena Rostova",
+      "email": "elena.rostova@lifestyle.no",
+      "phone": "+47 21 04 88 12",
+      "city": "Oslo",
+      "country": "Norway",
+      "totalOrders": 3,
+      "totalSpent": 2150,
+      "joinedAt": "2025-11-04",
+      "status": "active"
+    },
+    {
+      "id": "cust-3",
+      "name": "Maximilian Richter",
+      "email": "m.richter@alpinhaus.at",
+      "phone": "+43 512 89201",
+      "city": "Innsbruck",
+      "country": "Austria",
+      "totalOrders": 4,
+      "totalSpent": 3410,
+      "joinedAt": "2025-08-20",
+      "status": "vip"
+    },
+    {
+      "id": "cust-4",
+      "name": "Sophia Lindqvist",
+      "email": "sophia.lindqvist@stockholm-nord.se",
+      "phone": "+46 8 440 29 10",
+      "city": "Stockholm",
+      "country": "Sweden",
+      "totalOrders": 2,
+      "totalSpent": 960,
+      "joinedAt": "2026-01-15",
+      "status": "active"
+    },
+    {
+      "id": "cust-5",
+      "name": "Henri de Montmirail",
+      "email": "henri@chamonix-alp.fr",
+      "phone": "+33 4 50 53 11 02",
+      "city": "Chamonix",
+      "country": "France",
+      "totalOrders": 1,
+      "totalSpent": 495,
+      "joinedAt": "2026-02-01",
+      "status": "active"
+    }
+  ],
+  "coupons": [
+    {
+      "id": "coup-1",
+      "code": "WINTER10",
+      "discountType": "percentage",
+      "value": 10,
+      "minOrderValue": 200,
+      "usageLimit": 500,
+      "usedCount": 142,
+      "expiresAt": "2026-12-31",
+      "isActive": true
+    },
+    {
+      "id": "coup-2",
+      "code": "VIPALPINE20",
+      "discountType": "percentage",
+      "value": 20,
+      "minOrderValue": 500,
+      "usageLimit": 100,
+      "usedCount": 38,
+      "expiresAt": "2026-12-15",
+      "isActive": true
+    },
+    {
+      "id": "coup-3",
+      "code": "FREESHIP",
+      "discountType": "free_shipping",
+      "value": 0,
+      "minOrderValue": 150,
+      "usageLimit": 1000,
+      "usedCount": 429,
+      "expiresAt": "2026-11-30",
+      "isActive": true
+    },
+    {
+      "id": "coup-4",
+      "code": "BLACKFRIDAY50",
+      "discountType": "fixed_amount",
+      "value": 50,
+      "minOrderValue": 300,
+      "usageLimit": 250,
+      "usedCount": 250,
+      "expiresAt": "2026-11-28",
+      "isActive": false
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "productId": "prod-001",
+      "productTitle": "Nordic Expedition Down Parka",
+      "author": "Lars V.",
+      "email": "lars.v@tromso-exp.no",
+      "rating": 5,
+      "title": "Sub-zero perfection in Northern Norway",
+      "comment": "Tested this in -24°C in Tromsø. The down loft is extraordinary and the high collar blocks arctic wind completely.",
+      "status": "approved",
+      "createdAt": "2026-02-14"
+    },
+    {
+      "id": "rev-2",
+      "productId": "prod-005",
+      "productTitle": "Heavyweight Merino Cable Knit Sweater",
+      "author": "Celine B.",
+      "email": "celine@zermatt-luxury.ch",
+      "rating": 5,
+      "title": "Remarkable density and softness",
+      "comment": "Warmth without itchiness. The cable knit geometry looks even better in person than the studio lookbook.",
+      "status": "approved",
+      "createdAt": "2026-02-12"
+    },
+    {
+      "id": "rev-3",
+      "productId": "prod-008",
+      "productTitle": "Alpine Shearling Lined Trekking Boot",
+      "author": "Matthias K.",
+      "email": "matthias.k@kitzbuehel.at",
+      "rating": 4,
+      "title": "Vibram grip is outstanding, snug fit",
+      "comment": "Great traction on black ice. Recommending half size up if wearing thick thermal socks.",
+      "status": "approved",
+      "createdAt": "2026-02-10"
+    },
+    {
+      "id": "rev-4",
+      "productId": "prod-004",
+      "productTitle": "Thermal Insulated Shell Coat",
+      "author": "Claire D.",
+      "email": "claire.d@montreal.ca",
+      "rating": 5,
+      "title": "Immaculate tailoring and windproof",
+      "comment": "Wore this in a heavy blizzard. Not a single drop of moisture seeped through.",
+      "status": "pending",
+      "createdAt": "2026-02-24"
+    }
+  ],
+  "staff": [
+    {
+      "id": "staff-1",
+      "name": "Raihan Rana",
+      "email": "admin@winter-fashion.com",
+      "role": "super_admin",
+      "lastActive": "Just now",
+      "status": "active"
+    },
+    {
+      "id": "staff-2",
+      "name": "Camilla Lind",
+      "email": "camilla.lind@winter-fashion.com",
+      "role": "catalog_manager",
+      "lastActive": "2 hours ago",
+      "status": "active"
+    },
+    {
+      "id": "staff-3",
+      "name": "Erik Thorne",
+      "email": "erik.thorne@winter-fashion.com",
+      "role": "order_specialist",
+      "lastActive": "35 minutes ago",
+      "status": "active"
+    },
+    {
+      "id": "staff-4",
+      "name": "Nora Althaus",
+      "email": "nora.althaus@winter-fashion.com",
+      "role": "support_agent",
+      "lastActive": "1 day ago",
+      "status": "active"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log-1",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "System Initialization",
+      "entity": "Platform",
+      "entityId": "SYSTEM",
+      "details": "Database schema verified with 22 PostgreSQL tables and RLS security.",
+      "createdAt": "2026-11-24T02:43:58.727Z"
+    },
+    {
+      "id": "log-2",
+      "actorName": "Camilla Lind",
+      "actorEmail": "camilla.lind@winter-fashion.com",
+      "action": "Product Price Updated",
+      "entity": "Product",
+      "entityId": "prod-001",
+      "details": "Updated Nordic Expedition Down Parka compareAtPrice to $795.00.",
+      "createdAt": "2026-11-25T02:43:58.727Z"
+    },
+    {
+      "id": "log-3",
+      "actorName": "Erik Thorne",
+      "actorEmail": "erik.thorne@winter-fashion.com",
+      "action": "Order Dispatched",
+      "entity": "Order",
+      "entityId": "ord-901",
+      "details": "Dispatched order via DHL Express with tracking DHL-CH-882941019.",
+      "createdAt": "2026-11-25T20:43:58.727Z"
+    },
+    {
+      "id": "log-4",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Coupon Created",
+      "entity": "Coupon",
+      "entityId": "coup-1",
+      "details": "Created active 10% discount coupon code WINTER10 with $200 min spend.",
+      "createdAt": "2026-11-26T00:43:58.727Z"
+    }
+  ],
+  "settings": {
+    "storeName": "Cold Horizon — Archival Winter Luxury",
+    "storeDomain": "coldhorizon-fashion.com",
+    "defaultCurrency": "USD",
+    "supportEmail": "concierge@coldhorizon-fashion.com",
+    "orderNotificationEmail": "orders@coldhorizon-fashion.com",
+    "standardShippingFee": 25,
+    "freeShippingThreshold": 50,
+    "taxRate": 8.5,
+    "lowStockThreshold": 5,
+    "maintenanceMode": false
+  }
+}

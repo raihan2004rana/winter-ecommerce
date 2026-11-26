@@ -77,5 +77,35 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
+  // 4. Admin Route Protection: /admin and /admin/* require admin session
+  const adminCookie = request.cookies.get("winter_admin_session")?.value;
+  let isAdminAuthenticated = false;
+  if (adminCookie) {
+    try {
+      const parsedAdmin = JSON.parse(adminCookie);
+      if (parsedAdmin && parsedAdmin.email && parsedAdmin.role) {
+        isAdminAuthenticated = true;
+      }
+    } catch {
+      // invalid cookie
+    }
+  }
+
+  const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
+  const isAdminLoginRoute = request.nextUrl.pathname === "/admin/login";
+
+  if (isAdminRoute && !isAdminLoginRoute && !isAdminAuthenticated) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/admin/login";
+    redirectUrl.searchParams.set("redirect", request.nextUrl.pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (isAdminLoginRoute && isAdminAuthenticated && !request.nextUrl.searchParams.has("force")) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/admin";
+    return NextResponse.redirect(redirectUrl);
+  }
+
   return supabaseResponse;
 }
