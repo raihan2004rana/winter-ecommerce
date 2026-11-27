@@ -123,6 +123,7 @@ export function WardrobeExactCategories() {
           {/* WOMEN CARD */}
           <Link
             href="/collections/women"
+            prefetch={true}
             onClick={handleCtaClick}
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >
@@ -156,6 +157,7 @@ export function WardrobeExactCategories() {
           {/* MEN CARD */}
           <Link
             href="/collections/men"
+            prefetch={true}
             onClick={handleCtaClick}
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >

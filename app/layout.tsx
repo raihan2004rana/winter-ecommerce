@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth/auth-context";
+import { NavigationProgressBar } from "@/components/storefront/navigation-progress-bar";
 
 export const metadata: Metadata = {
   title: "VALLIS & ORE | High Cold Winter Lifestyle & Outerwear",
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-canvas text-charcoal font-sans antialiased min-h-screen" suppressHydrationWarning>
+        <NavigationProgressBar />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

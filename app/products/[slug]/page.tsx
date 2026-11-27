@@ -1,4 +1,5 @@
 import * as React from "react";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getProductBySlug, PRODUCTS_CATALOG } from "@/data/products";
@@ -10,10 +11,15 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Request-level deduped product fetcher to eliminate double disk/store reads
+const getProduct = cache(async (slug: string) => {
+  const liveProduct = AdminStore.getProducts().find((p) => p.slug === slug);
+  return liveProduct || getProductBySlug(slug) || null;
+});
+
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const liveProduct = AdminStore.getProducts().find((p) => p.slug === slug);
-  const product = liveProduct || getProductBySlug(slug);
+  const product = await getProduct(slug);
 
   if (!product) {
     return { title: "Garment Not Found | VALLIS & ORE" };
@@ -33,8 +39,7 @@ export async function generateStaticParams() {
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const liveProduct = AdminStore.getProducts().find((p) => p.slug === slug);
-  const product = liveProduct || getProductBySlug(slug);
+  const product = await getProduct(slug);
 
   if (!product) {
     notFound();

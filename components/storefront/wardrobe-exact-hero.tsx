@@ -163,6 +163,7 @@ export function WardrobeExactHero() {
           <div className="pt-2">
             <Link
               href={destinationUrl}
+              prefetch={true}
               onClick={handleCtaClick}
               className="inline-block bg-[#111111] hover:bg-black text-white px-8 py-3.5 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-all duration-300 hover:scale-105 shadow-lg border border-white/10"
             >

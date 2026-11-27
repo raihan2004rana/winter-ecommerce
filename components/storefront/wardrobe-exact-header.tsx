@@ -147,6 +147,14 @@ const DEFAULT_JOURNAL_STORIES: JournalItem[] = [
   },
 ];
 
+// Module-level in-memory cache to make header load 0ms on route transitions
+let cachedHeaderJournal: JournalItem[] | null = null;
+let cachedHeaderWomenCategories: CategoryItem[] | null = null;
+let cachedHeaderMenCategories: CategoryItem[] | null = null;
+let cachedHeaderWomenFeatured: { image: string; title: string; description: string } | null = null;
+let cachedHeaderMenFeatured: { image: string; title: string; description: string } | null = null;
+let lastHeaderCategoriesFetch = 0;
+
 export function WardrobeExactHeader({
   cartCount,
   onOpenCart,
@@ -160,22 +168,34 @@ export function WardrobeExactHeader({
   const [activeMenu, setActiveMenu] = React.useState<"women" | "men" | "journal" | null>(null);
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  // Dynamic journal stories
-  const [journalStories, setJournalStories] = React.useState<JournalItem[]>(DEFAULT_JOURNAL_STORIES);
+  // Dynamic journal stories with in-memory cache initialization
+  const [journalStories, setJournalStories] = React.useState<JournalItem[]>(
+    () => cachedHeaderJournal || DEFAULT_JOURNAL_STORIES
+  );
 
-  // Dynamic mega menu categories from Admin
-  const [womenCategories, setWomenCategories] = React.useState<CategoryItem[]>(DEFAULT_WOMEN_CATEGORIES);
-  const [menCategories, setMenCategories] = React.useState<CategoryItem[]>(DEFAULT_MEN_CATEGORIES);
-  const [womenFeatured, setWomenFeatured] = React.useState({
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800",
-    title: "The Sub-Zero Metropolitan Silhouette",
-    description: "Pure Mongolian cashmere turtlenecks, belted cocoon down coats, and arctic Vibram footwear.",
-  });
-  const [menFeatured, setMenFeatured] = React.useState({
-    image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=800",
-    title: "Nordic Expedition Down & Alpine Shells",
-    description: "800 Fill Power goose down parkas, 3-layer waterproof hard shells, and heavy cable knits.",
-  });
+  // Dynamic mega menu categories from Admin with in-memory cache initialization
+  const [womenCategories, setWomenCategories] = React.useState<CategoryItem[]>(
+    () => cachedHeaderWomenCategories || DEFAULT_WOMEN_CATEGORIES
+  );
+  const [menCategories, setMenCategories] = React.useState<CategoryItem[]>(
+    () => cachedHeaderMenCategories || DEFAULT_MEN_CATEGORIES
+  );
+  const [womenFeatured, setWomenFeatured] = React.useState(
+    () =>
+      cachedHeaderWomenFeatured || {
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800",
+        title: "The Sub-Zero Metropolitan Silhouette",
+        description: "Pure Mongolian cashmere turtlenecks, belted cocoon down coats, and arctic Vibram footwear.",
+      }
+  );
+  const [menFeatured, setMenFeatured] = React.useState(
+    () =>
+      cachedHeaderMenFeatured || {
+        image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=800",
+        title: "Nordic Expedition Down & Alpine Shells",
+        description: "800 Fill Power goose down parkas, 3-layer waterproof hard shells, and heavy cable knits.",
+      }
+  );
 
   const { country, currency, language, t } = useInternationalStore();
   const currentConfig = getCountryConfig(country);
@@ -183,92 +203,105 @@ export function WardrobeExactHeader({
 
   // Load live journal articles from server
   React.useEffect(() => {
-    fetch("/api/journal")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.articles && data.articles.length > 0) {
-          setJournalStories(data.articles.slice(0, 4));
-        }
-      })
-      .catch(() => {});
+    if (!cachedHeaderJournal) {
+      fetch("/api/journal")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.articles && data.articles.length > 0) {
+            const articles = data.articles.slice(0, 4);
+            cachedHeaderJournal = articles;
+            setJournalStories(articles);
+          }
+        })
+        .catch(() => {});
+    }
   }, []);
 
-  // Load live categories from server with no-cache
-  const loadCategories = React.useCallback(() => {
-    fetch(`/api/categories?t=${Date.now()}`, { cache: "no-store" })
+  // Load live categories from server with throttling & module-level caching
+  const loadCategories = React.useCallback((force: boolean = false) => {
+    const now = Date.now();
+    if (!force && cachedHeaderWomenCategories && now - lastHeaderCategoriesFetch < 30000) {
+      return;
+    }
+    fetch(`/api/categories?t=${now}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((resData) => {
         if (resData && resData.status === "success" && Array.isArray(resData.data)) {
+          lastHeaderCategoriesFetch = Date.now();
           const list: any[] = resData.data;
 
           // Women subcategories
           const womenSpecific = list.filter((c) => c.gender === "women" && c.slug !== "women");
           if (womenSpecific.length > 0) {
-            setWomenCategories(
-              womenSpecific.slice(0, 4).map((c) => ({
-                name: c.name,
-                slug: c.slug,
-                description: c.description,
-                image: c.image || c.imageUrl,
-                link:
-                  c.link ||
-                  (c.slug.includes("jacket")
-                    ? "/collections/women?category=jackets-coats"
-                    : c.slug.includes("knit") || c.slug.includes("sweater")
-                    ? "/collections/women?category=sweaters-hoodies"
-                    : c.slug.includes("boot")
-                    ? "/collections/women?category=boots-accessories"
-                    : "/collections/women"),
-                badge: c.badge || (c.productCount ? `${c.productCount} Pieces` : undefined),
-              }))
-            );
+            const mappedWomen = womenSpecific.slice(0, 4).map((c) => ({
+              name: c.name,
+              slug: c.slug,
+              description: c.description,
+              image: c.image || c.imageUrl,
+              link:
+                c.link ||
+                (c.slug.includes("jacket")
+                  ? "/collections/women?category=jackets-coats"
+                  : c.slug.includes("knit") || c.slug.includes("sweater")
+                  ? "/collections/women?category=sweaters-hoodies"
+                  : c.slug.includes("boot")
+                  ? "/collections/women?category=boots-accessories"
+                  : "/collections/women"),
+              badge: c.badge || (c.productCount ? `${c.productCount} Pieces` : undefined),
+            }));
+            cachedHeaderWomenCategories = mappedWomen;
+            setWomenCategories(mappedWomen);
           }
 
           // Women main / featured card
           const womenMain = list.find((c) => c.slug === "women");
           if (womenMain && womenMain.image) {
-            setWomenFeatured({
+            const feat = {
               image: womenMain.image || womenMain.imageUrl,
               title: womenMain.name || "The Sub-Zero Metropolitan Silhouette",
               description:
                 womenMain.description ||
                 "Pure Mongolian cashmere turtlenecks, belted cocoon down coats, and arctic Vibram footwear.",
-            });
+            };
+            cachedHeaderWomenFeatured = feat;
+            setWomenFeatured(feat);
           }
 
           // Men subcategories
           const menSpecific = list.filter((c) => c.gender === "men" && c.slug !== "men");
           if (menSpecific.length > 0) {
-            setMenCategories(
-              menSpecific.slice(0, 4).map((c) => ({
-                name: c.name,
-                slug: c.slug,
-                description: c.description,
-                image: c.image || c.imageUrl,
-                link:
-                  c.link ||
-                  (c.slug.includes("jacket") || c.slug.includes("parka")
-                    ? "/collections/men?category=jackets-coats"
-                    : c.slug.includes("fleece") || c.slug.includes("knit")
-                    ? "/collections/men?category=sweaters-hoodies"
-                    : c.slug.includes("boot")
-                    ? "/collections/men?category=boots-accessories"
-                    : "/collections/men"),
-                badge: c.badge || (c.productCount ? `${c.productCount} Pieces` : undefined),
-              }))
-            );
+            const mappedMen = menSpecific.slice(0, 4).map((c) => ({
+              name: c.name,
+              slug: c.slug,
+              description: c.description,
+              image: c.image || c.imageUrl,
+              link:
+                c.link ||
+                (c.slug.includes("jacket") || c.slug.includes("parka")
+                  ? "/collections/men?category=jackets-coats"
+                  : c.slug.includes("fleece") || c.slug.includes("knit")
+                  ? "/collections/men?category=sweaters-hoodies"
+                  : c.slug.includes("boot")
+                  ? "/collections/men?category=boots-accessories"
+                  : "/collections/men"),
+              badge: c.badge || (c.productCount ? `${c.productCount} Pieces` : undefined),
+            }));
+            cachedHeaderMenCategories = mappedMen;
+            setMenCategories(mappedMen);
           }
 
           // Men main / featured card
           const menMain = list.find((c) => c.slug === "men");
           if (menMain && menMain.image) {
-            setMenFeatured({
+            const feat = {
               image: menMain.image || menMain.imageUrl,
               title: menMain.name || "Nordic Expedition Down & Alpine Shells",
               description:
                 menMain.description ||
                 "800 Fill Power goose down parkas, 3-layer waterproof hard shells, and heavy cable knits.",
-            });
+            };
+            cachedHeaderMenFeatured = feat;
+            setMenFeatured(feat);
           }
         }
       })
@@ -276,14 +309,14 @@ export function WardrobeExactHeader({
   }, []);
 
   React.useEffect(() => {
-    loadCategories();
+    loadCategories(false);
   }, [loadCategories]);
 
   const handleMouseEnter = (menu: "women" | "men" | "journal") => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setActiveMenu(menu);
     if (menu === "women" || menu === "men") {
-      loadCategories();
+      loadCategories(false);
     }
   };
 
@@ -332,6 +365,7 @@ export function WardrobeExactHeader({
             >
               <Link
                 href="/collections/women"
+                prefetch={true}
                 onClick={closeMenu}
                 className={`hover:text-black tracking-wide transition-colors py-2 flex items-center space-x-1 ${
                   activeMenu === "women" ? "text-black font-semibold" : "text-[#333]"
@@ -348,6 +382,7 @@ export function WardrobeExactHeader({
             >
               <Link
                 href="/collections/men"
+                prefetch={true}
                 onClick={closeMenu}
                 className={`hover:text-black tracking-wide transition-colors py-2 flex items-center space-x-1 ${
                   activeMenu === "men" ? "text-black font-semibold" : "text-[#333]"
@@ -364,6 +399,7 @@ export function WardrobeExactHeader({
             >
               <Link
                 href="/journal"
+                prefetch={true}
                 onClick={closeMenu}
                 className={`hover:text-black tracking-wide transition-colors py-2 flex items-center space-x-1 ${
                   activeMenu === "journal" ? "text-black font-semibold" : "text-[#333]"
@@ -485,6 +521,7 @@ export function WardrobeExactHeader({
                       </div>
                       <Link
                         href="/collections/women"
+                        prefetch={true}
                         onClick={closeMenu}
                         className="text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black flex items-center space-x-1 transition-colors"
                       >
@@ -498,6 +535,7 @@ export function WardrobeExactHeader({
                         <Link
                           key={cat.name}
                           href={cat.link}
+                          prefetch={true}
                           onClick={closeMenu}
                           className="group block"
                         >
@@ -585,6 +623,7 @@ export function WardrobeExactHeader({
                       </div>
                       <Link
                         href="/collections/men"
+                        prefetch={true}
                         onClick={closeMenu}
                         className="text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black flex items-center space-x-1 transition-colors"
                       >
@@ -598,6 +637,7 @@ export function WardrobeExactHeader({
                         <Link
                           key={cat.name}
                           href={cat.link}
+                          prefetch={true}
                           onClick={closeMenu}
                           className="group block"
                         >
@@ -683,6 +723,7 @@ export function WardrobeExactHeader({
                     </div>
                     <Link
                       href="/journal"
+                      prefetch={true}
                       onClick={closeMenu}
                       className="text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black flex items-center space-x-1 transition-colors"
                     >
@@ -696,6 +737,7 @@ export function WardrobeExactHeader({
                       <Link
                         key={story.id}
                         href={`/journal/${story.slug}`}
+                        prefetch={true}
                         onClick={closeMenu}
                         className="group flex flex-col space-y-2.5"
                       >

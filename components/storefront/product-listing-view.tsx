@@ -454,6 +454,7 @@ export function ProductListingView({
                       {/* Image Container with Link to Detail Page */}
                       <Link
                         href={`/products/${product.slug}`}
+                        prefetch={true}
                         className="relative aspect-[3/4] w-full overflow-hidden bg-[#F6F6F6] border border-[#EAEAEA] flex items-center justify-center p-3"
                       >
                         {/* Badges */}
@@ -575,7 +576,7 @@ export function ProductListingView({
                           )}
                         </div>
 
-                        <Link href={`/products/${product.slug}`} className="block">
+                        <Link href={`/products/${product.slug}`} prefetch={true} className="block">
                           <h3 className="font-sans text-xs sm:text-sm font-semibold text-[#111] hover:text-[#555] transition-colors line-clamp-1">
                             {product.title}
                           </h3>

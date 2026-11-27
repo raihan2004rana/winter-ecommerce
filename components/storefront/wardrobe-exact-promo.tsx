@@ -453,6 +453,7 @@ export function WardrobeExactPromo() {
 
                     <Link
                       href={destinationUrl}
+                      prefetch={true}
                       onClick={() => handleCtaClick(c.id)}
                       className="inline-flex items-center gap-2 bg-[#1E1E1E] hover:bg-black text-white px-6 py-2.5 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-all hover:scale-103 shadow-sm"
                     >
