@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   Sparkles,
   ShoppingBag,
+  DollarSign,
 } from "lucide-react";
 
 interface OrdersTabProps {
@@ -140,52 +141,94 @@ export function OrdersTab({ currency }: OrdersTabProps) {
           </div>
         </div>
 
-        {/* 4-Stat Strip: Organizes profile overview without clutter */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
-          <div className="bg-[#FAFBFD] border border-[#EAEAEA] p-3 rounded-xs">
-            <span className="text-3xs font-mono uppercase tracking-widest text-[#888] block">
-              Active Shipments
-            </span>
-            <div className="flex items-center space-x-2 mt-1">
-              {activeOrders.length > 0 ? (
-                <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
-              ) : (
-                <span className="h-2 w-2 rounded-full bg-neutral-300" />
-              )}
-              <span className="text-sm font-bold font-sans text-neutral-900">
-                {activeOrders.length} {activeOrders.length === 1 ? "Parcel" : "Parcels"}
+        {/* 4-Stat Strip: Styled like Admin Dashboard with pure white background, crisp icons & black compact text */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 pt-1">
+          {/* Card 1: Active Shipments */}
+          <div className="bg-white p-4 sm:p-5 border border-[#E5E7EB] rounded-sm shadow-2xs space-y-2 hover:border-black/20 transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-2xs font-mono uppercase tracking-wider font-bold text-neutral-900">
+                Active Shipments
               </span>
+              <div className="h-7 w-7 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                <Truck className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-xl sm:text-2xl font-bold tracking-tight text-[#111827] flex items-center space-x-2">
+                <span>{activeOrders.length}</span>
+                <span className="text-xs font-normal text-neutral-500 font-sans">
+                  {activeOrders.length === 1 ? "parcel" : "parcels"}
+                </span>
+                {activeOrders.length > 0 && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+                )}
+              </div>
+              <div className="text-3xs font-mono text-neutral-500">
+                {activeOrders.length > 0 ? "Awaiting courier handover" : "All shipments delivered"}
+              </div>
             </div>
           </div>
 
-          <div className="bg-[#FAFBFD] border border-[#EAEAEA] p-3 rounded-xs">
-            <span className="text-3xs font-mono uppercase tracking-widest text-[#888] block">
-              Completed & Delivered
-            </span>
-            <div className="flex items-center space-x-1.5 mt-1">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-              <span className="text-sm font-bold font-sans text-neutral-900">
-                {deliveredOrdersCount} Verified
+          {/* Card 2: Completed & Delivered */}
+          <div className="bg-white p-4 sm:p-5 border border-[#E5E7EB] rounded-sm shadow-2xs space-y-2 hover:border-black/20 transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-2xs font-mono uppercase tracking-wider font-bold text-neutral-900">
+                Completed & Delivered
               </span>
+              <div className="h-7 w-7 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-xl sm:text-2xl font-bold tracking-tight text-[#111827] flex items-center space-x-2">
+                <span>{deliveredOrdersCount}</span>
+                <span className="text-xs font-normal text-neutral-500 font-sans">verified</span>
+              </div>
+              <div className="text-3xs font-mono text-emerald-600 font-medium">
+                100% verified fulfillment
+              </div>
             </div>
           </div>
 
-          <div className="bg-[#FAFBFD] border border-[#EAEAEA] p-3 rounded-xs">
-            <span className="text-3xs font-mono uppercase tracking-widest text-[#888] block">
-              Total Order Records
-            </span>
-            <span className="text-sm font-bold font-sans text-neutral-900 mt-1 block">
-              {totalOrdersCount} Orders
-            </span>
+          {/* Card 3: Total Order Records */}
+          <div className="bg-white p-4 sm:p-5 border border-[#E5E7EB] rounded-sm shadow-2xs space-y-2 hover:border-black/20 transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-2xs font-mono uppercase tracking-wider font-bold text-neutral-900">
+                Total Orders
+              </span>
+              <div className="h-7 w-7 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                <ShoppingBag className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-xl sm:text-2xl font-bold tracking-tight text-[#111827] flex items-center space-x-2">
+                <span>{totalOrdersCount}</span>
+                <span className="text-xs font-normal text-neutral-500 font-sans">records</span>
+              </div>
+              <div className="text-3xs font-mono text-neutral-500">
+                Complete client transaction archive
+              </div>
+            </div>
           </div>
 
-          <div className="bg-[#FAFBFD] border border-[#EAEAEA] p-3 rounded-xs">
-            <span className="text-3xs font-mono uppercase tracking-widest text-[#888] block">
-              Lifetime Wardrobe Total
-            </span>
-            <span className="text-sm font-mono font-bold text-neutral-900 mt-1 block">
-              {formatCurrency(totalLifetimeSpent, currency)}
-            </span>
+          {/* Card 4: Lifetime Wardrobe Total */}
+          <div className="bg-white p-4 sm:p-5 border border-[#E5E7EB] rounded-sm shadow-2xs space-y-2 hover:border-black/20 transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-2xs font-mono uppercase tracking-wider font-bold text-neutral-900">
+                Lifetime Wardrobe Total
+              </span>
+              <div className="h-7 w-7 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                <DollarSign className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-xl sm:text-2xl font-bold tracking-tight text-[#111827] font-mono">
+                {formatCurrency(totalLifetimeSpent, currency)}
+              </div>
+              <div className="text-3xs font-mono text-purple-600 font-medium">
+                Cumulative garment spend
+              </div>
+            </div>
           </div>
         </div>
       </div>
