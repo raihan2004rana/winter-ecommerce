@@ -175,7 +175,7 @@
       ],
       "isNew": true,
       "isSale": true,
-      "stockCount": 3,
+      "stockCount": 0,
       "stockWarning": "Flash Sale • Save $210",
       "rating": 5,
       "reviewCount": 22,
@@ -785,6 +785,67 @@
   ],
   "orders": [
     {
+      "id": "ord-1795748090444",
+      "orderNumber": "MON-2026-8619",
+      "customerName": "Julian Vance",
+      "customerEmail": "julian.vance@geneva-capital.ch",
+      "total": 2896.95,
+      "currency": "USD",
+      "status": "processing",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "unfulfilled",
+      "items": [
+        {
+          "id": "prod-003",
+          "title": "Tailored Double-Faced Cashmere Overcoat",
+          "price": 890,
+          "size": "48",
+          "color": "Deep Charcoal",
+          "quantity": 3,
+          "image": "/images/products/tailored-double-faced-cashmere-overcoat1-1795662014496.png"
+        }
+      ],
+      "shippingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "US",
+        "phone": "+41 22 819 9000"
+      },
+      "billingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "US"
+      },
+      "pricingBreakdown": {
+        "subtotal": 2670,
+        "discountAmount": 0,
+        "shippingFee": 0,
+        "taxAmount": 226.95,
+        "taxRate": 0.085,
+        "taxType": "sales_tax",
+        "isTaxInclusive": false,
+        "total": 2896.95,
+        "currency": "USD",
+        "shippingZoneName": "Domestic United States"
+      },
+      "shippingMethod": "standard",
+      "stripePaymentIntentId": "pi_test_1795748090444_kono86z",
+      "idempotencyKey": "idemp_1795748088768_yhhr0xl",
+      "trackingNumber": "TRK-FSIGR0",
+      "createdAt": "2026-11-27T02:54:50.444Z",
+      "updatedAt": "2026-11-27T02:54:51.391Z"
+    },
+    {
       "id": "ord-1795668388085",
       "orderNumber": "MON-2026-8911",
       "customerName": "Julian Vance",
@@ -1042,8 +1103,8 @@
       "phone": "+41 22 819 4022",
       "city": "Geneva",
       "country": "Switzerland",
-      "totalOrders": 7,
-      "totalSpent": 6126,
+      "totalOrders": 8,
+      "totalSpent": 9022.95,
       "joinedAt": "2025-10-12",
       "status": "vip"
     },
@@ -1238,6 +1299,126 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795748091391",
+      "actorName": "Stripe Webhook",
+      "actorEmail": "webhook@stripe.com",
+      "action": "Payment Verified via Webhook",
+      "entity": "Order",
+      "entityId": "MON-2026-8619",
+      "details": "Stripe webhook confirmed payment for order MON-2026-8619 ($2896.95). Inventory decremented.",
+      "createdAt": "2026-11-27T02:54:51.391Z"
+    },
+    {
+      "id": "log-1795748090444",
+      "actorName": "Checkout System",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Created (Pending)",
+      "entity": "Order",
+      "entityId": "MON-2026-8619",
+      "details": "Created pending order MON-2026-8619 for Julian Vance ($2896.95).",
+      "createdAt": "2026-11-27T02:54:50.444Z"
+    },
+    {
+      "id": "log-1795747248976",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-001",
+      "details": "Updated campaign \"Hero Winter 26/27 Drop - Designed for Colder Days\". Fields changed: isActive.",
+      "createdAt": "2026-11-27T02:40:48.976Z"
+    },
+    {
+      "id": "log-1795747219671",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-003",
+      "details": "Updated campaign \"Black Friday Sub-Zero Outerwear Flash Sale\". Fields changed: isActive.",
+      "createdAt": "2026-11-27T02:40:19.671Z"
+    },
+    {
+      "id": "log-1795690612992",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-003",
+      "details": "Updated campaign \"Black Friday Sub-Zero Outerwear Flash Sale\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:56:52.992Z"
+    },
+    {
+      "id": "log-1795690611060",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-001",
+      "details": "Updated campaign \"Hero Winter 26/27 Drop - Designed for Colder Days\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:56:51.060Z"
+    },
+    {
+      "id": "log-1795690577016",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-003",
+      "details": "Updated campaign \"Black Friday Sub-Zero Outerwear Flash Sale\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:56:17.016Z"
+    },
+    {
+      "id": "log-1795690346416",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-001",
+      "details": "Updated campaign \"Hero Winter 26/27 Drop - Designed for Colder Days\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:52:26.416Z"
+    },
+    {
+      "id": "log-1795690315472",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-004",
+      "details": "Updated campaign \"Category Split Feature - Women & Men Winter Cut\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:51:55.472Z"
+    },
+    {
+      "id": "log-1795690312848",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-001",
+      "details": "Updated campaign \"Hero Winter 26/27 Drop - Designed for Colder Days\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:51:52.848Z"
+    },
+    {
+      "id": "log-1795690311055",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-002",
+      "details": "Updated campaign \"Top Announcement Bar - Global Express Transit & 25% Off\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:51:51.055Z"
+    },
+    {
+      "id": "log-1795690307605",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-003",
+      "details": "Updated campaign \"Black Friday Sub-Zero Outerwear Flash Sale\". Fields changed: isActive.",
+      "createdAt": "2026-11-26T10:51:47.605Z"
+    },
     {
       "id": "log-1795688890167",
       "actorName": "Raihan Rana",
@@ -1678,11 +1859,11 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": true,
-      "impressions": 4946,
+      "impressions": 4956,
       "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
-      "updatedAt": "2026-11-26T04:15:56.272Z"
+      "updatedAt": "2026-11-27T02:40:48.976Z"
     },
     {
       "id": "camp-002",
@@ -1698,8 +1879,8 @@
       "destinationUrl": "/products",
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
-      "isActive": true,
-      "impressions": 12541,
+      "isActive": false,
+      "impressions": 12542,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1709,7 +1890,7 @@
       },
       "priority": 1,
       "createdAt": "2026-11-16T04:15:56.272Z",
-      "updatedAt": "2026-11-26T04:15:56.272Z"
+      "updatedAt": "2026-11-26T10:51:51.055Z"
     },
     {
       "id": "camp-003",
@@ -1727,7 +1908,7 @@
       "startDate": "2026-11-25T16:15:56.272Z",
       "endDate": "2026-11-27T16:15:56.272Z",
       "isActive": false,
-      "impressions": 6232,
+      "impressions": 6243,
       "clicks": 1240,
       "countdownTimer": {
         "enabled": true,
@@ -1740,7 +1921,7 @@
       },
       "priority": 1,
       "createdAt": "2026-11-25T16:15:56.272Z",
-      "updatedAt": "2026-11-26T10:28:10.167Z"
+      "updatedAt": "2026-11-27T02:40:19.671Z"
     },
     {
       "id": "camp-004",
@@ -1756,12 +1937,12 @@
       "destinationUrl": "/products",
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
-      "isActive": true,
-      "impressions": 3462,
+      "isActive": false,
+      "impressions": 3463,
       "clicks": 497,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
-      "updatedAt": "2026-11-26T04:15:56.272Z"
+      "updatedAt": "2026-11-26T10:51:55.472Z"
     }
   ],
   "taxRules": [

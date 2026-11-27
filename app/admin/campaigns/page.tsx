@@ -540,6 +540,17 @@ export default function AdminCampaignsPage() {
                       >
                         {statusInfo.label}
                       </span>
+                      <span className="inline-flex items-center text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-neutral-700 border border-neutral-200 uppercase font-semibold">
+                        📍 {c.placement === "promo_section"
+                          ? "Promotional Section"
+                          : c.placement === "hero"
+                          ? "Hero Banner & Promo"
+                          : c.placement === "announcement_bar"
+                          ? "Announcement Bar"
+                          : c.placement === "category_header"
+                          ? "Category Header"
+                          : "Product Page"}
+                      </span>
                     </div>
 
                     <div className="text-xs text-neutral-600 line-clamp-1">

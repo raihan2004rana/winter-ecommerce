@@ -17,15 +17,19 @@ export async function GET(request: NextRequest) {
       status: "active",
     });
 
-    // If promo_section requested and no active campaigns found for that exact placement,
-    // check if there are other active flash_sale campaigns that can act as promotional replacement
-    if (placement === "promo_section" && liveCampaigns.length === 0) {
-      const flashSaleCampaigns = AdminStore.getCampaigns({
-        type: "flash_sale",
-        status: "active",
-      });
-      if (flashSaleCampaigns.length > 0) {
-        liveCampaigns = flashSaleCampaigns;
+    // Special handling for promotional section (homepage countdown deal section):
+    // If the user activates visual campaigns in Marketing & Ads (hero drop, flash sale, seasonal promo),
+    // they expect active campaigns to be prominently displayed on the storefront.
+    if (placement === "promo_section") {
+      const allActiveVisual = AdminStore.getCampaigns({ status: "active" })
+        .filter((c) => c.placement !== "announcement_bar" && c.desktopImage);
+
+      // If user has 2 or more visual campaigns active, show all of them side-by-side in dual grid!
+      if (allActiveVisual.length >= 2) {
+        liveCampaigns = allActiveVisual;
+      } else if (liveCampaigns.length === 0 && allActiveVisual.length > 0) {
+        // If no campaign is explicitly tagged promo_section, fall back to the active visual campaign(s)
+        liveCampaigns = allActiveVisual;
       }
     }
 
