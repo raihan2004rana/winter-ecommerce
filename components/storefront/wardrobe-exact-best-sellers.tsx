@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Star, Check, ShoppingBag } from "lucide-react";
 import { Product, PRODUCTS_CATALOG } from "@/data/products";
 import { useFlyToCart } from "./fly-to-cart-provider";
+import { useCartStore } from "@/lib/store/cart-store";
 
 interface WardrobeExactBestSellersProps {
   title?: string;
@@ -44,11 +45,23 @@ export function WardrobeExactBestSellers({
       (imgEl as HTMLElement) || (e.currentTarget as HTMLElement)
     );
 
+    const size = product.sizes[0] || "M";
     if (onAddToCart) {
-      onAddToCart(product, product.sizes[0] || "M");
-      setAdded(product.id);
-      setTimeout(() => setAdded(null), 1600);
+      onAddToCart(product, size);
+    } else {
+      useCartStore.getState().addItem({
+        id: product.id,
+        slug: product.slug,
+        title: product.title,
+        price: product.price,
+        size,
+        color: product.colorways[0]?.name || "Standard",
+        image: product.primaryImage,
+        quantity: 1,
+      });
     }
+    setAdded(product.id);
+    setTimeout(() => setAdded(null), 1600);
   };
 
   return (

@@ -168,7 +168,7 @@ export function LiveChatWidget() {
           1. FLOATING CHAT TRIGGER BUTTON
           Placed at bottom-20 right-4 on mobile (above bottom nav) and bottom-6 right-6 on desktop
          ========================================================================= */}
-      <div className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 flex flex-col items-end">
+      <div className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end">
         {!isOpen && (
           <button
             onClick={handleToggle}

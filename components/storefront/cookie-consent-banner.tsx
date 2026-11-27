@@ -79,7 +79,7 @@ export function CookieConsentBanner() {
   return (
     <aside
       aria-label="Cookie consent banner"
-      className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-50 animate-in fade-in slide-in-from-bottom-5 duration-400"
+      className="fixed bottom-20 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-md z-50 animate-in fade-in slide-in-from-bottom-5 duration-400"
     >
       <div className="bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-[0_12px_40px_rgba(0,0,0,0.12)] p-5 sm:p-6 rounded-lg text-neutral-900 font-sans">
         {/* Top Header */}
