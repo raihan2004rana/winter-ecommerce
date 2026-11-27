@@ -1533,7 +1533,6 @@ function saveState(state: AdminState): void {
     const dir = path.dirname(STATE_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), "utf-8");
-    syncToProductsCatalog(state.products);
   } catch (err) {
     console.error("Failed to save admin state to disk:", err);
   }

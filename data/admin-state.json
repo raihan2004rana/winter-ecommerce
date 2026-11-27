@@ -322,7 +322,7 @@
         "L"
       ],
       "isNew": true,
-      "stockCount": 7,
+      "stockCount": 6,
       "rating": 4.94,
       "reviewCount": 18,
       "isPublished": true,
@@ -785,6 +785,67 @@
   ],
   "orders": [
     {
+      "id": "ord-1795755693410",
+      "orderNumber": "MON-2026-9678",
+      "customerName": "Julian Vallis",
+      "customerEmail": "julian.vallis@haute-cold.com",
+      "total": 320.08,
+      "currency": "USD",
+      "status": "delivered",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "fulfilled",
+      "items": [
+        {
+          "id": "prod-006",
+          "title": "Seamless Cashmere Thermal Turtleneck",
+          "price": 295,
+          "size": "XS",
+          "color": "Oatmeal",
+          "quantity": 1,
+          "image": "/images/products/seamless-cashmere-thermal-turtleneck-1795664472634.avif"
+        }
+      ],
+      "shippingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vallis",
+        "street": "4820 Glacier Ridge Way",
+        "apartment": "Penthouse B",
+        "city": "Aspen",
+        "state": "CO",
+        "postalCode": "81611",
+        "country": "US",
+        "phone": "+1 (415) 890-3419"
+      },
+      "billingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vallis",
+        "street": "4820 Glacier Ridge Way",
+        "apartment": "Penthouse B",
+        "city": "Aspen",
+        "state": "CO",
+        "postalCode": "81611",
+        "country": "US"
+      },
+      "pricingBreakdown": {
+        "subtotal": 295,
+        "discountAmount": 0,
+        "shippingFee": 0,
+        "taxAmount": 25.08,
+        "taxRate": 0.085,
+        "taxType": "sales_tax",
+        "isTaxInclusive": false,
+        "total": 320.08,
+        "currency": "USD",
+        "shippingZoneName": "Domestic United States"
+      },
+      "shippingMethod": "standard",
+      "stripePaymentIntentId": "pi_test_1795755693409_et4lv2z",
+      "idempotencyKey": "idemp_1795755690220_nv8bcbn",
+      "trackingNumber": "TRK-CN9UA2",
+      "createdAt": "2026-11-27T05:01:33.410Z",
+      "updatedAt": "2026-11-27T05:01:35.625Z"
+    },
+    {
       "id": "ord-1795753990721",
       "orderNumber": "MON-2026-7219",
       "customerName": "Julian Vance",
@@ -852,9 +913,9 @@
       "customerEmail": "julian.vance@geneva-capital.ch",
       "total": 1435.46,
       "currency": "USD",
-      "status": "processing",
+      "status": "delivered",
       "paymentStatus": "paid",
-      "fulfillmentStatus": "unfulfilled",
+      "fulfillmentStatus": "fulfilled",
       "items": [
         {
           "id": "prod-007",
@@ -922,9 +983,9 @@
       "customerEmail": "julian.vance@geneva-capital.ch",
       "total": 2896.95,
       "currency": "USD",
-      "status": "processing",
+      "status": "delivered",
       "paymentStatus": "paid",
-      "fulfillmentStatus": "unfulfilled",
+      "fulfillmentStatus": "fulfilled",
       "items": [
         {
           "id": "prod-003",
@@ -983,9 +1044,9 @@
       "customerEmail": "julian.vance@geneva-capital.ch",
       "total": 1236,
       "currency": "USD",
-      "status": "cancelled",
+      "status": "delivered",
       "paymentStatus": "refunded",
-      "fulfillmentStatus": "unfulfilled",
+      "fulfillmentStatus": "fulfilled",
       "items": [
         {
           "id": "prod-001",
@@ -1228,6 +1289,18 @@
   ],
   "customers": [
     {
+      "id": "cust-1795755695625",
+      "name": "Julian Vallis",
+      "email": "julian.vallis@haute-cold.com",
+      "phone": "+1 (415) 890-3419",
+      "city": "Aspen",
+      "country": "US",
+      "totalOrders": 1,
+      "totalSpent": 320.08,
+      "joinedAt": "2026-11-27",
+      "status": "active"
+    },
+    {
       "id": "cust-1",
       "name": "Julian Vance",
       "email": "julian.vance@geneva-capital.ch",
@@ -1430,6 +1503,126 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795756674181",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"shipped\" to \"delivered\".",
+      "createdAt": "2026-11-27T05:17:54.181Z"
+    },
+    {
+      "id": "log-1795756206629",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"delivered\" to \"shipped\".",
+      "createdAt": "2026-11-27T05:10:06.629Z"
+    },
+    {
+      "id": "log-1795755906020",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"paid\" to \"delivered\".",
+      "createdAt": "2026-11-27T05:05:06.020Z"
+    },
+    {
+      "id": "log-1795755888713",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"delivered\" to \"paid\".",
+      "createdAt": "2026-11-27T05:04:48.713Z"
+    },
+    {
+      "id": "log-1795755875569",
+      "actorName": "Julian Vallis",
+      "actorEmail": "julian.vallis@haute-cold.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"paid\" to \"delivered\".",
+      "createdAt": "2026-11-27T05:04:35.569Z"
+    },
+    {
+      "id": "log-1795755867165",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"paid\" to \"paid\".",
+      "createdAt": "2026-11-27T05:04:27.165Z"
+    },
+    {
+      "id": "log-1795755857219",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"processing\" to \"paid\".",
+      "createdAt": "2026-11-27T05:04:17.219Z"
+    },
+    {
+      "id": "log-1795755695625",
+      "actorName": "Stripe Webhook",
+      "actorEmail": "webhook@stripe.com",
+      "action": "Payment Verified via Webhook",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Stripe webhook confirmed payment for order MON-2026-9678 ($320.08). Inventory decremented.",
+      "createdAt": "2026-11-27T05:01:35.625Z"
+    },
+    {
+      "id": "log-1795755693410",
+      "actorName": "Checkout System",
+      "actorEmail": "julian.vallis@haute-cold.com",
+      "action": "Order Created (Pending)",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Created pending order MON-2026-9678 for Julian Vallis ($320.08).",
+      "createdAt": "2026-11-27T05:01:33.410Z"
+    },
+    {
+      "id": "log-1795755625045",
+      "actorName": "Julian Vance",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-8619",
+      "details": "Changed order MON-2026-8619 status from \"processing\" to \"delivered\".",
+      "createdAt": "2026-11-27T05:00:25.045Z"
+    },
+    {
+      "id": "log-1795755617222",
+      "actorName": "Julian Vance",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-8911",
+      "details": "Changed order MON-2026-8911 status from \"cancelled\" to \"delivered\".",
+      "createdAt": "2026-11-27T05:00:17.222Z"
+    },
+    {
+      "id": "log-1795755603360",
+      "actorName": "Julian Vance",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-4268",
+      "details": "Changed order MON-2026-4268 status from \"processing\" to \"delivered\".",
+      "createdAt": "2026-11-27T05:00:03.360Z"
+    },
     {
       "id": "log-1795755278571",
       "actorName": "Julian Vance",
@@ -2199,7 +2392,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3709,
+      "impressions": 3721,
       "clicks": 498,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",

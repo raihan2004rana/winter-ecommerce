@@ -46,10 +46,11 @@ export default function AdminOrdersPage() {
       const list = data?.orders || data?.data || [];
       if (Array.isArray(list)) {
         setOrders(list);
-        if (selectedOrder) {
-          const fresh = list.find((o: AdminOrder) => o.id === selectedOrder.id);
-          if (fresh) setSelectedOrder(fresh);
-        }
+        setSelectedOrder((current) => {
+          if (!current) return null;
+          const fresh = list.find((o: AdminOrder) => o.id === current.id);
+          return fresh || current;
+        });
       }
     } catch (err) {
       console.error("Failed to fetch orders:", err);
@@ -63,6 +64,12 @@ export default function AdminOrdersPage() {
   }, [fetchOrders]);
 
   const handleUpdateStatus = async (orderId: string, newStatus: AdminOrder["status"]) => {
+    // 1. Optimistically update local selectedOrder & orders list for instant 0ms UI feedback
+    setSelectedOrder((prev) => (prev && prev.id === orderId ? { ...prev, status: newStatus } : prev));
+    setOrders((prev) =>
+      prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
+    );
+
     try {
       setUpdatingStatus(true);
       const res = await fetch("/api/admin/orders", {
@@ -71,16 +78,25 @@ export default function AdminOrdersPage() {
         body: JSON.stringify({ orderId, status: newStatus }),
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to update order status");
+      const resData = await res.json();
+      if (!res.ok || resData.status !== "success") {
+        throw new Error(resData.message || resData.error || "Failed to update order status");
       }
 
-      await fetchOrders();
+      // 2. Authoritative update from server response
+      if (resData.data) {
+        setSelectedOrder(resData.data);
+        setOrders((prev) =>
+          prev.map((o) => (o.id === orderId ? resData.data : o))
+        );
+      }
+
       setSuccessToast(`Order status updated to "${newStatus.toUpperCase()}"`);
       setTimeout(() => setSuccessToast(null), 4000);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error("Failed to update status:", err);
+      alert(`Error updating order status: ${err.message}`);
+      await fetchOrders();
     } finally {
       setUpdatingStatus(false);
     }
