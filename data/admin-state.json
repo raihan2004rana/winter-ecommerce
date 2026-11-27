@@ -791,7 +791,7 @@
       "customerEmail": "julian.vallis@haute-cold.com",
       "total": 320.08,
       "currency": "USD",
-      "status": "delivered",
+      "status": "paid",
       "paymentStatus": "paid",
       "fulfillmentStatus": "fulfilled",
       "items": [
@@ -1503,6 +1503,26 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795757046150",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"processing\" to \"paid\".",
+      "createdAt": "2026-11-27T05:24:06.150Z"
+    },
+    {
+      "id": "log-1795757042615",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"delivered\" to \"processing\".",
+      "createdAt": "2026-11-27T05:24:02.615Z"
+    },
     {
       "id": "log-1795756674181",
       "actorName": "Raihan Rana",
