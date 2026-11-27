@@ -16,7 +16,68 @@ import {
   Truck,
   RotateCcw,
   RefreshCw,
+  Sparkles,
 } from "lucide-react";
+
+// Distinct modern color themes for each day's bar
+const BAR_THEMES = [
+  {
+    gradient: "from-indigo-600 via-indigo-500 to-indigo-400",
+    hoverGradient: "group-hover:from-indigo-700 group-hover:to-indigo-300",
+    shadow: "shadow-indigo-500/25",
+    border: "border-indigo-300/40",
+    dot: "bg-indigo-500",
+    textColor: "text-indigo-600",
+  },
+  {
+    gradient: "from-sky-600 via-sky-500 to-cyan-400",
+    hoverGradient: "group-hover:from-sky-700 group-hover:to-cyan-300",
+    shadow: "shadow-sky-500/25",
+    border: "border-cyan-300/40",
+    dot: "bg-sky-500",
+    textColor: "text-sky-600",
+  },
+  {
+    gradient: "from-emerald-600 via-emerald-500 to-teal-400",
+    hoverGradient: "group-hover:from-emerald-700 group-hover:to-teal-300",
+    shadow: "shadow-emerald-500/25",
+    border: "border-teal-300/40",
+    dot: "bg-emerald-500",
+    textColor: "text-emerald-600",
+  },
+  {
+    gradient: "from-amber-600 via-amber-500 to-yellow-400",
+    hoverGradient: "group-hover:from-amber-700 group-hover:to-yellow-300",
+    shadow: "shadow-amber-500/25",
+    border: "border-yellow-300/40",
+    dot: "bg-amber-500",
+    textColor: "text-amber-600",
+  },
+  {
+    gradient: "from-rose-600 via-rose-500 to-pink-400",
+    hoverGradient: "group-hover:from-rose-700 group-hover:to-pink-300",
+    shadow: "shadow-rose-500/25",
+    border: "border-rose-300/40",
+    dot: "bg-rose-500",
+    textColor: "text-rose-600",
+  },
+  {
+    gradient: "from-purple-600 via-purple-500 to-fuchsia-400",
+    hoverGradient: "group-hover:from-purple-700 group-hover:to-fuchsia-300",
+    shadow: "shadow-purple-500/25",
+    border: "border-fuchsia-300/40",
+    dot: "bg-purple-500",
+    textColor: "text-purple-600",
+  },
+  {
+    gradient: "from-blue-700 via-indigo-600 to-cyan-400",
+    hoverGradient: "group-hover:from-blue-800 group-hover:to-cyan-300",
+    shadow: "shadow-indigo-500/30",
+    border: "border-cyan-300/50",
+    dot: "bg-cyan-500",
+    textColor: "text-cyan-600",
+  },
+];
 
 export default function AdminOverviewPage() {
   const [data, setData] = React.useState<any>(null);
@@ -251,30 +312,85 @@ export default function AdminOverviewPage() {
             </span>
           </div>
 
-          {/* SVG Bar Chart Visualization */}
-          <div className="pt-4">
-            <div className="h-64 flex items-end justify-between gap-3 sm:gap-6 pt-6 pb-2 border-b border-neutral-200">
+          {/* Enhanced Multi-Color Bar Chart Visualization */}
+          <div className="pt-2">
+            <div className="relative h-64 flex items-end justify-between gap-2.5 sm:gap-5 pt-8 pb-2 border-b border-neutral-200">
+              {/* Subtle Horizontal Reference Guidelines */}
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none pb-8 pt-4">
+                <div className="border-b border-dashed border-neutral-200 w-full" />
+                <div className="border-b border-dashed border-neutral-200 w-full" />
+                <div className="border-b border-dashed border-neutral-200 w-full" />
+              </div>
+
               {salesChart.map((bar: any, idx: number) => {
                 const maxRevenue = Math.max(...salesChart.map((s: any) => s.revenue), 4000);
                 const heightPercent = Math.max(12, Math.round((bar.revenue / maxRevenue) * 100));
+                const theme = BAR_THEMES[idx % BAR_THEMES.length];
+                const isMax = bar.revenue === maxRevenue;
 
                 return (
-                  <div key={idx} className="flex-1 flex flex-col items-center group relative h-full justify-end">
+                  <div key={idx} className="flex-1 flex flex-col items-center group relative h-full justify-end z-10">
+                    {/* Peak Badge */}
+                    {isMax && (
+                      <div className="absolute -top-7 sm:-top-8 flex items-center gap-1 bg-gradient-to-r from-neutral-900 to-neutral-800 text-white text-[0.6rem] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full shadow-xs border border-neutral-700 pointer-events-none">
+                        <Sparkles className="w-2.5 h-2.5 text-amber-300" />
+                        <span className="hidden sm:inline font-bold">Peak</span>
+                      </div>
+                    )}
+
                     {/* Tooltip on hover */}
-                    <div className="absolute -top-10 bg-neutral-900 text-white text-2xs font-mono py-1 px-2 rounded-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md z-10">
-                      ${bar.revenue.toLocaleString()} ({bar.orders} orders)
+                    <div className="absolute -top-14 sm:-top-16 bg-neutral-900 text-white text-2xs font-mono py-1.5 px-3 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none shadow-xl z-30 flex flex-col items-center border border-neutral-700 scale-95 group-hover:scale-100">
+                      <div className="flex items-center gap-1.5 font-bold text-xs">
+                        <span className={`w-2 h-2 rounded-full ${theme.dot}`} />
+                        <span>${bar.revenue.toLocaleString()}</span>
+                      </div>
+                      <span className="text-[0.62rem] text-neutral-400">
+                        {bar.orders} {bar.orders === 1 ? "order" : "orders"} • {bar.date}
+                      </span>
+                      {/* Downward pointer */}
+                      <div className="w-2 h-2 bg-neutral-900 border-r border-b border-neutral-700 transform rotate-45 absolute -bottom-1" />
                     </div>
 
+                    {/* Multi-Colored Bar */}
                     <div
                       style={{ height: `${heightPercent}%` }}
-                      className="w-full bg-[#1F2937] hover:bg-black transition-all rounded-t-xs"
-                    />
-                    <span className="text-[0.62rem] font-mono text-neutral-500 mt-2 truncate w-full text-center">
+                      className={`w-full bg-gradient-to-t ${theme.gradient} ${theme.hoverGradient} ${theme.shadow} shadow-md group-hover:shadow-lg transition-all duration-300 rounded-t-md relative overflow-hidden group-hover:scale-y-[1.02] origin-bottom border-t-2 ${theme.border}`}
+                    >
+                      {/* Top Glass/Gloss Reflection Line */}
+                      <div className="absolute inset-x-0 top-0 h-1.5 bg-white/40 rounded-t-md" />
+                      {/* Subtle Inner Hover Glow */}
+                      <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+
+                    {/* Date Label with hover color sync */}
+                    <span className="text-[0.65rem] font-mono text-neutral-600 font-medium mt-2 truncate w-full text-center group-hover:text-black group-hover:font-bold transition-colors">
                       {bar.date}
                     </span>
                   </div>
                 );
               })}
+            </div>
+
+            {/* Bottom Color Palette Legend */}
+            <div className="pt-3.5 flex flex-wrap items-center justify-between text-2xs font-mono text-neutral-500 gap-2">
+              <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+                <span className="text-neutral-400 uppercase tracking-widest text-[0.6rem]">Daily:</span>
+                {salesChart.map((bar: any, idx: number) => {
+                  const theme = BAR_THEMES[idx % BAR_THEMES.length];
+                  return (
+                    <div key={idx} className="flex items-center gap-1.5">
+                      <span className={`w-2 h-2 rounded-full ${theme.dot}`} />
+                      <span className="text-neutral-700 font-semibold">{bar.date}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="bg-neutral-100 text-neutral-700 px-2.5 py-0.5 rounded text-[0.62rem] font-semibold border border-neutral-200">
+                  7D Total: ${salesChart.reduce((acc: number, b: any) => acc + (b.revenue || 0), 0).toLocaleString()}
+                </span>
+              </div>
             </div>
           </div>
         </div>
