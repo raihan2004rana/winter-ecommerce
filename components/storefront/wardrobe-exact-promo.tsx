@@ -88,34 +88,34 @@ function PromoCountdown({
   const hasDays = parseInt(time.days, 10) > 0;
 
   return (
-    <div className="flex items-center gap-1.5 select-none font-mono">
+    <div className="flex items-center gap-1 sm:gap-1.5 select-none font-mono">
       {hasDays && (
         <>
           <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-light text-[#111]">{time.days}</span>
-            <span className="text-[0.6rem] uppercase tracking-wider text-neutral-400">Days</span>
+            <span className="text-lg sm:text-2xl lg:text-4xl font-light text-[#111]">{time.days}</span>
+            <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-neutral-400">Days</span>
           </div>
-          <span className="text-xl font-light text-neutral-300 pb-3">:</span>
+          <span className="text-base sm:text-xl font-light text-neutral-300 pb-2 sm:pb-3">:</span>
         </>
       )}
       <div className="flex flex-col items-center">
-        <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-[#111]">{time.hours}</span>
-        <span className="text-[0.6rem] uppercase tracking-wider text-neutral-400">Hrs</span>
+        <span className="text-lg sm:text-2xl lg:text-4xl font-light text-[#111]">{time.hours}</span>
+        <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-neutral-400">Hrs</span>
       </div>
-      <span className="text-xl font-light text-neutral-300 pb-3">:</span>
+      <span className="text-base sm:text-xl font-light text-neutral-300 pb-2 sm:pb-3">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-[#111]">{time.minutes}</span>
-        <span className="text-[0.6rem] uppercase tracking-wider text-neutral-400">Min</span>
+        <span className="text-lg sm:text-2xl lg:text-4xl font-light text-[#111]">{time.minutes}</span>
+        <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-neutral-400">Min</span>
       </div>
-      <span className="text-xl font-light text-neutral-300 pb-3">:</span>
+      <span className="text-base sm:text-xl font-light text-neutral-300 pb-2 sm:pb-3">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-[#111]">{time.seconds}</span>
-        <span className="text-[0.6rem] uppercase tracking-wider text-neutral-400">Sec</span>
+        <span className="text-lg sm:text-2xl lg:text-4xl font-light text-[#111]">{time.seconds}</span>
+        <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-neutral-400">Sec</span>
       </div>
-      <span className="text-xl font-light text-neutral-300 pb-3">:</span>
+      <span className="text-base sm:text-xl font-light text-neutral-300 pb-2 sm:pb-3">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-[#E11D48]">{time.millis}</span>
-        <span className="text-[0.6rem] uppercase tracking-wider text-neutral-400">Ms</span>
+        <span className="text-lg sm:text-2xl lg:text-4xl font-light text-[#E11D48]">{time.millis}</span>
+        <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-neutral-400">Ms</span>
       </div>
     </div>
   );
@@ -245,8 +245,8 @@ export function WardrobeExactPromo() {
     const destinationUrl = campaign.destinationUrl || "/products";
 
     return (
-      <section className="w-full bg-[#FFFFFF] py-14 sm:py-20 border-b border-[#F0F0F0]">
-        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16">
+      <section className="w-full bg-[#FFFFFF] py-10 sm:py-20 border-b border-[#F0F0F0]">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14 items-center">
             {/* Left Column: Visual Image */}
             <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5] w-full bg-[#1A1A1A] overflow-hidden">
@@ -268,17 +268,17 @@ export function WardrobeExactPromo() {
             </div>
 
             {/* Right Column: Heading + Countdown + Dual Buttons */}
-            <div className="flex flex-col justify-center space-y-6 md:pl-6 text-center md:text-left">
-              <div className="space-y-3">
+            <div className="flex flex-col justify-center space-y-5 sm:space-y-6 md:pl-6 text-center md:text-left">
+              <div className="space-y-2.5 sm:space-y-3">
                 {badgeText && (
                   <div className="flex items-center justify-center md:justify-start">
-                    <span className="inline-flex items-center gap-1.5 bg-[#E11D48] text-white text-[0.68rem] font-mono font-bold tracking-widest uppercase px-3 py-1 rounded-full shadow-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-[#E11D48] text-white text-[0.65rem] sm:text-[0.68rem] font-mono font-bold tracking-widest uppercase px-2.5 sm:px-3 py-1 rounded-full shadow-xs">
                       <Sparkles className="w-3 h-3" />
                       {badgeText}
                     </span>
                   </div>
                 )}
-                <h2 className="font-editorial text-3xl sm:text-5xl lg:text-[3.5rem] font-normal text-[#111] leading-[1.08] tracking-tight">
+                <h2 className="font-editorial text-2xl xs:text-3xl sm:text-5xl lg:text-[3.5rem] font-normal text-[#111] leading-[1.1] sm:leading-[1.08] tracking-tight">
                   {headline}
                 </h2>
                 <p className="text-xs sm:text-sm text-[#666] font-sans leading-relaxed max-w-md mx-auto md:mx-0">
@@ -287,7 +287,7 @@ export function WardrobeExactPromo() {
               </div>
 
               {/* Digital Countdown Timer */}
-              <div className="pt-2 flex justify-center md:justify-start">
+              <div className="pt-1 sm:pt-2 flex justify-center md:justify-start overflow-x-auto pb-1">
                 <PromoCountdown timer={campaign.countdownTimer} />
               </div>
 
@@ -299,17 +299,17 @@ export function WardrobeExactPromo() {
               )}
 
               {/* Dual Action Buttons */}
-              <div className="flex items-center justify-center md:justify-start space-x-3 pt-2">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:space-x-3 sm:gap-0 pt-2">
                 <Link
                   href={destinationUrl}
                   onClick={() => handleCtaClick(campaign.id)}
-                  className="bg-[#1E1E1E] hover:bg-black text-white px-7 py-3 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-colors shadow-sm"
+                  className="bg-[#1E1E1E] hover:bg-black text-white px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-colors shadow-sm"
                 >
                   {ctaText}
                 </Link>
                 <Link
                   href="/products"
-                  className="bg-[#2D2D2D] hover:bg-black text-white px-7 py-3 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-colors shadow-sm"
+                  className="bg-[#2D2D2D] hover:bg-black text-white px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-colors shadow-sm"
                 >
                   View all
                 </Link>
@@ -328,8 +328,8 @@ export function WardrobeExactPromo() {
       : campaigns.filter((c) => c.id === activeTab);
 
   return (
-    <section className="w-full bg-[#FFFFFF] py-14 sm:py-20 border-b border-[#F0F0F0]">
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 space-y-8 sm:space-y-10">
+    <section className="w-full bg-[#FFFFFF] py-10 sm:py-20 border-b border-[#F0F0F0]">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 space-y-6 sm:space-y-10">
         {/* Header Bar: Status Indicator + Tab Filter */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-neutral-100">
           <div className="flex items-center gap-3">

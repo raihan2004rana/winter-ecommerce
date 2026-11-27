@@ -92,11 +92,11 @@ export function CustomerDashboardShell() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* 1. Luxury Customer Banner */}
-      <div className="bg-white border border-[#EAEAEA] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xs">
-        <div className="flex items-center space-x-4 sm:space-x-5">
-          <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden border-2 border-black shrink-0 bg-[#F6F6F6]">
+      <div className="bg-white border border-[#EAEAEA] p-4 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6 shadow-xs">
+        <div className="flex items-center space-x-3.5 sm:space-x-5">
+          <div className="relative h-14 w-14 sm:h-20 sm:w-20 rounded-full overflow-hidden border-2 border-black shrink-0 bg-[#F6F6F6]">
             {user?.avatar_url ? (
               <Image
                 src={user.avatar_url}
@@ -105,42 +105,42 @@ export function CustomerDashboardShell() {
                 className="object-cover object-center"
               />
             ) : (
-              <div className="h-full w-full flex items-center justify-center font-serif text-xl font-bold bg-black text-white">
+              <div className="h-full w-full flex items-center justify-center font-serif text-lg sm:text-xl font-bold bg-black text-white">
                 {user?.first_name?.[0] || "C"}
               </div>
             )}
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <span className="text-2xs font-mono uppercase tracking-[0.2em] text-[#888]">
+          <div className="space-y-1 min-w-0">
+            <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+              <span className="text-3xs sm:text-2xs font-mono uppercase tracking-[0.2em] text-[#888]">
                 Private Client Area
               </span>
-              <span className="text-2xs font-mono uppercase tracking-wider font-semibold px-2 py-0.5 bg-[#FAF3E0] text-[#8C6D1F] border border-[#E8DAB2] flex items-center space-x-1">
-                <Sparkles className="h-3 w-3" />
+              <span className="text-3xs sm:text-2xs font-mono uppercase tracking-wider font-semibold px-2 py-0.5 bg-[#FAF3E0] text-[#8C6D1F] border border-[#E8DAB2] flex items-center space-x-1">
+                <Sparkles className="h-2.5 sm:h-3 w-2.5 sm:w-3" />
                 <span>{user?.membership_tier || "Alpine Noir Member"}</span>
               </span>
             </div>
-            <h1 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-[#111]">
+            <h1 className="font-sans text-xl sm:text-3xl font-bold tracking-tight text-[#111] truncate">
               Welcome back, {user?.first_name || "Julian"} {user?.last_name || "Vallis"}
             </h1>
-            <p className="text-xs text-[#666] font-mono">
+            <p className="text-2xs sm:text-xs text-[#666] font-mono truncate">
               {user?.email} • Client since {new Date(user?.created_at || "2026-01-15").getFullYear()}
             </p>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="flex items-center space-x-3 self-start md:self-auto">
+        <div className="flex items-center space-x-2 sm:space-x-3 self-stretch sm:self-start md:self-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-[#F0F0F0]">
           <button
             onClick={() => handleSelectTab("orders")}
-            className="border border-[#EAEAEA] hover:border-black bg-white text-[#111] px-4 py-2.5 text-2xs uppercase tracking-widest font-mono transition-colors"
+            className="flex-1 sm:flex-initial text-center border border-[#EAEAEA] hover:border-black bg-white text-[#111] px-3 sm:px-4 py-2 sm:py-2.5 text-2xs uppercase tracking-widest font-mono transition-colors"
           >
             Track Deliveries
           </button>
           <button
             onClick={() => logout()}
-            className="border border-[#EAEAEA] hover:border-[#B91C1C] hover:text-[#B91C1C] text-[#666] px-4 py-2.5 text-2xs uppercase tracking-widest font-mono transition-colors flex items-center space-x-1.5"
+            className="flex-1 sm:flex-initial text-center border border-[#EAEAEA] hover:border-[#B91C1C] hover:text-[#B91C1C] text-[#666] px-3 sm:px-4 py-2 sm:py-2.5 text-2xs uppercase tracking-widest font-mono transition-colors flex items-center justify-center space-x-1.5"
           >
             <LogOut className="h-3.5 w-3.5" />
             <span>Sign Out</span>

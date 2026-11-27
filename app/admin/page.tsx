@@ -296,7 +296,7 @@ export default function AdminOverviewPage() {
 
           {/* Multi-Color Solid Bar Chart Visualization */}
           <div className="pt-2">
-            <div className="relative h-64 flex items-end justify-between gap-2.5 sm:gap-5 pt-8 pb-2 border-b border-neutral-200">
+            <div className="relative h-64 flex items-end justify-between gap-1.5 sm:gap-5 pt-8 pb-2 border-b border-neutral-200">
               {salesChart.map((bar: any, idx: number) => {
                 const maxRevenue = Math.max(...salesChart.map((s: any) => s.revenue), 4000);
                 const heightPercent = Math.max(12, Math.round((bar.revenue / maxRevenue) * 100));

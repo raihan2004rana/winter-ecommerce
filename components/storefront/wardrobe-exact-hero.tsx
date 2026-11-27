@@ -101,7 +101,7 @@ export function WardrobeExactHero() {
   const destinationUrl = currentCampaign?.destinationUrl || "/products";
 
   return (
-    <section className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] max-h-[860px] overflow-hidden bg-[#EAE8E4] group">
+    <section className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] min-h-[500px] sm:min-h-[600px] lg:min-h-[720px] max-h-[860px] overflow-hidden bg-[#EAE8E4] group">
       {/* 
         Hero Background: High-Definition Visual Image
       */}
@@ -117,15 +117,15 @@ export function WardrobeExactHero() {
       />
 
       {/* Enhanced contrast vignette ensuring bold white text pops cleanly */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20 sm:to-transparent pointer-events-none" />
 
       {/* Hero Content Box (Matching Exact Framer Positioning) */}
-      <div className="relative z-10 max-w-[1600px] h-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
-        <div className="max-w-xl space-y-4 pt-12 sm:pt-16">
+      <div className="relative z-10 max-w-[1600px] h-full mx-auto px-4 sm:px-8 lg:px-16 flex flex-col justify-center">
+        <div className="max-w-xl space-y-3 sm:space-y-4 pt-10 sm:pt-16">
           {/* Badge Pill: NEW DROP or Campaign Badge */}
           {badgeText && (
             <div>
-              <span className="inline-block bg-[#E11D48] text-white text-[0.68rem] sm:text-xs font-mono font-bold tracking-wider uppercase px-3 py-1 rounded-full shadow-md">
+              <span className="inline-block bg-[#E11D48] text-white text-[0.62rem] sm:text-xs font-mono font-bold tracking-wider uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md">
                 {badgeText}
               </span>
             </div>
@@ -133,7 +133,7 @@ export function WardrobeExactHero() {
 
           {/* Signature Headline in Clean Editorial Serif */}
           <h1
-            className="font-editorial text-5xl sm:text-7xl lg:text-[5.5rem] font-normal text-white leading-[0.98] tracking-tight transition-all duration-500"
+            className="font-editorial text-3xl xs:text-4xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-normal text-white leading-[1.05] sm:leading-[0.98] tracking-tight transition-all duration-500"
             style={{
               fontWeight: 400,
               textShadow: "0 2px 20px rgba(0, 0, 0, 0.65)",
@@ -143,18 +143,18 @@ export function WardrobeExactHero() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-sm sm:text-base text-white/95 font-sans leading-relaxed max-w-lg drop-shadow-xs">
+          <p className="text-xs sm:text-base text-white/95 font-sans leading-relaxed max-w-lg drop-shadow-xs line-clamp-3 sm:line-clamp-none">
             {subheadline}
           </p>
 
           {/* Social Proof: 5 Gold Stars + 1M+ satisfied customers */}
-          <div className="flex items-center space-x-2 pt-1 text-white">
+          <div className="flex items-center space-x-2 pt-0.5 sm:pt-1 text-white">
             <div className="flex text-amber-400">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3.5 w-3.5 fill-amber-400" />
+                <Star key={i} className="h-3 sm:h-3.5 w-3 sm:w-3.5 fill-amber-400" />
               ))}
             </div>
-            <span className="text-xs font-mono text-white/95 font-medium tracking-tight">
+            <span className="text-[11px] sm:text-xs font-mono text-white/95 font-medium tracking-tight">
               1M+ satisfied customers
             </span>
           </div>
@@ -165,7 +165,7 @@ export function WardrobeExactHero() {
               href={destinationUrl}
               prefetch={true}
               onClick={handleCtaClick}
-              className="inline-block bg-[#111111] hover:bg-black text-white px-8 py-3.5 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-all duration-300 hover:scale-105 shadow-lg border border-white/10"
+              className="inline-block bg-[#111111] hover:bg-black text-white px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-all duration-300 hover:scale-105 shadow-lg border border-white/10"
             >
               {ctaText}
             </Link>
@@ -183,31 +183,31 @@ export function WardrobeExactHero() {
                 (prev) => (prev - 1 + campaigns.length) % campaigns.length
               )
             }
-            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-opacity opacity-0 group-hover:opacity-100 border border-white/20"
+            className="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-opacity opacity-0 group-hover:opacity-100 border border-white/20"
             aria-label="Previous Slide"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-4 sm:w-5 h-4 sm:h-5" />
           </button>
           <button
             onClick={() =>
               setCurrentIndex((prev) => (prev + 1) % campaigns.length)
             }
-            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-opacity opacity-0 group-hover:opacity-100 border border-white/20"
+            className="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-opacity opacity-0 group-hover:opacity-100 border border-white/20"
             aria-label="Next Slide"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 sm:w-5 h-4 sm:h-5" />
           </button>
 
           {/* Slide Indicator Dots */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-2">
+          <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-2">
             {campaigns.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 className={`transition-all rounded-full ${
                   currentIndex === idx
-                    ? "w-7 h-2 bg-white shadow-xs"
-                    : "w-2 h-2 bg-white/50 hover:bg-white/80"
+                    ? "w-6 sm:w-7 h-1.5 sm:h-2 bg-white shadow-xs"
+                    : "w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/50 hover:bg-white/80"
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />

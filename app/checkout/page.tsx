@@ -300,7 +300,7 @@ export default function CheckoutPage() {
         </div>
       </header>
 
-      <main className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-8 sm:py-12">
+      <main className="max-w-[1600px] mx-auto px-3.5 sm:px-8 lg:px-16 py-6 sm:py-12">
         {items.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-lg border border-gray-200 p-8 space-y-4 max-w-md mx-auto">
             <AlertCircle className="w-12 h-12 text-gray-400 mx-auto" />
@@ -317,11 +317,11 @@ export default function CheckoutPage() {
             </div>
           </div>
         ) : (
-          <form onSubmit={handleCompleteOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14">
+          <form onSubmit={handleCompleteOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-14">
             {/* Left 7 Columns: Checkout Steps */}
-            <div className="lg:col-span-7 xl:col-span-8 space-y-8">
+            <div className="lg:col-span-7 xl:col-span-8 space-y-6 sm:space-y-8">
               {/* Step 1: Customer Contact */}
-              <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
+              <div className="bg-white p-4 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <span className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-xs font-mono font-bold">
@@ -349,7 +349,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Step 2: International Shipping Address */}
-              <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
+              <div className="bg-white p-4 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
                 <div className="flex items-center gap-2.5">
                   <span className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-xs font-mono font-bold">
                     2
@@ -477,7 +477,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Step 3: Shipping Method Selection */}
-              <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
+              <div className="bg-white p-4 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
                 <div className="flex items-center gap-2.5">
                   <span className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-xs font-mono font-bold">
                     3
@@ -547,7 +547,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Step 4: Billing Address */}
-              <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
+              <div className="bg-white p-4 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-4">
                 <div className="flex items-center gap-2.5">
                   <span className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-xs font-mono font-bold">
                     4
@@ -619,7 +619,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Step 5: International Payment Authorization & Stripe Integration */}
-              <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-5">
+              <div className="bg-white p-4 sm:p-8 rounded-lg border border-gray-200 shadow-xs space-y-5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
                     <span className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-xs font-mono font-bold">

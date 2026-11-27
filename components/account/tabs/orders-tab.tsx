@@ -449,7 +449,7 @@ export function OrdersTab({ currency }: OrdersTabProps) {
                 </div>
 
                 {/* Right: Status, Total Amount & Actions */}
-                <div className="flex items-center justify-between md:justify-end space-x-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#F0F0F0]">
+                <div className="flex flex-wrap items-center justify-between md:justify-end gap-2 sm:gap-3 shrink-0 pt-2.5 md:pt-0 border-t md:border-t-0 border-[#F0F0F0]">
                   {/* Status Badge */}
                   {isDelivered ? (
                     <span className="text-3xs uppercase tracking-wider font-mono font-bold px-2 py-0.5 bg-[#F0FDF4] text-[#16A34A] border border-[#BBF7D0] flex items-center gap-1 shrink-0">
@@ -464,7 +464,7 @@ export function OrdersTab({ currency }: OrdersTabProps) {
                   )}
 
                   {/* Price */}
-                  <span className="font-mono font-bold text-xs sm:text-sm text-[#111] min-w-[70px] text-right">
+                  <span className="font-mono font-bold text-xs sm:text-sm text-[#111] min-w-[65px] text-right">
                     {formatCurrency(order.total_amount, currency)}
                   </span>
 
@@ -483,7 +483,7 @@ export function OrdersTab({ currency }: OrdersTabProps) {
 
                     <button
                       onClick={() => setSelectedOrder(order)}
-                      className="bg-white hover:bg-neutral-900 hover:text-white text-black border border-[#EAEAEA] px-3 py-1.5 text-2xs uppercase tracking-wider font-mono transition-colors"
+                      className="bg-white hover:bg-neutral-900 hover:text-white text-black border border-[#EAEAEA] px-2.5 sm:px-3 py-1.5 text-2xs uppercase tracking-wider font-mono transition-colors"
                     >
                       View Details
                     </button>

@@ -98,10 +98,10 @@ export function WardrobeExactCategories() {
   const badgeText = campaign?.badgeText;
 
   return (
-    <section className="w-full bg-[#FFFFFF] py-14 sm:py-20 border-b border-[#F0F0F0]">
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16">
+    <section className="w-full bg-[#FFFFFF] py-10 sm:py-20 border-b border-[#F0F0F0]">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16">
         {/* Header: Shop by category or dynamic campaign */}
-        <div className="mb-8 sm:mb-10 space-y-1">
+        <div className="mb-6 sm:mb-10 space-y-1">
           {badgeText && (
             <div className="pb-1">
               <span className="inline-flex items-center gap-1 bg-[#111] text-white text-[0.62rem] font-mono font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full shadow-xs">
@@ -110,7 +110,7 @@ export function WardrobeExactCategories() {
               </span>
             </div>
           )}
-          <h2 className="font-editorial text-3xl sm:text-4xl text-[#111] font-normal tracking-tight">
+          <h2 className="font-editorial text-2xl sm:text-4xl text-[#111] font-normal tracking-tight">
             {title}
           </h2>
           <p className="text-xs sm:text-sm text-[#666] font-sans">
@@ -119,7 +119,7 @@ export function WardrobeExactCategories() {
         </div>
 
         {/* 2 Side-by-Side Large Category Cards (50/50 Split) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           {/* WOMEN CARD */}
           <Link
             href="/collections/women"
@@ -139,15 +139,15 @@ export function WardrobeExactCategories() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
             {/* Bottom-left Overlays */}
-            <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 space-y-2 z-10">
-              <span className="text-[0.68rem] font-mono font-bold tracking-widest uppercase text-white/90 bg-white/20 backdrop-blur-xs px-2.5 py-1 inline-block">
+            <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 space-y-1.5 sm:space-y-2 z-10">
+              <span className="text-[0.62rem] sm:text-[0.68rem] font-mono font-bold tracking-widest uppercase text-white/90 bg-white/20 backdrop-blur-xs px-2 sm:px-2.5 py-0.5 sm:py-1 inline-block">
                 NEW ARRIVALS
               </span>
-              <h3 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase">
+              <h3 className="font-sans text-xl sm:text-3xl font-bold tracking-tight text-white uppercase">
                 WOMEN
               </h3>
               <div className="pt-1">
-                <span className="inline-block bg-white text-black hover:bg-black hover:text-white px-5 py-2 rounded-full text-xs font-mono font-semibold tracking-wider transition-colors">
+                <span className="inline-block bg-white text-black hover:bg-black hover:text-white px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-mono font-semibold tracking-wider transition-colors">
                   Shop women
                 </span>
               </div>
@@ -173,15 +173,15 @@ export function WardrobeExactCategories() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
             {/* Bottom-left Overlays */}
-            <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 space-y-2 z-10">
-              <span className="text-[0.68rem] font-mono font-bold tracking-widest uppercase text-white/90 bg-white/20 backdrop-blur-xs px-2.5 py-1 inline-block">
+            <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 space-y-1.5 sm:space-y-2 z-10">
+              <span className="text-[0.62rem] sm:text-[0.68rem] font-mono font-bold tracking-widest uppercase text-white/90 bg-white/20 backdrop-blur-xs px-2 sm:px-2.5 py-0.5 sm:py-1 inline-block">
                 NEW ARRIVALS
               </span>
-              <h3 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase">
+              <h3 className="font-sans text-xl sm:text-3xl font-bold tracking-tight text-white uppercase">
                 MEN
               </h3>
               <div className="pt-1">
-                <span className="inline-block bg-white text-black hover:bg-black hover:text-white px-5 py-2 rounded-full text-xs font-mono font-semibold tracking-wider transition-colors">
+                <span className="inline-block bg-white text-black hover:bg-black hover:text-white px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-mono font-semibold tracking-wider transition-colors">
                   Shop men
                 </span>
               </div>

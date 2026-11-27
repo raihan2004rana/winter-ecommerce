@@ -22,12 +22,12 @@ export function WardrobeExactFooter() {
       {/* =========================================================================
           SECTION 9: 3 TRUST GUARANTEE COLUMNS (Matching Wardrobe Reference)
          ========================================================================= */}
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-12 sm:py-16 border-b border-[#F0F0F0]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 py-10 sm:py-16 border-b border-[#F0F0F0]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Pillar 1 */}
           <div className="flex flex-col space-y-2">
             <Truck className="h-5 w-5 text-[#333]" />
-            <h3 className="font-editorial text-2xl text-[#111] font-normal">
+            <h3 className="font-editorial text-xl sm:text-2xl text-[#111] font-normal">
               Free shipping over $50
             </h3>
             <p className="text-xs text-[#666] font-sans leading-relaxed">
@@ -38,7 +38,7 @@ export function WardrobeExactFooter() {
           {/* Pillar 2 */}
           <div className="flex flex-col space-y-2">
             <RotateCcw className="h-5 w-5 text-[#333]" />
-            <h3 className="font-editorial text-2xl text-[#111] font-normal">
+            <h3 className="font-editorial text-xl sm:text-2xl text-[#111] font-normal">
               30-day easy returns
             </h3>
             <p className="text-xs text-[#666] font-sans leading-relaxed">
@@ -47,9 +47,9 @@ export function WardrobeExactFooter() {
           </div>
 
           {/* Pillar 3 */}
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col space-y-2 sm:col-span-2 md:col-span-1">
             <ShieldCheck className="h-5 w-5 text-[#333]" />
-            <h3 className="font-editorial text-2xl text-[#111] font-normal">
+            <h3 className="font-editorial text-xl sm:text-2xl text-[#111] font-normal">
               Trusted by thousands
             </h3>
             <p className="text-xs text-[#666] font-sans leading-relaxed">
@@ -62,11 +62,11 @@ export function WardrobeExactFooter() {
       {/* =========================================================================
           SECTION 10: MAIN FOOTER (Newsletter, Links & Legal)
          ========================================================================= */}
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 py-10 sm:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14">
           {/* Left Column: Logo + Newsletter */}
-          <div className="lg:col-span-5 space-y-5">
-            <h2 className="font-sans text-xl font-bold tracking-[0.14em] uppercase text-[#111]">
+          <div className="lg:col-span-5 space-y-4 sm:space-y-5">
+            <h2 className="font-sans text-lg sm:text-xl font-bold tracking-[0.14em] uppercase text-[#111]">
               MAULI FASHION
             </h2>
             <p className="text-xs sm:text-sm text-[#555] font-sans max-w-sm">
@@ -74,18 +74,18 @@ export function WardrobeExactFooter() {
             </p>
 
             {/* Newsletter Form */}
-            <form onSubmit={handleSubmit} className="flex max-w-sm">
+            <form onSubmit={handleSubmit} className="flex flex-col xs:flex-row max-w-sm gap-2 xs:gap-0">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 bg-white border border-[#DDD] px-4 py-2.5 text-xs text-[#111] placeholder:text-[#999] focus:outline-none focus:border-black rounded-l-none"
+                className="flex-1 bg-white border border-[#DDD] px-4 py-2.5 text-xs text-[#111] placeholder:text-[#999] focus:outline-none focus:border-black rounded-md xs:rounded-r-none"
               />
               <button
                 type="submit"
-                className="bg-[#111] hover:bg-black text-white px-5 py-2.5 text-xs font-mono uppercase tracking-wider font-semibold transition-colors"
+                className="bg-[#111] hover:bg-black text-white px-5 py-2.5 text-xs font-mono uppercase tracking-wider font-semibold transition-colors rounded-md xs:rounded-l-none shrink-0"
               >
                 {subscribed ? "Subscribed" : "Subscribe"}
               </button>
@@ -106,7 +106,7 @@ export function WardrobeExactFooter() {
           </div>
 
           {/* Right Columns: Shop, Info, Legal */}
-          <div className="lg:col-span-7 grid grid-cols-3 gap-6 sm:gap-8 text-xs font-sans">
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 text-xs font-sans">
             {/* Shop Column */}
             <div className="space-y-3">
               <h4 className="font-semibold text-[#111] uppercase tracking-wider text-2xs font-mono">

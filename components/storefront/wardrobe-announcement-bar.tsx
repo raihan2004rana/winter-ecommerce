@@ -119,8 +119,8 @@ export function WardrobeAnnouncementBar() {
   const couponCode = currentCampaign.discountRule?.couponCode;
 
   return (
-    <div className="relative w-full bg-[#0D0D0E] text-white py-2.5 border-b border-white/10 z-50 text-xs font-sans transition-all">
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 flex items-center justify-between gap-3">
+    <div className="relative w-full bg-[#0D0D0E] text-white py-2 sm:py-2.5 border-b border-white/10 z-50 text-xs font-sans transition-all overflow-hidden">
+      <div className="max-w-[1600px] mx-auto px-3 sm:px-8 lg:px-16 flex items-center justify-between gap-2 sm:gap-3">
         {/* If multiple campaigns, show prev arrow */}
         {campaigns.length > 1 && (
           <button
@@ -129,7 +129,7 @@ export function WardrobeAnnouncementBar() {
                 (prev) => (prev - 1 + campaigns.length) % campaigns.length
               )
             }
-            className="text-white/40 hover:text-white transition-colors p-1"
+            className="text-white/40 hover:text-white transition-colors p-1 shrink-0"
             aria-label="Previous announcement"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
@@ -137,15 +137,15 @@ export function WardrobeAnnouncementBar() {
         )}
 
         {/* Center content container */}
-        <div className="flex-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
+        <div className="flex-1 flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-3 gap-y-1 text-center py-0.5">
           {currentCampaign.badgeText && (
-            <span className="inline-flex items-center gap-1 bg-[#E11D48] text-white text-[0.62rem] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded-full shadow-xs">
+            <span className="inline-flex items-center gap-1 bg-[#E11D48] text-white text-[0.6rem] sm:text-[0.62rem] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded-full shadow-xs shrink-0">
               <Sparkles className="w-2.5 h-2.5" />
               {currentCampaign.badgeText}
             </span>
           )}
 
-          <span className="font-medium text-white/95 tracking-tight text-xs sm:text-[0.81rem]">
+          <span className="font-medium text-white/95 tracking-tight text-[11px] sm:text-xs md:text-[0.81rem] line-clamp-1 sm:line-clamp-none">
             {currentCampaign.headline}
           </span>
 
@@ -158,7 +158,7 @@ export function WardrobeAnnouncementBar() {
           {couponCode && (
             <button
               onClick={() => handleCopyCoupon(couponCode)}
-              className="inline-flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white font-mono font-semibold px-2 py-0.5 rounded text-[0.7rem] border border-white/20 transition-colors"
+              className="inline-flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white font-mono font-semibold px-2 py-0.5 rounded text-[0.68rem] sm:text-[0.7rem] border border-white/20 transition-colors shrink-0"
               title="Click to copy coupon code"
             >
               <span>{couponCode}</span>
@@ -174,7 +174,7 @@ export function WardrobeAnnouncementBar() {
             <Link
               href={currentCampaign.destinationUrl || "/products"}
               onClick={handleCtaClick}
-              className="inline-flex items-center gap-1 text-[0.7rem] sm:text-xs font-mono font-bold uppercase tracking-wider text-amber-300 hover:text-amber-200 underline underline-offset-2 ml-1"
+              className="inline-flex items-center gap-1 text-[0.68rem] sm:text-xs font-mono font-bold uppercase tracking-wider text-amber-300 hover:text-amber-200 underline underline-offset-2 ml-1 shrink-0"
             >
               <span>{currentCampaign.ctaText}</span>
               <ArrowRight className="w-3 h-3" />
@@ -182,7 +182,7 @@ export function WardrobeAnnouncementBar() {
           )}
 
           {campaigns.length > 1 && (
-            <span className="text-[0.65rem] font-mono text-white/40 ml-2">
+            <span className="text-[0.65rem] font-mono text-white/40 ml-1.5 hidden xs:inline">
               ({currentIndex + 1}/{campaigns.length})
             </span>
           )}
@@ -194,7 +194,7 @@ export function WardrobeAnnouncementBar() {
             onClick={() =>
               setCurrentIndex((prev) => (prev + 1) % campaigns.length)
             }
-            className="text-white/40 hover:text-white transition-colors p-1"
+            className="text-white/40 hover:text-white transition-colors p-1 shrink-0"
             aria-label="Next announcement"
           >
             <ChevronRight className="w-3.5 h-3.5" />
@@ -204,7 +204,7 @@ export function WardrobeAnnouncementBar() {
         {/* Dismiss button */}
         <button
           onClick={handleDismiss}
-          className="text-white/50 hover:text-white transition-colors p-1 -mr-1"
+          className="text-white/50 hover:text-white transition-colors p-1 shrink-0 -mr-1"
           aria-label="Dismiss announcement"
         >
           <X className="w-3.5 h-3.5" />

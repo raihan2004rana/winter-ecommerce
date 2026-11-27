@@ -101,11 +101,11 @@ export function WardrobeExactUgc() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 text-center space-y-4">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 text-center space-y-3 sm:space-y-4">
         {/* Top 5 Stars + 1M+ satisfied customers */}
         <div className="flex items-center justify-center space-x-1 text-amber-500">
           {[...Array(5)].map((_, i) => (
-            <Star key={i} className="h-3.5 w-3.5 fill-amber-500" />
+            <Star key={i} className="h-3 sm:h-3.5 w-3 sm:w-3.5 fill-amber-500" />
           ))}
           <span className="text-2xs font-mono text-[#888] ml-1">
             1M+ satisfied customers
@@ -113,20 +113,20 @@ export function WardrobeExactUgc() {
         </div>
 
         {/* Heading: As seen on you */}
-        <h2 className="font-editorial text-4xl sm:text-5xl text-[#111] font-normal tracking-tight">
+        <h2 className="font-editorial text-3xl sm:text-5xl text-[#111] font-normal tracking-tight">
           As seen on you
         </h2>
 
         {/* Subtitle */}
         <p className="text-xs sm:text-sm text-[#666] font-sans max-w-md mx-auto">
-          Real people wearing KØRA in everyday moments.
+          Real people wearing MAULI FASHION in everyday moments.
         </p>
 
         {/* Follow us Button */}
         <div className="pt-1">
           <Link
             href="/products"
-            className="inline-block bg-[#1E1E1E] hover:bg-black text-white px-6 py-2.5 rounded-full text-xs font-mono font-semibold tracking-wider transition-colors shadow-xs"
+            className="inline-block bg-[#1E1E1E] hover:bg-black text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs font-mono font-semibold tracking-wider transition-colors shadow-xs"
           >
             Follow us
           </Link>
@@ -136,7 +136,7 @@ export function WardrobeExactUgc() {
             3D FAN / COVERFLOW SLIDER (AUTOMATIC & INTERACTIVE)
            ========================================================================= */}
         <div
-          className="pt-10 pb-4 relative flex items-center justify-center min-h-[420px] sm:min-h-[490px] cursor-grab active:cursor-grabbing"
+          className="pt-6 sm:pt-10 pb-4 relative flex items-center justify-center min-h-[380px] sm:min-h-[490px] cursor-grab active:cursor-grabbing overflow-hidden"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onMouseDown={handleTouchStart}
@@ -145,23 +145,23 @@ export function WardrobeExactUgc() {
           {/* Left Arrow Trigger */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 sm:left-12 lg:left-24 z-40 h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow-md border border-[#EAEAEA] flex items-center justify-center transition-all hover:scale-110"
+            className="absolute left-1 xs:left-3 sm:left-12 lg:left-24 z-40 h-8 sm:h-10 w-8 sm:w-10 rounded-full bg-white/95 hover:bg-white text-black shadow-md border border-[#EAEAEA] flex items-center justify-center transition-all hover:scale-110"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 sm:h-5 w-4 sm:h-5" />
           </button>
 
           {/* Right Arrow Trigger */}
           <button
             onClick={nextSlide}
-            className="absolute right-4 sm:right-12 lg:right-24 z-40 h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow-md border border-[#EAEAEA] flex items-center justify-center transition-all hover:scale-110"
+            className="absolute right-1 xs:right-3 sm:right-12 lg:right-24 z-40 h-8 sm:h-10 w-8 sm:w-10 rounded-full bg-white/95 hover:bg-white text-black shadow-md border border-[#EAEAEA] flex items-center justify-center transition-all hover:scale-110"
             aria-label="Next slide"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 sm:h-5 w-4 sm:h-5" />
           </button>
 
           {/* Cards Loop with 3D Matrix Math */}
-          <div className="relative w-full max-w-4xl h-[380px] sm:h-[450px] flex items-center justify-center">
+          <div className="relative w-full max-w-4xl h-[340px] sm:h-[450px] flex items-center justify-center">
             {SLIDES.map((slide, idx) => {
               // Calculate shortest circular distance
               let diff = idx - activeIndex;
@@ -236,7 +236,7 @@ export function WardrobeExactUgc() {
                       "transform 650ms cubic-bezier(0.25, 1, 0.5, 1), opacity 650ms ease, filter 650ms ease",
                     pointerEvents: isVisible ? "auto" : "none",
                   }}
-                  className={`absolute w-[220px] sm:w-[280px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer ${isCenter
+                  className={`absolute w-[180px] xs:w-[220px] sm:w-[280px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer ${isCenter
                       ? "shadow-[0_20px_50px_rgba(0,0,0,0.25)] border-[3px] border-white ring-1 ring-black/5"
                       : "shadow-xl border border-white/60 hover:opacity-100"
                     }`}
