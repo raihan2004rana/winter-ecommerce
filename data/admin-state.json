@@ -125,7 +125,7 @@
       "isBestSeller": true,
       "isRestock": true,
       "isSale": true,
-      "stockCount": 6,
+      "stockCount": 4,
       "stockWarning": "Restocked for Winter 2026/27 Drop",
       "rating": 4.96,
       "reviewCount": 39,
@@ -275,7 +275,7 @@
       ],
       "isBestSeller": true,
       "isSale": true,
-      "stockCount": 14,
+      "stockCount": 13,
       "rating": 4.89,
       "reviewCount": 42,
       "isPublished": true,
@@ -372,7 +372,7 @@
         "XXL"
       ],
       "isSale": true,
-      "stockCount": 10,
+      "stockCount": 9,
       "rating": 4.84,
       "reviewCount": 25,
       "isPublished": true,
@@ -785,6 +785,137 @@
   ],
   "orders": [
     {
+      "id": "ord-1795753990721",
+      "orderNumber": "MON-2026-7219",
+      "customerName": "Julian Vance",
+      "customerEmail": "julian.vance@geneva-capital.ch",
+      "total": 374.33,
+      "currency": "USD",
+      "status": "delivered",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "fulfilled",
+      "items": [
+        {
+          "id": "prod-005",
+          "title": "Heavyweight Merino Cable Knit Sweater",
+          "price": 345,
+          "size": "XS",
+          "color": "Raw Ecru",
+          "quantity": 1,
+          "image": "/images/products/heavyweight-merino-cable-knit-sweater-1795664325211.avif"
+        }
+      ],
+      "shippingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "US",
+        "phone": "+41 22 819 9000"
+      },
+      "billingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "US"
+      },
+      "pricingBreakdown": {
+        "subtotal": 345,
+        "discountAmount": 0,
+        "shippingFee": 0,
+        "taxAmount": 29.33,
+        "taxRate": 0.085,
+        "taxType": "sales_tax",
+        "isTaxInclusive": false,
+        "total": 374.33,
+        "currency": "USD",
+        "shippingZoneName": "Domestic United States"
+      },
+      "shippingMethod": "standard",
+      "stripePaymentIntentId": "pi_test_1795753990721_ohxl8m9",
+      "idempotencyKey": "idemp_1795753990220_pj6u6fp",
+      "trackingNumber": "TRK-QEMTW8",
+      "createdAt": "2026-11-27T04:33:10.721Z",
+      "updatedAt": "2026-11-27T04:33:14.009Z"
+    },
+    {
+      "id": "ord-1795753813070",
+      "orderNumber": "MON-2026-4268",
+      "customerName": "Julian Vance",
+      "customerEmail": "julian.vance@geneva-capital.ch",
+      "total": 1435.46,
+      "currency": "USD",
+      "status": "processing",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "unfulfilled",
+      "items": [
+        {
+          "id": "prod-007",
+          "title": "Technical Polartec Thermal Zip Hoodie",
+          "price": 225,
+          "size": "S",
+          "color": "Slate Grey",
+          "quantity": 1,
+          "image": "/images/products/technical-polartec-thermal-zip-hoodie-1795664627713.jxl"
+        },
+        {
+          "id": "prod-002",
+          "title": "Belted Longline Down Cocoon Coat",
+          "price": 549,
+          "size": "XS",
+          "color": "Espresso Brown",
+          "quantity": 2,
+          "image": "/images/products/belted-longline-down-cocoon-coata1-1795661977581.webp"
+        }
+      ],
+      "shippingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "US",
+        "phone": "+41 22 819 9000"
+      },
+      "billingAddress": {
+        "firstName": "Julian",
+        "lastName": "Vance",
+        "street": "Rue du Rhône 42",
+        "apartment": "Penthouse 6B",
+        "city": "Geneva",
+        "state": "Geneva",
+        "postalCode": "1204",
+        "country": "US"
+      },
+      "pricingBreakdown": {
+        "subtotal": 1323,
+        "discountAmount": 0,
+        "shippingFee": 0,
+        "taxAmount": 112.46,
+        "taxRate": 0.085,
+        "taxType": "sales_tax",
+        "isTaxInclusive": false,
+        "total": 1435.46,
+        "currency": "USD",
+        "shippingZoneName": "Domestic United States"
+      },
+      "shippingMethod": "standard",
+      "stripePaymentIntentId": "pi_test_1795753813070_4vk8z2f",
+      "idempotencyKey": "idemp_1795753811390_i0bsj8q",
+      "trackingNumber": "TRK-A0IE9W",
+      "createdAt": "2026-11-27T04:30:13.070Z",
+      "updatedAt": "2026-11-27T04:30:15.030Z"
+    },
+    {
       "id": "ord-1795748090444",
       "orderNumber": "MON-2026-8619",
       "customerName": "Julian Vance",
@@ -1103,8 +1234,8 @@
       "phone": "+41 22 819 4022",
       "city": "Geneva",
       "country": "Switzerland",
-      "totalOrders": 8,
-      "totalSpent": 9022.95,
+      "totalOrders": 10,
+      "totalSpent": 10832.74,
       "joinedAt": "2025-10-12",
       "status": "vip"
     },
@@ -1299,6 +1430,56 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795755278571",
+      "actorName": "Julian Vance",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-7219",
+      "details": "Changed order MON-2026-7219 status from \"processing\" to \"delivered\".",
+      "createdAt": "2026-11-27T04:54:38.571Z"
+    },
+    {
+      "id": "log-1795753994009",
+      "actorName": "Stripe Webhook",
+      "actorEmail": "webhook@stripe.com",
+      "action": "Payment Verified via Webhook",
+      "entity": "Order",
+      "entityId": "MON-2026-7219",
+      "details": "Stripe webhook confirmed payment for order MON-2026-7219 ($374.33). Inventory decremented.",
+      "createdAt": "2026-11-27T04:33:14.009Z"
+    },
+    {
+      "id": "log-1795753990721",
+      "actorName": "Checkout System",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Created (Pending)",
+      "entity": "Order",
+      "entityId": "MON-2026-7219",
+      "details": "Created pending order MON-2026-7219 for Julian Vance ($374.33).",
+      "createdAt": "2026-11-27T04:33:10.721Z"
+    },
+    {
+      "id": "log-1795753815030",
+      "actorName": "Stripe Webhook",
+      "actorEmail": "webhook@stripe.com",
+      "action": "Payment Verified via Webhook",
+      "entity": "Order",
+      "entityId": "MON-2026-4268",
+      "details": "Stripe webhook confirmed payment for order MON-2026-4268 ($1435.46). Inventory decremented.",
+      "createdAt": "2026-11-27T04:30:15.030Z"
+    },
+    {
+      "id": "log-1795753813070",
+      "actorName": "Checkout System",
+      "actorEmail": "julian.vance@geneva-capital.ch",
+      "action": "Order Created (Pending)",
+      "entity": "Order",
+      "entityId": "MON-2026-4268",
+      "details": "Created pending order MON-2026-4268 for Julian Vance ($1435.46).",
+      "createdAt": "2026-11-27T04:30:13.070Z"
+    },
     {
       "id": "log-1795749856540",
       "actorName": "Raihan Rana",
@@ -2018,7 +2199,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3703,
+      "impressions": 3709,
       "clicks": 498,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",

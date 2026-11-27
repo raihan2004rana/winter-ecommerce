@@ -23,6 +23,8 @@ interface AuthContextType {
   deleteAddress: (id: string) => Promise<void>;
   setDefaultShippingAddress: (id: string) => Promise<void>;
   orders: CustomerOrder[];
+  refreshOrders: () => Promise<void>;
+  confirmOrderReceived: (orderNumberOrId: string) => Promise<{ success: boolean; error?: string }>;
   reviews: CustomerReview[];
   updatePassword: (password: string) => Promise<{ success: boolean; error?: string }>;
   resetPasswordForEmail: (email: string) => Promise<{ success: boolean; error?: string }>;
@@ -553,6 +555,52 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Live order synchronization from database
+  const fetchCustomerOrders = React.useCallback(async (userEmail?: string) => {
+    try {
+      const email = userEmail || user?.email || "julian.vallis@haute-cold.com";
+      let localOrderNumbers = "";
+      try {
+        const stored = localStorage.getItem("winter_placed_orders");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) localOrderNumbers = parsed.join(",");
+        }
+      } catch {}
+
+      const url = `/api/customer/orders?email=${encodeURIComponent(email)}&orderNumbers=${encodeURIComponent(localOrderNumbers)}&_t=${Date.now()}`;
+      const res = await fetch(url, { cache: "no-store" });
+      const data = await res.json();
+      if (data && data.status === "success" && Array.isArray(data.orders) && data.orders.length > 0) {
+        setOrders(data.orders);
+      }
+    } catch (err) {
+      console.warn("Failed to fetch customer live orders:", err);
+    }
+  }, [user?.email]);
+
+  React.useEffect(() => {
+    fetchCustomerOrders();
+  }, [fetchCustomerOrders]);
+
+  const confirmOrderReceived = async (orderIdentifier: string) => {
+    try {
+      const res = await fetch("/api/customer/orders/receive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderNumber: orderIdentifier, orderId: orderIdentifier }),
+      });
+      const data = await res.json();
+      if (data && data.status === "success") {
+        await fetchCustomerOrders();
+        return { success: true };
+      }
+      return { success: false, error: data.message || "Failed to confirm receipt" };
+    } catch (err: any) {
+      return { success: false, error: err.message || "Network error" };
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -568,6 +616,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         deleteAddress,
         setDefaultShippingAddress,
         orders,
+        refreshOrders: fetchCustomerOrders,
+        confirmOrderReceived,
         reviews,
         updatePassword,
         resetPasswordForEmail,

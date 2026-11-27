@@ -11,14 +11,29 @@ interface OrderDetailsModalProps {
   order: CustomerOrder | null;
   onClose: () => void;
   currency: "USD" | "EUR" | "GBP" | "CAD";
+  onConfirmReceived?: (orderNumber: string) => Promise<void>;
 }
 
 export function OrderDetailsModal({
   order,
   onClose,
   currency,
+  onConfirmReceived,
 }: OrderDetailsModalProps) {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   if (!order) return null;
+
+  const isDelivered = order.status === "delivered";
+
+  const handleConfirm = async () => {
+    if (!onConfirmReceived) return;
+    setIsSubmitting(true);
+    try {
+      await onConfirmReceived(order.order_number);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
@@ -112,6 +127,65 @@ export function OrderDetailsModal({
                 </a>
               </div>
             )}
+          </div>
+
+          {/* Delivery Handover & Confirmation Card */}
+          <div
+            className={`p-4 sm:p-5 border transition-all ${
+              isDelivered
+                ? "bg-[#F0FDF4] border-[#BBF7D0]"
+                : "bg-amber-50/70 border-amber-200"
+            }`}
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-start space-x-3">
+                {isDelivered ? (
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+                ) : (
+                  <ShieldCheck className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+                )}
+                <div className="space-y-1">
+                  <div className="flex items-center space-x-2">
+                    <span
+                      className={`text-2xs font-mono uppercase tracking-widest font-bold ${
+                        isDelivered ? "text-emerald-800" : "text-amber-900"
+                      }`}
+                    >
+                      {isDelivered
+                        ? "Delivery Verified & Complete"
+                        : "Handover Pending • In Progress"}
+                    </span>
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        isDelivered ? "bg-emerald-500" : "bg-amber-500 animate-pulse"
+                      }`}
+                    />
+                  </div>
+                  <p
+                    className={`text-xs leading-relaxed ${
+                      isDelivered ? "text-emerald-700" : "text-amber-800"
+                    }`}
+                  >
+                    {isDelivered
+                      ? "The delivery courier has handed over this parcel, and delivery receipt has been confirmed. Order is marked DELIVERED across your client dossier and store operations."
+                      : "The package is dispatched or in transit. Once the delivery agent arrives and hands over the parcel to you in person, please click 'I Have Received This Order' below to mark it completed."}
+                  </p>
+                </div>
+              </div>
+
+              {!isDelivered && onConfirmReceived && (
+                <button
+                  onClick={handleConfirm}
+                  disabled={isSubmitting}
+                  className="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2.5 text-2xs uppercase tracking-widest font-mono font-bold transition-colors flex items-center justify-center space-x-2 shrink-0 shadow-xs disabled:opacity-50"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  <span>
+                    {isSubmitting ? "Confirming..." : "I Have Received This Order"}
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Garments Breakdown */}

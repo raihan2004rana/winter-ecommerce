@@ -6,6 +6,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/lib/store/cart-store";
 import { useInternationalStore } from "@/lib/international/i18n";
+import { useAuth } from "@/lib/auth/auth-context";
+import {
+  VisaLogo,
+  MastercardLogo,
+  AmexLogo,
+  ApplePayLogo,
+  GooglePayLogo,
+  KlarnaLogo,
+  IdealLogo,
+  SepaLogo,
+  PaymentIconsRow,
+} from "@/components/storefront/payment-logos";
 import {
   COUNTRIES_REGISTRY,
   getCountryConfig,
@@ -71,36 +83,38 @@ export default function CheckoutPage() {
     setCountry: setInternationalCountry,
   } = useInternationalStore();
 
+  const { user, addresses } = useAuth();
   const targetCountryConfig = getCountryConfig(shippingCountry);
 
-  // Customer Contact
-  const [email, setEmail] = React.useState("julian.vance@geneva-capital.ch");
-  const [isGuest, setIsGuest] = React.useState(true);
+  // Customer Contact - synchronized with active user profile if logged in
+  const [email, setEmail] = React.useState(user?.email || "julian.vance@geneva-capital.ch");
+  const [isGuest, setIsGuest] = React.useState(!user);
 
   // Shipping Address Form
+  const defaultAddr = addresses.find((a) => a.is_default_shipping) || addresses[0];
   const [shippingAddress, setShippingAddress] = React.useState({
-    firstName: "Julian",
-    lastName: "Vance",
-    street: "Rue du Rhône 42",
-    apartment: "Penthouse 6B",
-    city: "Geneva",
-    state: "Geneva",
-    postalCode: "1204",
-    country: shippingCountry || "CH",
-    phone: "+41 22 819 9000",
+    firstName: user?.first_name || "Julian",
+    lastName: user?.last_name || "Vance",
+    street: defaultAddr?.address_line1 || "Rue du Rhône 42",
+    apartment: defaultAddr?.address_line2 || "Penthouse 6B",
+    city: defaultAddr?.city || "Geneva",
+    state: defaultAddr?.state_province || "Geneva",
+    postalCode: defaultAddr?.postal_code || "1204",
+    country: shippingCountry || defaultAddr?.country_code || "CH",
+    phone: user?.phone || "+41 22 819 9000",
   });
 
   // Billing Address
   const [sameAsShipping, setSameAsShipping] = React.useState(true);
   const [billingAddress, setBillingAddress] = React.useState({
-    firstName: "Julian",
-    lastName: "Vance",
-    street: "Rue du Rhône 42",
-    apartment: "Penthouse 6B",
-    city: "Geneva",
-    state: "Geneva",
-    postalCode: "1204",
-    country: shippingCountry || "CH",
+    firstName: user?.first_name || "Julian",
+    lastName: user?.last_name || "Vance",
+    street: defaultAddr?.address_line1 || "Rue du Rhône 42",
+    apartment: defaultAddr?.address_line2 || "Penthouse 6B",
+    city: defaultAddr?.city || "Geneva",
+    state: defaultAddr?.state_province || "Geneva",
+    postalCode: defaultAddr?.postal_code || "1204",
+    country: shippingCountry || defaultAddr?.country_code || "CH",
   });
 
   // Payment Form (Stripe Card Fields)
@@ -244,7 +258,16 @@ export default function CheckoutPage() {
       // 3. Clear cart store on successful order completion
       clearCart();
 
-      // 4. Navigate to Verified Order Confirmation View
+      // 4. Save order to customer placed orders storage for profile sync
+      try {
+        const stored = JSON.parse(localStorage.getItem("winter_placed_orders") || "[]");
+        if (!stored.includes(orderNumber)) {
+          stored.unshift(orderNumber);
+          localStorage.setItem("winter_placed_orders", JSON.stringify(stored));
+        }
+      } catch {}
+
+      // 5. Navigate to Verified Order Confirmation View
       router.push(`/orders/${orderNumber}`);
     } catch (err: any) {
       console.error("Checkout submission failed:", err);
@@ -615,45 +638,41 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* Country-Specific Available Payment Badges */}
-                <div className="flex items-center gap-1.5 flex-wrap pb-2 border-b border-gray-100">
-                  <span className="text-2xs font-mono text-gray-500 mr-1">Accepted:</span>
-                  <span className="text-2xs font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-700 border border-gray-200">
-                    Visa / Mastercard / Amex
-                  </span>
-                  <span className="text-2xs font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-700 border border-gray-200">
-                    Apple Pay & Google Pay
-                  </span>
+                {/* Country-Specific Available Payment Badges with Real Visual Logos */}
+                <div className="flex items-center gap-2 flex-wrap pb-3 border-b border-gray-100">
+                  <span className="text-2xs font-mono text-gray-500 mr-0.5">Accepted:</span>
+                  <PaymentIconsRow />
                   {targetCountryConfig.supportedPaymentMethods.includes("ideal") && (
-                    <span className="text-2xs font-mono px-2 py-0.5 rounded bg-pink-50 text-pink-700 border border-pink-200 font-semibold">
-                      🇳🇱 iDEAL Direct
-                    </span>
-                  )}
-                  {targetCountryConfig.supportedPaymentMethods.includes("klarna") && (
-                    <span className="text-2xs font-mono px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 font-semibold">
-                      Klarna Pay Later
-                    </span>
+                    <div className="flex items-center px-1.5 py-0.5 rounded bg-white border border-gray-200 shadow-2xs">
+                      <IdealLogo className="h-3.5 w-auto" />
+                    </div>
                   )}
                   {targetCountryConfig.supportedPaymentMethods.includes("sepa_debit") && (
-                    <span className="text-2xs font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 font-semibold">
-                      🇪🇺 SEPA Direct Debit
-                    </span>
+                    <div className="flex items-center px-1.5 py-0.5 rounded bg-white border border-gray-200 shadow-2xs">
+                      <SepaLogo className="h-3.5 w-auto" />
+                    </div>
                   )}
                 </div>
 
-                {/* Payment Method Selector */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {/* Payment Method Selector with Visual Icons */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("card")}
                     className={`p-3 rounded-lg border text-left transition-all ${
                       paymentMethod === "card"
                         ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
-                        : "border-gray-200 hover:border-gray-300"
+                        : "border-gray-200 hover:border-gray-300 bg-white"
                     }`}
                   >
-                    <div className="text-xs font-semibold text-black">Credit Card</div>
-                    <div className="text-2xs text-gray-500 font-mono mt-0.5">Global Visa/MC</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="text-xs font-semibold text-black">Credit Card</div>
+                      <div className="flex items-center gap-1">
+                        <VisaLogo className="h-2.5 w-auto" />
+                        <MastercardLogo className="h-2.5 w-auto" />
+                      </div>
+                    </div>
+                    <div className="text-2xs text-gray-500 font-mono">Global Visa/MC/Amex</div>
                   </button>
 
                   {targetCountryConfig.supportedPaymentMethods.includes("klarna") && (
@@ -663,11 +682,14 @@ export default function CheckoutPage() {
                       className={`p-3 rounded-lg border text-left transition-all ${
                         paymentMethod === "klarna"
                           ? "border-black bg-rose-50/50 shadow-xs ring-1 ring-black"
-                          : "border-gray-200 hover:border-gray-300"
+                          : "border-gray-200 hover:border-gray-300 bg-white"
                       }`}
                     >
-                      <div className="text-xs font-semibold text-rose-950">Klarna</div>
-                      <div className="text-2xs text-rose-700 font-mono mt-0.5">Pay in 30d / 3x</div>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs font-semibold text-rose-950">Klarna</div>
+                        <KlarnaLogo className="h-3 w-auto" />
+                      </div>
+                      <div className="text-2xs text-rose-700 font-mono">Pay in 30d / 3x</div>
                     </button>
                   )}
 
@@ -678,11 +700,14 @@ export default function CheckoutPage() {
                       className={`p-3 rounded-lg border text-left transition-all ${
                         paymentMethod === "ideal"
                           ? "border-black bg-pink-50/50 shadow-xs ring-1 ring-black"
-                          : "border-gray-200 hover:border-gray-300"
+                          : "border-gray-200 hover:border-gray-300 bg-white"
                       }`}
                     >
-                      <div className="text-xs font-semibold text-pink-950">iDEAL</div>
-                      <div className="text-2xs text-pink-700 font-mono mt-0.5">Dutch Bank</div>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs font-semibold text-pink-950">iDEAL</div>
+                        <IdealLogo className="h-3 w-auto" />
+                      </div>
+                      <div className="text-2xs text-pink-700 font-mono">Dutch Bank</div>
                     </button>
                   )}
 
@@ -693,11 +718,14 @@ export default function CheckoutPage() {
                       className={`p-3 rounded-lg border text-left transition-all ${
                         paymentMethod === "sepa_debit"
                           ? "border-black bg-blue-50/50 shadow-xs ring-1 ring-black"
-                          : "border-gray-200 hover:border-gray-300"
+                          : "border-gray-200 hover:border-gray-300 bg-white"
                       }`}
                     >
-                      <div className="text-xs font-semibold text-blue-950">SEPA Debit</div>
-                      <div className="text-2xs text-blue-700 font-mono mt-0.5">EUR IBAN</div>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs font-semibold text-blue-950">SEPA Debit</div>
+                        <SepaLogo className="h-3 w-auto" />
+                      </div>
+                      <div className="text-2xs text-blue-700 font-mono">EUR IBAN</div>
                     </button>
                   )}
                 </div>
@@ -712,11 +740,13 @@ export default function CheckoutPage() {
                           type="text"
                           value={cardNumber}
                           onChange={(e) => setCardNumber(e.target.value)}
-                          className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black"
+                          className="w-full bg-white border border-gray-200 rounded px-3.5 py-2.5 text-xs font-mono focus:outline-none focus:border-black pr-24"
                         />
-                        <span className="absolute right-3 top-2.5 text-2xs font-mono bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
-                          VISA
-                        </span>
+                        <div className="absolute right-3 top-2.5 flex items-center gap-1.5 bg-white pl-1 pointer-events-none">
+                          <VisaLogo className="h-3 w-auto" />
+                          <MastercardLogo className="h-3.5 w-auto" />
+                          <AmexLogo className="h-3.5 w-auto" />
+                        </div>
                       </div>
                     </div>
 
