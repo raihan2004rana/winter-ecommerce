@@ -8,6 +8,8 @@ import { SearchModal } from "@/components/storefront/search-modal";
 import { MiniCartDrawer } from "@/components/storefront/mini-cart-drawer";
 import { WardrobeExactFooter } from "@/components/storefront/wardrobe-exact-footer";
 import { FlyToCartProvider } from "@/components/storefront/fly-to-cart-provider";
+import { FloatingSideCart } from "@/components/storefront/floating-side-cart";
+import { MobileBottomNav } from "@/components/storefront/mobile-bottom-nav";
 import { useCartStore } from "@/lib/store/cart-store";
 
 export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -60,11 +62,17 @@ export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) 
           onRemoveItem={(id) => removeItem(id)}
         />
 
-        {/* 5. Page Content */}
-        <main className="flex-1">{children}</main>
+        {/* 5. Floating Side Cart Tab (Right-Docked Widget matching user specification) */}
+        <FloatingSideCart />
 
-        {/* 6. Global WARDROBE Footer (Trust Pillars, Newsletter, Links & Card Logos) */}
+        {/* 6. Page Content (with bottom padding on mobile for bottom nav) */}
+        <main className="flex-1 pb-16 md:pb-0">{children}</main>
+
+        {/* 7. Global WARDROBE Footer (Trust Pillars, Newsletter, Links & Card Logos) */}
         <WardrobeExactFooter />
+
+        {/* 8. Mobile Bottom Navigation Bar (5 bottom icons) */}
+        <MobileBottomNav onOpenSearch={() => setIsSearchOpen(true)} />
       </div>
     </FlyToCartProvider>
   );

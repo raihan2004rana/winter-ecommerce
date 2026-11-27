@@ -105,8 +105,8 @@ export function WardrobeExactFooter() {
             </div>
           </div>
 
-          {/* Right Columns: Shop, Info, Legal */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 text-xs font-sans">
+          {/* Right Columns: Shop, Info, Legal (Serialized vertically on mobile) */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8 text-xs font-sans">
             {/* Shop Column */}
             <div className="space-y-3">
               <h4 className="font-semibold text-[#111] uppercase tracking-wider text-2xs font-mono">
