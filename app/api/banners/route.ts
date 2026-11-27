@@ -7,7 +7,7 @@ export async function GET() {
         id: "bnr-01",
         placement: "hero",
         badge: "WINTER 2026/27 • ARCHIVAL RELEASE 01",
-        title: "Cold Horizon Equilibrium",
+        title: "MAULI FASHION Equilibrium",
         subtitle: "Sculpted for extreme sub-zero alpine conditions and understated city winters.",
         ctaLabel: "Shop Women's Collection",
         ctaUrl: "/collections/women",

@@ -6,28 +6,45 @@ import Link from "next/link";
 import { AdminCampaign } from "@/lib/server/admin-store";
 import { Sparkles } from "lucide-react";
 
+let cachedCategoryCampaign: AdminCampaign | null = null;
+let lastCategoryCampaignFetchTime = 0;
+
 export function WardrobeExactCategories() {
-  const [campaign, setCampaign] = React.useState<AdminCampaign | null>(null);
+  const [campaign, setCampaign] = React.useState<AdminCampaign | null>(() => cachedCategoryCampaign);
   const [womenImage, setWomenImage] = React.useState<string>("/images/wardrobe/new arrival-women.avif");
   const [menImage, setMenImage] = React.useState<string>("/images/wardrobe/new arrival-men.webp");
 
-  const loadCategoryCampaign = React.useCallback(() => {
-    fetch(`/api/campaigns?placement=category_header&_t=${Date.now()}`, {
-      cache: "no-store",
+  const loadCategoryCampaign = React.useCallback((force = false) => {
+    const now = Date.now();
+    if (!force && now - lastCategoryCampaignFetchTime < 60000) {
+      setCampaign(cachedCategoryCampaign);
+      return;
+    }
+
+    fetch(`/api/campaigns?placement=category_header`, {
+      cache: "default",
     })
       .then((res) => res.json())
       .then((data) => {
+        lastCategoryCampaignFetchTime = Date.now();
         if (data?.status === "success" && data.campaigns?.length > 0) {
           const active = data.campaigns[0];
+          cachedCategoryCampaign = active;
           setCampaign(active);
 
-          // Track impression beacon
-          fetch("/api/admin/campaigns/track", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ campaignId: active.id, event: "impression" }),
-          }).catch(() => {});
+          // Track impression beacon once per session
+          try {
+            if (!sessionStorage.getItem(`imp_${active.id}`)) {
+              sessionStorage.setItem(`imp_${active.id}`, "1");
+              fetch("/api/admin/campaigns/track", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ campaignId: active.id, event: "impression" }),
+              }).catch(() => {});
+            }
+          } catch {}
         } else {
+          cachedCategoryCampaign = null;
           setCampaign(null);
         }
       })
@@ -35,7 +52,7 @@ export function WardrobeExactCategories() {
   }, []);
 
   React.useEffect(() => {
-    loadCategoryCampaign();
+    loadCategoryCampaign(false);
 
     // 1. Cross-tab synchronization via BroadcastChannel
     let channel: BroadcastChannel | null = null;
@@ -43,7 +60,8 @@ export function WardrobeExactCategories() {
       channel = new BroadcastChannel("wardrobe_campaigns_sync");
       channel.onmessage = (msg) => {
         if (msg.data?.type === "CAMPAIGN_UPDATED") {
-          loadCategoryCampaign();
+          cachedCategoryCampaign = null;
+          loadCategoryCampaign(true);
         }
       };
     } catch {}
@@ -51,10 +69,11 @@ export function WardrobeExactCategories() {
     // 2. Refetch on window focus / tab visibility change
     const handleVisibility = () => {
       if (document.visibilityState === "visible") {
-        loadCategoryCampaign();
+        loadCategoryCampaign(true);
       }
     };
-    window.addEventListener("focus", loadCategoryCampaign);
+    const handleFocus = () => loadCategoryCampaign(false);
+    window.addEventListener("focus", handleFocus);
     document.addEventListener("visibilitychange", handleVisibility);
 
     // 3. Load dynamic category images from admin
@@ -76,7 +95,7 @@ export function WardrobeExactCategories() {
       .catch((err) => console.error("Failed to load category images:", err));
 
     return () => {
-      window.removeEventListener("focus", loadCategoryCampaign);
+      window.removeEventListener("focus", handleFocus);
       document.removeEventListener("visibilitychange", handleVisibility);
       if (channel) channel.close();
     };
@@ -123,7 +142,6 @@ export function WardrobeExactCategories() {
           {/* WOMEN CARD */}
           <Link
             href="/collections/women"
-            prefetch={true}
             onClick={handleCtaClick}
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >
@@ -157,7 +175,6 @@ export function WardrobeExactCategories() {
           {/* MEN CARD */}
           <Link
             href="/collections/men"
-            prefetch={true}
             onClick={handleCtaClick}
             className="group relative aspect-[4/3] sm:aspect-[16/10] w-full bg-[#1C1C1E] overflow-hidden block"
           >

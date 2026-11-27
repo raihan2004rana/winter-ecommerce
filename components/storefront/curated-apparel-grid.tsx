@@ -218,7 +218,7 @@ export function CuratedApparelGrid({
                       </button>
 
                       {/* Product Image */}
-                      <Link href={`/products/${garment.slug}`} prefetch={true} className="relative h-full w-full block">
+                      <Link href={`/products/${garment.slug}`} className="relative h-full w-full block">
                         <Image
                           src={garment.image}
                           alt={garment.title}
@@ -296,7 +296,7 @@ export function CuratedApparelGrid({
                         </div>
                       )}
 
-                      <Link href={`/products/${garment.slug}`} prefetch={true}>
+                      <Link href={`/products/${garment.slug}`}>
                         <h3 className="font-sans text-xs sm:text-sm font-medium text-[#111] group-hover:text-black transition-colors line-clamp-1 hover:underline underline-offset-2">
                           {garment.title}
                         </h3>

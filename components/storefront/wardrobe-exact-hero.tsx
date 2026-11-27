@@ -6,29 +6,45 @@ import Link from "next/link";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { AdminCampaign } from "@/lib/server/admin-store";
 
+let cachedHeroCampaigns: AdminCampaign[] | null = null;
+let lastHeroFetchTime = 0;
+
 export function WardrobeExactHero() {
-  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
+  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>(() => cachedHeroCampaigns || []);
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
-  const loadHeroCampaigns = React.useCallback(() => {
-    fetch(`/api/campaigns?placement=hero&_t=${Date.now()}`, {
-      cache: "no-store",
+  const loadHeroCampaigns = React.useCallback((force = false) => {
+    const now = Date.now();
+    if (!force && cachedHeroCampaigns && now - lastHeroFetchTime < 60000) {
+      setCampaigns(cachedHeroCampaigns);
+      return;
+    }
+
+    fetch(`/api/campaigns?placement=hero`, {
+      cache: "default",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data?.status === "success" && Array.isArray(data.campaigns)) {
+          cachedHeroCampaigns = data.campaigns;
+          lastHeroFetchTime = Date.now();
           setCampaigns(data.campaigns);
 
           if (data.campaigns.length > 0) {
-            // Track impression beacon for the first active hero campaign
-            fetch("/api/admin/campaigns/track", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                campaignId: data.campaigns[0].id,
-                event: "impression",
-              }),
-            }).catch(() => {});
+            const campId = data.campaigns[0].id;
+            try {
+              if (!sessionStorage.getItem(`imp_${campId}`)) {
+                sessionStorage.setItem(`imp_${campId}`, "1");
+                fetch("/api/admin/campaigns/track", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    campaignId: campId,
+                    event: "impression",
+                  }),
+                }).catch(() => {});
+              }
+            } catch {}
           }
         }
       })
@@ -36,7 +52,7 @@ export function WardrobeExactHero() {
   }, []);
 
   React.useEffect(() => {
-    loadHeroCampaigns();
+    loadHeroCampaigns(false);
 
     // 1. Cross-tab synchronization via BroadcastChannel
     let channel: BroadcastChannel | null = null;
@@ -44,7 +60,8 @@ export function WardrobeExactHero() {
       channel = new BroadcastChannel("wardrobe_campaigns_sync");
       channel.onmessage = (msg) => {
         if (msg.data?.type === "CAMPAIGN_UPDATED") {
-          loadHeroCampaigns();
+          cachedHeroCampaigns = null;
+          loadHeroCampaigns(true);
         }
       };
     } catch {}
@@ -52,14 +69,14 @@ export function WardrobeExactHero() {
     // 2. Refetch on window focus / tab visibility change
     const handleVisibility = () => {
       if (document.visibilityState === "visible") {
-        loadHeroCampaigns();
+        loadHeroCampaigns(true);
       }
     };
-    window.addEventListener("focus", loadHeroCampaigns);
+    window.addEventListener("focus", () => loadHeroCampaigns(false));
     document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      window.removeEventListener("focus", loadHeroCampaigns);
+      window.removeEventListener("focus", () => loadHeroCampaigns(false));
       document.removeEventListener("visibilitychange", handleVisibility);
       if (channel) channel.close();
     };
@@ -163,7 +180,6 @@ export function WardrobeExactHero() {
           <div className="pt-2">
             <Link
               href={destinationUrl}
-              prefetch={true}
               onClick={handleCtaClick}
               className="inline-block bg-[#111111] hover:bg-black text-white px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-all duration-300 hover:scale-105 shadow-lg border border-white/10"
             >

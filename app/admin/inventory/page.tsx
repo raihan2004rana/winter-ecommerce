@@ -24,9 +24,11 @@ interface InventoryItem extends Product {
   isArchived?: boolean;
 }
 
+let cachedInventory: InventoryItem[] = [];
+
 export default function AdminInventoryPage() {
-  const [items, setItems] = React.useState<InventoryItem[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [items, setItems] = React.useState<InventoryItem[]>(cachedInventory);
+  const [loading, setLoading] = React.useState(cachedInventory.length === 0);
   const [search, setSearch] = React.useState("");
   const [filterMode, setFilterMode] = React.useState<"all" | "low_stock" | "out_of_stock">("all");
   const [successToast, setSuccessToast] = React.useState<string | null>(null);
@@ -41,10 +43,11 @@ export default function AdminInventoryPage() {
 
   const fetchInventory = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedInventory.length === 0) setLoading(true);
       const res = await fetch("/api/admin/inventory");
       const data = await res.json();
       if (data && data.inventory) {
+        cachedInventory = data.inventory;
         setItems(data.inventory);
       }
     } catch (err) {

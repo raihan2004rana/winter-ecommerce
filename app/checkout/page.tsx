@@ -841,7 +841,7 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <p className="text-2xs text-blue-800 font-sans">
-                      By authorizing this payment, you authorize KØRA and Stripe to send instructions to your bank to debit your account in EUR.
+                      By authorizing this payment, you authorize MAULI FASHION and Stripe to send instructions to your bank to debit your account in EUR.
                     </p>
                   </div>
                 )}

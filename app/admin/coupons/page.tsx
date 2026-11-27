@@ -20,9 +20,11 @@ import {
 } from "lucide-react";
 import { AdminCoupon } from "@/lib/server/admin-store";
 
+let cachedCoupons: AdminCoupon[] = [];
+
 export default function AdminCouponsPage() {
-  const [coupons, setCoupons] = React.useState<AdminCoupon[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [coupons, setCoupons] = React.useState<AdminCoupon[]>(cachedCoupons);
+  const [loading, setLoading] = React.useState(cachedCoupons.length === 0);
   const [search, setSearch] = React.useState("");
   const [copiedCode, setCopiedCode] = React.useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -43,10 +45,11 @@ export default function AdminCouponsPage() {
 
   const fetchCoupons = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedCoupons.length === 0) setLoading(true);
       const res = await fetch("/api/admin/coupons");
       const data = await res.json();
       if (data && data.coupons) {
+        cachedCoupons = data.coupons;
         setCoupons(data.coupons);
       }
     } catch (err) {

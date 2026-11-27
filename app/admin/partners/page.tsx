@@ -32,9 +32,11 @@ interface AdminPartner {
   updatedAt: string;
 }
 
+let cachedPartners: AdminPartner[] = [];
+
 export default function AdminPartnersPage() {
-  const [partners, setPartners] = React.useState<AdminPartner[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [partners, setPartners] = React.useState<AdminPartner[]>(cachedPartners);
+  const [loading, setLoading] = React.useState(cachedPartners.length === 0);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState<"all" | "active" | "inactive">("all");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -75,10 +77,11 @@ export default function AdminPartnersPage() {
   // Load partners
   const fetchPartners = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedPartners.length === 0) setLoading(true);
       const res = await fetch("/api/admin/partners");
       const data = await res.json();
       if (data.status === "success" && Array.isArray(data.partners)) {
+        cachedPartners = data.partners;
         setPartners(data.partners);
       }
     } catch {

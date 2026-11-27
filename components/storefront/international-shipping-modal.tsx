@@ -60,7 +60,7 @@ export function InternationalShippingModal({
               <span>Delivered Duty Paid (DDP) — Guaranteed Zero Hidden Customs Fees</span>
             </div>
             <p className="text-xs text-emerald-800 leading-relaxed font-sans">
-              Every international parcel dispatched by KØRA Wardrobe is sent DDP. All import duties, tariffs, and national VAT charges are calculated at checkout. You will never receive an unexpected fee or brokerage bill upon arrival at your doorstep.
+              Every international parcel dispatched by MAULI FASHION is sent DDP. All import duties, tariffs, and national VAT charges are calculated at checkout. You will never receive an unexpected fee or brokerage bill upon arrival at your doorstep.
             </p>
           </div>
 

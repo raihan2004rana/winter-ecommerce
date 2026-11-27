@@ -17,17 +17,20 @@ import {
 } from "lucide-react";
 import { AdminAuditLog } from "@/lib/server/admin-store";
 
+let cachedAuditLogs: AdminAuditLog[] = [];
+
 export default function AdminAuditLogsPage() {
-  const [logs, setLogs] = React.useState<AdminAuditLog[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [logs, setLogs] = React.useState<AdminAuditLog[]>(cachedAuditLogs);
+  const [loading, setLoading] = React.useState(cachedAuditLogs.length === 0);
   const [search, setSearch] = React.useState("");
 
   const fetchLogs = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedAuditLogs.length === 0) setLoading(true);
       const res = await fetch("/api/admin/audit-logs");
       const data = await res.json();
       if (data && data.auditLogs) {
+        cachedAuditLogs = data.auditLogs;
         setLogs(data.auditLogs);
       }
     } catch (err) {

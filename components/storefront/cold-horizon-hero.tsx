@@ -33,7 +33,7 @@ export function ColdHorizonHero({
           {/* Big Editorial Headline */}
           <div className="space-y-1">
             <h1 className="font-sans text-5xl sm:text-7xl lg:text-[5.5rem] font-normal tracking-tight text-[#2D3342] leading-[0.92]">
-              Cold Horizon
+              MAULI FASHION
               <span className="block font-normal text-[#2D3342]">Fashion</span>
             </h1>
           </div>
@@ -136,7 +136,7 @@ export function ColdHorizonHero({
 
           {/* Subtitle Headline */}
           <h2 className="font-sans text-2xl sm:text-3xl font-normal tracking-tight text-[#2D3342]">
-            2026 — Cold Horizon
+            2026 — MAULI FASHION
           </h2>
 
           {/* Subtitle Description */}

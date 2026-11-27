@@ -365,7 +365,6 @@ export function WardrobeExactHeader({
             >
               <Link
                 href="/collections/women"
-                prefetch={true}
                 onClick={closeMenu}
                 className={`hover:text-black tracking-wide transition-colors py-2 flex items-center space-x-1 ${
                   activeMenu === "women" ? "text-black font-semibold" : "text-[#333]"
@@ -382,7 +381,6 @@ export function WardrobeExactHeader({
             >
               <Link
                 href="/collections/men"
-                prefetch={true}
                 onClick={closeMenu}
                 className={`hover:text-black tracking-wide transition-colors py-2 flex items-center space-x-1 ${
                   activeMenu === "men" ? "text-black font-semibold" : "text-[#333]"
@@ -399,7 +397,6 @@ export function WardrobeExactHeader({
             >
               <Link
                 href="/journal"
-                prefetch={true}
                 onClick={closeMenu}
                 className={`hover:text-black tracking-wide transition-colors py-2 flex items-center space-x-1 ${
                   activeMenu === "journal" ? "text-black font-semibold" : "text-[#333]"
@@ -522,7 +519,6 @@ export function WardrobeExactHeader({
                       </div>
                       <Link
                         href="/collections/women"
-                        prefetch={true}
                         onClick={closeMenu}
                         className="text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black flex items-center space-x-1 transition-colors"
                       >
@@ -536,7 +532,6 @@ export function WardrobeExactHeader({
                         <Link
                           key={cat.name}
                           href={cat.link}
-                          prefetch={true}
                           onClick={closeMenu}
                           className="group block"
                         >
@@ -624,7 +619,6 @@ export function WardrobeExactHeader({
                       </div>
                       <Link
                         href="/collections/men"
-                        prefetch={true}
                         onClick={closeMenu}
                         className="text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black flex items-center space-x-1 transition-colors"
                       >
@@ -638,7 +632,6 @@ export function WardrobeExactHeader({
                         <Link
                           key={cat.name}
                           href={cat.link}
-                          prefetch={true}
                           onClick={closeMenu}
                           className="group block"
                         >
@@ -724,7 +717,6 @@ export function WardrobeExactHeader({
                     </div>
                     <Link
                       href="/journal"
-                      prefetch={true}
                       onClick={closeMenu}
                       className="text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black flex items-center space-x-1 transition-colors"
                     >
@@ -738,7 +730,6 @@ export function WardrobeExactHeader({
                       <Link
                         key={story.id}
                         href={`/journal/${story.slug}`}
-                        prefetch={true}
                         onClick={closeMenu}
                         className="group flex flex-col space-y-2.5"
                       >

@@ -32,18 +32,21 @@ import {
 } from "lucide-react";
 import { AdminCampaign } from "@/lib/server/admin-store";
 
+let cachedCampaigns: AdminCampaign[] = [];
+let cachedAnalytics: any = {
+  totalImpressions: 0,
+  totalClicks: 0,
+  averageCtr: "0.00%",
+  activeCount: 0,
+};
+
 export default function AdminCampaignsPage() {
-  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>(cachedCampaigns);
+  const [loading, setLoading] = React.useState(cachedCampaigns.length === 0);
   const [search, setSearch] = React.useState("");
   const [placementFilter, setPlacementFilter] = React.useState("all");
   const [statusFilter, setStatusFilter] = React.useState<"all" | "active" | "scheduled" | "expired">("all");
-  const [analytics, setAnalytics] = React.useState({
-    totalImpressions: 0,
-    totalClicks: 0,
-    averageCtr: "0.00%",
-    activeCount: 0,
-  });
+  const [analytics, setAnalytics] = React.useState(cachedAnalytics);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -90,7 +93,7 @@ export default function AdminCampaignsPage() {
 
   const fetchCampaigns = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedCampaigns.length === 0) setLoading(true);
       const params = new URLSearchParams();
       if (placementFilter !== "all") params.set("placement", placementFilter);
       if (statusFilter !== "all") params.set("status", statusFilter);
@@ -98,8 +101,12 @@ export default function AdminCampaignsPage() {
       const res = await fetch(`/api/admin/campaigns?${params.toString()}`);
       const data = await res.json();
       if (data && data.campaigns) {
+        cachedCampaigns = data.campaigns;
         setCampaigns(data.campaigns);
-        if (data.analytics) setAnalytics(data.analytics);
+        if (data.analytics) {
+          cachedAnalytics = data.analytics;
+          setAnalytics(data.analytics);
+        }
       }
     } catch (err) {
       console.error("Failed to load campaigns:", err);

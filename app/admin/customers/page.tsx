@@ -20,21 +20,24 @@ import {
 } from "lucide-react";
 import { AdminCustomer } from "@/lib/server/admin-store";
 
+let cachedCustomers: AdminCustomer[] = [];
+
 export default function AdminCustomersPage() {
-  const [customers, setCustomers] = React.useState<AdminCustomer[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [customers, setCustomers] = React.useState<AdminCustomer[]>(cachedCustomers);
+  const [loading, setLoading] = React.useState(cachedCustomers.length === 0);
   const [search, setSearch] = React.useState("");
   const [selectedCustomer, setSelectedCustomer] = React.useState<AdminCustomer | null>(null);
 
   const fetchCustomers = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedCustomers.length === 0) setLoading(true);
       const queryParams = new URLSearchParams();
       if (search) queryParams.set("search", search);
 
       const res = await fetch(`/api/admin/customers?${queryParams.toString()}`);
       const data = await res.json();
       if (data && data.customers) {
+        cachedCustomers = data.customers;
         setCustomers(data.customers);
       }
     } catch (err) {

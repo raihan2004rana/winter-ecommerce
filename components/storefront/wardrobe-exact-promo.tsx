@@ -153,27 +153,44 @@ function CouponBadge({ code }: { code: string }) {
   );
 }
 
+let cachedPromoCampaigns: AdminCampaign[] | null = null;
+let lastPromoFetchTime = 0;
+
 export function WardrobeExactPromo() {
-  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
-  const [loaded, setLoaded] = React.useState(false);
+  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>(() => cachedPromoCampaigns || []);
+  const [loaded, setLoaded] = React.useState(() => !!cachedPromoCampaigns);
   const [activeTab, setActiveTab] = React.useState<string>("all");
 
-  const loadPromoCampaigns = React.useCallback(() => {
-    fetch(`/api/campaigns?placement=promo_section&_t=${Date.now()}`, {
-      cache: "no-store",
+  const loadPromoCampaigns = React.useCallback((force = false) => {
+    const now = Date.now();
+    if (!force && cachedPromoCampaigns && now - lastPromoFetchTime < 60000) {
+      setCampaigns(cachedPromoCampaigns);
+      setLoaded(true);
+      return;
+    }
+
+    fetch(`/api/campaigns?placement=promo_section`, {
+      cache: "default",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data?.status === "success" && Array.isArray(data.campaigns)) {
+          cachedPromoCampaigns = data.campaigns;
+          lastPromoFetchTime = Date.now();
           setCampaigns(data.campaigns);
 
-          // Track impressions for all active campaigns
+          // Track impressions at most once per session per campaign
           data.campaigns.forEach((c: AdminCampaign) => {
-            fetch("/api/admin/campaigns/track", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ campaignId: c.id, event: "impression" }),
-            }).catch(() => {});
+            try {
+              if (!sessionStorage.getItem(`imp_${c.id}`)) {
+                sessionStorage.setItem(`imp_${c.id}`, "1");
+                fetch("/api/admin/campaigns/track", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ campaignId: c.id, event: "impression" }),
+                }).catch(() => {});
+              }
+            } catch {}
           });
         }
         setLoaded(true);
@@ -185,7 +202,7 @@ export function WardrobeExactPromo() {
   }, []);
 
   React.useEffect(() => {
-    loadPromoCampaigns();
+    loadPromoCampaigns(false);
 
     // 1. Cross-tab synchronization via BroadcastChannel
     let channel: BroadcastChannel | null = null;
@@ -193,7 +210,8 @@ export function WardrobeExactPromo() {
       channel = new BroadcastChannel("wardrobe_campaigns_sync");
       channel.onmessage = (msg) => {
         if (msg.data?.type === "CAMPAIGN_UPDATED") {
-          loadPromoCampaigns();
+          cachedPromoCampaigns = null;
+          loadPromoCampaigns(true);
         }
       };
     } catch {}
@@ -201,14 +219,14 @@ export function WardrobeExactPromo() {
     // 2. Window focus & tab visibility change listener
     const handleVisibility = () => {
       if (document.visibilityState === "visible") {
-        loadPromoCampaigns();
+        loadPromoCampaigns(true);
       }
     };
-    window.addEventListener("focus", loadPromoCampaigns);
+    window.addEventListener("focus", () => loadPromoCampaigns(false));
     document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      window.removeEventListener("focus", loadPromoCampaigns);
+      window.removeEventListener("focus", () => loadPromoCampaigns(false));
       document.removeEventListener("visibilitychange", handleVisibility);
       if (channel) channel.close();
     };
@@ -453,7 +471,6 @@ export function WardrobeExactPromo() {
 
                     <Link
                       href={destinationUrl}
-                      prefetch={true}
                       onClick={() => handleCtaClick(c.id)}
                       className="inline-flex items-center gap-2 bg-[#1E1E1E] hover:bg-black text-white px-6 py-2.5 rounded-full text-xs font-mono uppercase tracking-widest font-semibold transition-all hover:scale-103 shadow-sm"
                     >

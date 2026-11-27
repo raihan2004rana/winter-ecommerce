@@ -175,9 +175,11 @@ function ImageUploadField({
   );
 }
 
+let cachedJournal: JournalArticle[] = [];
+
 export default function AdminJournalPage() {
-  const [articles, setArticles] = React.useState<JournalArticle[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [articles, setArticles] = React.useState<JournalArticle[]>(cachedJournal);
+  const [loading, setLoading] = React.useState(cachedJournal.length === 0);
   const [search, setSearch] = React.useState("");
   const [categoryFilter, setCategoryFilter] = React.useState("all");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -213,10 +215,11 @@ export default function AdminJournalPage() {
 
   const fetchArticles = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedJournal.length === 0) setLoading(true);
       const res = await fetch("/api/admin/journal");
       const data = await res.json();
       if (data && data.articles) {
+        cachedJournal = data.articles;
         setArticles(data.articles);
       }
     } catch (err) {

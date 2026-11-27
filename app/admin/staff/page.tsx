@@ -16,18 +16,21 @@ import {
 } from "lucide-react";
 import { AdminStaff } from "@/lib/server/admin-store";
 
+let cachedStaff: AdminStaff[] = [];
+
 export default function AdminStaffPage() {
-  const [staffList, setStaffList] = React.useState<AdminStaff[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [staffList, setStaffList] = React.useState<AdminStaff[]>(cachedStaff);
+  const [loading, setLoading] = React.useState(cachedStaff.length === 0);
   const [updatingId, setUpdatingId] = React.useState<string | null>(null);
   const [successToast, setSuccessToast] = React.useState<string | null>(null);
 
   const fetchStaff = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedStaff.length === 0) setLoading(true);
       const res = await fetch("/api/admin/staff");
       const data = await res.json();
       if (data && data.staff) {
+        cachedStaff = data.staff;
         setStaffList(data.staff);
       }
     } catch (err) {

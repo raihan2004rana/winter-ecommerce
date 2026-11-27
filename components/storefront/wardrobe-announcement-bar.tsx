@@ -5,31 +5,48 @@ import Link from "next/link";
 import { X, Sparkles, Copy, Check, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { AdminCampaign } from "@/lib/server/admin-store";
 
+let cachedAnnouncementCampaigns: AdminCampaign[] | null = null;
+let lastAnnouncementFetchTime = 0;
+
 export function WardrobeAnnouncementBar() {
-  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
+  const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>(() => cachedAnnouncementCampaigns || []);
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [dismissedMap, setDismissedMap] = React.useState<Record<string, boolean>>({});
   const [copied, setCopied] = React.useState(false);
 
-  const fetchCampaigns = React.useCallback(() => {
-    fetch(`/api/campaigns?placement=announcement_bar&_t=${Date.now()}`, {
-      cache: "no-store",
+  const fetchCampaigns = React.useCallback((force = false) => {
+    const now = Date.now();
+    if (!force && cachedAnnouncementCampaigns && now - lastAnnouncementFetchTime < 60000) {
+      setCampaigns(cachedAnnouncementCampaigns);
+      return;
+    }
+
+    fetch(`/api/campaigns?placement=announcement_bar`, {
+      cache: "default",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data?.status === "success" && Array.isArray(data.campaigns)) {
+          cachedAnnouncementCampaigns = data.campaigns;
+          lastAnnouncementFetchTime = Date.now();
           setCampaigns(data.campaigns);
 
           if (data.campaigns.length > 0) {
-            // Track impression beacon
-            fetch("/api/admin/campaigns/track", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                campaignId: data.campaigns[0].id,
-                event: "impression",
-              }),
-            }).catch(() => {});
+            const campId = data.campaigns[0].id;
+            // Track impression beacon at most once per session
+            try {
+              if (!sessionStorage.getItem(`imp_${campId}`)) {
+                sessionStorage.setItem(`imp_${campId}`, "1");
+                fetch("/api/admin/campaigns/track", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    campaignId: campId,
+                    event: "impression",
+                  }),
+                }).catch(() => {});
+              }
+            } catch {}
           }
         }
       })
@@ -37,7 +54,7 @@ export function WardrobeAnnouncementBar() {
   }, []);
 
   React.useEffect(() => {
-    fetchCampaigns();
+    fetchCampaigns(false);
 
     // 1. Real-time cross-tab synchronization via BroadcastChannel
     let channel: BroadcastChannel | null = null;
@@ -46,8 +63,9 @@ export function WardrobeAnnouncementBar() {
       channel.onmessage = (msg) => {
         if (msg.data?.type === "CAMPAIGN_UPDATED") {
           // Reset dismissals for testing/admin updates
+          cachedAnnouncementCampaigns = null;
           setDismissedMap({});
-          fetchCampaigns();
+          fetchCampaigns(true);
         }
       };
     } catch {
@@ -57,14 +75,14 @@ export function WardrobeAnnouncementBar() {
     // 2. Refetch on window focus / tab visibility change (no manual page refresh needed)
     const handleVisibility = () => {
       if (document.visibilityState === "visible") {
-        fetchCampaigns();
+        fetchCampaigns(true);
       }
     };
-    window.addEventListener("focus", fetchCampaigns);
+    window.addEventListener("focus", () => fetchCampaigns(false));
     document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      window.removeEventListener("focus", fetchCampaigns);
+      window.removeEventListener("focus", () => fetchCampaigns(false));
       document.removeEventListener("visibilitychange", handleVisibility);
       if (channel) channel.close();
     };

@@ -84,7 +84,6 @@ export function WardrobeExactBestSellers({
               {/* Product Photo with hover alternate image */}
               <Link
                 href={`/products/${item.slug}`}
-                prefetch={true}
                 className="relative aspect-[3/4] w-full bg-[#F7F7F8] overflow-hidden flex items-center justify-center block"
               >
                 <Image
@@ -125,7 +124,6 @@ export function WardrobeExactBestSellers({
                   {/* Title */}
                   <Link
                     href={`/products/${item.slug}`}
-                    prefetch={true}
                     className="font-sans text-sm font-medium text-[#111] hover:text-[#555] block transition-colors line-clamp-1"
                   >
                     {item.title}

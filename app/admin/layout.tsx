@@ -156,7 +156,6 @@ export default function AdminRootLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  prefetch={true}
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center justify-between px-3 py-2 text-xs font-medium rounded-sm transition-all duration-150 ${
                     isActive

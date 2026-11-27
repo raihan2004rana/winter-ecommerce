@@ -1538,6 +1538,15 @@ function saveState(state: AdminState): void {
   }
 }
 
+let saveStateDebounceTimer: NodeJS.Timeout | null = null;
+function debouncedSaveState(state: AdminState, delayMs = 30000): void {
+  if (saveStateDebounceTimer) return;
+  saveStateDebounceTimer = setTimeout(() => {
+    saveState(state);
+    saveStateDebounceTimer = null;
+  }, delayMs);
+}
+
 // ==============================================================================
 // PUBLIC ADMIN STORE METHODS
 // ==============================================================================
@@ -2623,11 +2632,13 @@ export const AdminStore = {
 
     if (event === "impression") {
       campaign.impressions = (campaign.impressions || 0) + 1;
+      // Never write synchronously to disk on impressions to prevent Next.js recompilations on page navigation
+      debouncedSaveState(state, 60000);
     } else if (event === "click") {
       campaign.clicks = (campaign.clicks || 0) + 1;
+      debouncedSaveState(state, 5000);
     }
 
-    saveState(state);
     return {
       id: campaign.id,
       impressions: campaign.impressions,

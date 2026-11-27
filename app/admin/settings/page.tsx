@@ -53,42 +53,50 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
+let cachedSettings: AdminSettings | null = null;
+let cachedTaxRules: AdminTaxRule[] = [];
+let cachedShippingZones: AdminShippingZone[] = [];
+let cachedIgConfig: InstagramConfig | null = null;
+let cachedRatesData: any = null;
+
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = React.useState<"general" | "taxes" | "shipping" | "fx" | "instagram">("general");
 
-  const [settings, setSettings] = React.useState<AdminSettings>({
-    storeName: "KØRA Winter Editorial",
-    storeDomain: "winter.kora-apparel.com",
-    defaultCurrency: "USD",
-    supportEmail: "concierge@kora-winter.com",
-    orderNotificationEmail: "orders@kora-winter.com",
-    standardShippingFee: 15.0,
-    freeShippingThreshold: 200.0,
-    taxRate: 0.08,
-    lowStockThreshold: 10,
-    maintenanceMode: false,
-  });
+  const [settings, setSettings] = React.useState<AdminSettings>(
+    () =>
+      cachedSettings || {
+        storeName: "MAULI FASHION — Archival Winter Luxury",
+        storeDomain: "maulifashion.com",
+        defaultCurrency: "USD",
+        supportEmail: "care@maulifashion.com",
+        orderNotificationEmail: "orders@maulifashion.com",
+        standardShippingFee: 15.0,
+        freeShippingThreshold: 200.0,
+        taxRate: 0.08,
+        lowStockThreshold: 10,
+        maintenanceMode: false,
+      }
+  );
 
-  const [taxRules, setTaxRules] = React.useState<AdminTaxRule[]>([]);
-  const [shippingZones, setShippingZones] = React.useState<AdminShippingZone[]>([]);
-  const [instagramConfig, setInstagramConfig] = React.useState<InstagramConfig>({
-    handle: "kora.winter",
-    profileUrl: "https://instagram.com/kora.winter",
-    accessToken: "",
-    autoSync: false,
-    posts: [],
-  });
+  const [taxRules, setTaxRules] = React.useState<AdminTaxRule[]>(cachedTaxRules);
+  const [shippingZones, setShippingZones] = React.useState<AdminShippingZone[]>(cachedShippingZones);
+  const [instagramConfig, setInstagramConfig] = React.useState<InstagramConfig>(
+    () =>
+      cachedIgConfig || {
+        handle: "maulifashion",
+        profileUrl: "https://instagram.com/maulifashion",
+        accessToken: "",
+        autoSync: false,
+        posts: [],
+      }
+  );
   const [newPostImageUrl, setNewPostImageUrl] = React.useState("");
   const [newPostPermalink, setNewPostPermalink] = React.useState("");
   const [newPostCaption, setNewPostCaption] = React.useState("");
 
-  const [ratesData, setRatesData] = React.useState<{
-    rates: Record<string, number>;
-    date?: string;
-    source?: string;
-  } | null>(null);
+  const [ratesData, setRatesData] = React.useState<any>(cachedRatesData);
 
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(!cachedSettings);
   const [saving, setSaving] = React.useState(false);
   const [refreshingRates, setRefreshingRates] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
@@ -96,7 +104,7 @@ export default function AdminSettingsPage() {
 
   const fetchAllData = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (!cachedSettings) setLoading(true);
       const [settingsRes, ratesRes, igRes] = await Promise.all([
         fetch("/api/admin/settings"),
         fetch("/api/international/rates"),
@@ -105,22 +113,27 @@ export default function AdminSettingsPage() {
 
       const data = await settingsRes.json();
       if (data && data.settings) {
+        cachedSettings = data.settings;
         setSettings(data.settings);
       }
       if (data && Array.isArray(data.taxRules)) {
+        cachedTaxRules = data.taxRules;
         setTaxRules(data.taxRules);
       }
       if (data && Array.isArray(data.shippingZones)) {
+        cachedShippingZones = data.shippingZones;
         setShippingZones(data.shippingZones);
       }
 
       const ratesJson = await ratesRes.json();
       if (ratesJson && ratesJson.rates) {
+        cachedRatesData = ratesJson;
         setRatesData(ratesJson);
       }
 
       const igJson = await igRes.json();
       if (igJson && igJson.data) {
+        cachedIgConfig = igJson.data;
         setInstagramConfig(igJson.data);
       }
     } catch (err) {

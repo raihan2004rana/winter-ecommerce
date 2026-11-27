@@ -96,7 +96,7 @@ export function WardrobeElevatedHero({ onShopClick }: WardrobeHeroProps) {
               Archival Campaign
             </span>
             <p className="font-sans text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-[#343A46] leading-[0.92]">
-              Cold Horizon<br />
+              MAULI FASHION<br />
               <span className="font-light text-[#2A2F3A]">Fashion</span>
             </p>
           </div>
@@ -167,7 +167,7 @@ export function WardrobeElevatedHero({ onShopClick }: WardrobeHeroProps) {
         <div className="relative z-10 w-full max-w-[1500px] mx-auto px-6 sm:px-12 pb-8 sm:pb-12 text-center pointer-events-none">
           <div className="max-w-xl mx-auto space-y-1.5 pointer-events-auto">
             <h2 className="font-sans text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-[#222]">
-              2026 — Cold Horizon
+              2026 — MAULI FASHION
             </h2>
             <p className="text-xs sm:text-sm text-[#555] font-sans leading-relaxed max-w-lg mx-auto">
               Inspired by winter landscapes, this collection blends modern design with warmth and functionality — created for life in the city and beyond.

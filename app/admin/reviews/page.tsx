@@ -18,9 +18,11 @@ import {
 } from "lucide-react";
 import { AdminReview } from "@/lib/server/admin-store";
 
+let cachedReviews: AdminReview[] = [];
+
 export default function AdminReviewsPage() {
-  const [reviews, setReviews] = React.useState<AdminReview[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [reviews, setReviews] = React.useState<AdminReview[]>(cachedReviews);
+  const [loading, setLoading] = React.useState(cachedReviews.length === 0);
   const [statusFilter, setStatusFilter] = React.useState<string>("all");
   const [search, setSearch] = React.useState("");
   const [moderatingId, setModeratingId] = React.useState<string | null>(null);
@@ -28,13 +30,14 @@ export default function AdminReviewsPage() {
 
   const fetchReviews = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedReviews.length === 0) setLoading(true);
       const queryParams = new URLSearchParams();
       if (statusFilter !== "all") queryParams.set("status", statusFilter);
 
       const res = await fetch(`/api/admin/reviews?${queryParams.toString()}`);
       const data = await res.json();
       if (data && data.reviews) {
+        cachedReviews = data.reviews;
         setReviews(data.reviews);
       }
     } catch (err) {
