@@ -1300,6 +1300,46 @@
   ],
   "auditLogs": [
     {
+      "id": "log-1795749856540",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-001",
+      "details": "Updated campaign \"Hero Winter 26/27 Drop - Designed for Colder Days\". Fields changed: isActive.",
+      "createdAt": "2026-11-27T03:24:16.540Z"
+    },
+    {
+      "id": "log-1795749827845",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-004",
+      "details": "Updated campaign \"Category Split Feature - Women & Men Winter Cut\". Fields changed: isActive.",
+      "createdAt": "2026-11-27T03:23:47.845Z"
+    },
+    {
+      "id": "log-1795749781041",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-001",
+      "details": "Updated campaign \"Hero Winter 26/27 Drop - Designed for Colder Days\". Fields changed: isActive.",
+      "createdAt": "2026-11-27T03:23:01.041Z"
+    },
+    {
+      "id": "log-1795749666119",
+      "actorName": "Raihan Rana",
+      "actorEmail": "admin@winter-fashion.com",
+      "action": "Campaign Updated",
+      "entity": "Campaign",
+      "entityId": "camp-002",
+      "details": "Updated campaign \"Top Announcement Bar - Global Express Transit & 25% Off\". Fields changed: isActive.",
+      "createdAt": "2026-11-27T03:21:06.119Z"
+    },
+    {
       "id": "log-1795748392433",
       "actorName": "Raihan Rana",
       "actorEmail": "admin@winter-fashion.com",
@@ -1899,11 +1939,11 @@
       "startDate": "2026-11-19T04:15:56.272Z",
       "endDate": "2027-01-25T04:15:56.272Z",
       "isActive": false,
-      "impressions": 4960,
+      "impressions": 4976,
       "clicks": 815,
       "priority": 1,
       "createdAt": "2026-11-19T04:15:56.272Z",
-      "updatedAt": "2026-11-27T02:57:58.984Z"
+      "updatedAt": "2026-11-27T03:24:16.540Z"
     },
     {
       "id": "camp-002",
@@ -1919,8 +1959,8 @@
       "destinationUrl": "/products",
       "startDate": "2026-11-16T04:15:56.272Z",
       "endDate": "2026-12-26T04:15:56.272Z",
-      "isActive": true,
-      "impressions": 12553,
+      "isActive": false,
+      "impressions": 12557,
       "clicks": 1620,
       "discountRule": {
         "type": "percentage",
@@ -1930,7 +1970,7 @@
       },
       "priority": 1,
       "createdAt": "2026-11-16T04:15:56.272Z",
-      "updatedAt": "2026-11-27T02:59:52.433Z"
+      "updatedAt": "2026-11-27T03:21:06.119Z"
     },
     {
       "id": "camp-003",
@@ -1977,12 +2017,12 @@
       "destinationUrl": "/products",
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
-      "isActive": false,
-      "impressions": 3467,
+      "isActive": true,
+      "impressions": 3479,
       "clicks": 497,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
-      "updatedAt": "2026-11-27T02:59:47.308Z"
+      "updatedAt": "2026-11-27T03:23:47.845Z"
     }
   ],
   "taxRules": [

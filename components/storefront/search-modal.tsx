@@ -133,7 +133,6 @@ export function SearchModal({
                   key={p.id}
                   href={`/products/${p.slug}`}
                   onClick={() => {
-                    onSelectProduct?.(p);
                     onClose();
                   }}
                   className="group cursor-pointer border border-canvas-muted bg-canvas-elevated p-3 space-y-2 transition-all duration-300 hover:border-charcoal hover:shadow-editorial block"

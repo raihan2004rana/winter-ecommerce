@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { usePathname } from "next/navigation";
 import { WardrobeAnnouncementBar } from "@/components/storefront/wardrobe-announcement-bar";
 import { WardrobeExactHeader } from "@/components/storefront/wardrobe-exact-header";
 import { SearchModal } from "@/components/storefront/search-modal";
@@ -17,10 +18,15 @@ export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) 
     closeCart,
     updateQuantity,
     removeItem,
-    addItem,
   } = useCartStore();
 
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const pathname = usePathname();
+
+  // Automatically close cart drawer on route navigation so viewing a product never auto-opens the drawer
+  React.useEffect(() => {
+    closeCart();
+  }, [pathname, closeCart]);
 
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -42,18 +48,6 @@ export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) 
           isOpen={isSearchOpen}
           onClose={() => setIsSearchOpen(false)}
           currency="USD"
-          onSelectProduct={(p) =>
-            addItem({
-              id: p.id,
-              slug: p.slug,
-              title: p.title,
-              price: p.price,
-              size: p.sizes[0] || "M",
-              color: p.colorways[0]?.name || "Standard",
-              image: p.primaryImage,
-              quantity: 1,
-            })
-          }
         />
 
         {/* 4. Global Mini Cart Drawer (High-Def Thumbnails + Express Transit Progress) */}

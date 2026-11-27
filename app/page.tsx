@@ -25,6 +25,10 @@ export default function StorefrontHomePage() {
   const [products, setProducts] = React.useState<Product[]>(PRODUCTS_CATALOG);
 
   React.useEffect(() => {
+    // Ensure cart drawer is closed on initial page load / navigation
+    setIsCartOpen(false);
+    useCartStore.getState().closeCart();
+
     fetch("/api/products")
       .then((res) => res.json())
       .then((data) => {
@@ -136,7 +140,6 @@ export default function StorefrontHomePage() {
           isOpen={isSearchOpen}
           onClose={() => setIsSearchOpen(false)}
           currency="USD"
-          onSelectProduct={(p) => handleAddToCart(p, p.sizes[0] || "M")}
         />
 
         {/* Slide-Over Cart Drawer */}
