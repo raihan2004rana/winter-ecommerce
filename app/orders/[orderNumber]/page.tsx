@@ -21,6 +21,7 @@ import {
   Loader2,
   Receipt,
   RotateCcw,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -328,18 +329,21 @@ export default function OrderConfirmationPage() {
                     </div>
                   )}
 
-                  <div className="pt-4 space-y-2">
+                  <div className="pt-4 space-y-2.5">
                     <Link href="/products" className="block w-full">
-                      <Button className="w-full bg-[#111] hover:bg-black text-white h-11 rounded-full text-xs font-mono uppercase tracking-wider">
+                      <Button className="w-full bg-[#111] hover:bg-black text-white h-11 rounded-full text-xs font-mono uppercase tracking-wider shadow-xs">
                         <span>Continue Shopping</span>
                         <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                       </Button>
                     </Link>
 
-                    <Link href="/admin/orders" className="block w-full">
-                      <Button variant="outline" className="w-full text-xs font-mono uppercase tracking-wider h-11 rounded-full">
-                        <span>View in Admin Dashboard</span>
-                        <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
+                    <Link href="/account?tab=orders" className="block w-full">
+                      <Button
+                        variant="outline"
+                        className="w-full text-xs font-mono uppercase tracking-wider h-11 rounded-full border-gray-300 hover:border-black hover:bg-black hover:text-white transition-colors"
+                      >
+                        <span>View Orders in My Account</span>
+                        <User className="w-3.5 h-3.5 ml-1.5" />
                       </Button>
                     </Link>
                   </div>
