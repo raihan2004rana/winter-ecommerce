@@ -791,7 +791,7 @@
       "customerEmail": "julian.vallis@haute-cold.com",
       "total": 320.08,
       "currency": "USD",
-      "status": "paid",
+      "status": "delivered",
       "paymentStatus": "paid",
       "fulfillmentStatus": "fulfilled",
       "items": [
@@ -1503,6 +1503,16 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1795757428146",
+      "actorName": "Julian Vallis",
+      "actorEmail": "julian.vallis@haute-cold.com",
+      "action": "Order Status Changed",
+      "entity": "Order",
+      "entityId": "MON-2026-9678",
+      "details": "Changed order MON-2026-9678 status from \"paid\" to \"delivered\".",
+      "createdAt": "2026-11-27T05:30:28.146Z"
+    },
     {
       "id": "log-1795757046150",
       "actorName": "Raihan Rana",
@@ -2412,7 +2422,7 @@
       "startDate": "2026-11-12T04:15:56.272Z",
       "endDate": "2027-01-10T04:15:56.272Z",
       "isActive": true,
-      "impressions": 3721,
+      "impressions": 3747,
       "clicks": 498,
       "priority": 2,
       "createdAt": "2026-11-12T04:15:56.272Z",
@@ -2905,7 +2915,7 @@
       "publishedAt": "2026-11-08T08:49:15.548Z",
       "isPublished": true,
       "order": 4,
-      "content": "High in the Altai Mountains of Mongolia, winter temperatures consistently fall below -40°C. In response to this extreme habitat, the native Capra hircus goats develop a dense, remarkably fine underfleece beneath their coarse outer hair.\n\nEach fiber measures between 14 and 16 microns in diameter—almost six times finer than human hair. When spun into dense 4-ply and 8-ply yarns, this fiber creates millions of microscopic air pockets that trap body heat far more efficiently than standard sheep's wool.\n\n### Crafting 450 GSM Knitwear\n\nStandard commercial knitwear typically weighs between 200 and 280 grams per square meter. At WARDROBE, our heavyweight sweaters are woven at 450 GSM, resulting in garments that drape with substantial presence and resist the biting winds of northern winters without requiring artificial synthetic blends.",
+      "content": "High in the Altai Mountains of Mongolia, winter temperatures consistently fall below -40°C. In response to this extreme habitat, the native Capra hircus goats develop a dense, remarkably fine underfleece beneath their coarse outer hair.\n\nEach fiber measures between 14 and 16 microns in diameter—almost six times finer than human hair. When spun into dense 4-ply and 8-ply yarns, this fiber creates millions of microscopic air pockets that trap body heat far more efficiently than standard sheep's wool.\n\n### Crafting 450 GSM Knitwear\n\nStandard commercial knitwear typically weighs between 200 and 280 grams per square meter. At MAULI FASHION, our heavyweight sweaters are woven at 450 GSM, resulting in garments that drape with substantial presence and resist the biting winds of northern winters without requiring artificial synthetic blends.",
       "sections": [
         {
           "id": "sec-7",

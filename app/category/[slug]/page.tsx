@@ -31,11 +31,11 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   const config = CATEGORY_METADATA[slug];
 
   if (!config) {
-    return { title: "Category | VALLIS & ORE" };
+    return { title: "Category | MAULI FASHION" };
   }
 
   return {
-    title: `${config.title} | VALLIS & ORE`,
+    title: `${config.title} | MAULI FASHION`,
     description: config.subtitle,
   };
 }

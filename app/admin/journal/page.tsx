@@ -206,7 +206,7 @@ export default function AdminJournalPage() {
     category: "Style guide",
     readTime: "5 min read",
     image: "",
-    author: "WARDROBE Editorial",
+    author: "MAULI FASHION Editorial",
     isPublished: true,
     sections: [],
   });
@@ -252,7 +252,7 @@ export default function AdminJournalPage() {
       category: "Style guide",
       readTime: "5 min read",
       image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=85&w=800",
-      author: "WARDROBE Editorial",
+      author: "MAULI FASHION Editorial",
       isPublished: true,
       sections: [],
     });
@@ -270,7 +270,7 @@ export default function AdminJournalPage() {
       category: article.category,
       readTime: article.readTime,
       image: article.image,
-      author: article.author || "WARDROBE Editorial",
+      author: article.author || "MAULI FASHION Editorial",
       isPublished: article.isPublished,
       sections: article.sections ? JSON.parse(JSON.stringify(article.sections)) : [],
     });

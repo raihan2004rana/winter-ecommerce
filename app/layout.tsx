@@ -4,9 +4,9 @@ import { AuthProvider } from "@/lib/auth/auth-context";
 import { NavigationProgressBar } from "@/components/storefront/navigation-progress-bar";
 
 export const metadata: Metadata = {
-  title: "VALLIS & ORE | High Cold Winter Lifestyle & Outerwear",
+  title: "MAULI FASHION | High Cold Winter Lifestyle & Outerwear",
   description:
-    "International winter fashion and technical outerwear engineered for extreme sub-zero alpine conditions and timeless urban transit.",
+    "MAULI FASHION international winter fashion and technical outerwear engineered for extreme sub-zero alpine conditions and timeless urban transit.",
 };
 
 export default function RootLayout({

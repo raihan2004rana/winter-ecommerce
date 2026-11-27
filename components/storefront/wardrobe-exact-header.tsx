@@ -351,7 +351,7 @@ export function WardrobeExactHeader({
 
             <Link href="/" className="inline-block" onClick={closeMenu}>
               <span className="font-sans text-lg sm:text-xl font-bold tracking-[0.14em] text-[#111] uppercase">
-                WARDROBE
+                MAULI FASHION
               </span>
             </Link>
           </div>
@@ -718,7 +718,7 @@ export function WardrobeExactHeader({
                         Editorial Stories & Guides
                       </span>
                       <h3 className="text-lg font-editorial font-normal text-neutral-900 mt-0.5">
-                        The WARDROBE Journal
+                        The MAULI FASHION Journal
                       </h3>
                     </div>
                     <Link

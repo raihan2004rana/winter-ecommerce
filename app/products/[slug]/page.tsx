@@ -22,11 +22,11 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const product = await getProduct(slug);
 
   if (!product) {
-    return { title: "Garment Not Found | VALLIS & ORE" };
+    return { title: "Garment Not Found | MAULI FASHION" };
   }
 
   return {
-    title: `${product.title} | VALLIS & ORE`,
+    title: `${product.title} | MAULI FASHION`,
     description: product.subtitle,
   };
 }

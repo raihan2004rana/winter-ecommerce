@@ -289,7 +289,7 @@ export default function CheckoutPage() {
 
           <Link href="/" className="inline-block">
             <span className="font-sans text-lg sm:text-xl font-bold tracking-[0.14em] text-[#111] uppercase">
-              WARDROBE
+              MAULI FASHION
             </span>
           </Link>
 

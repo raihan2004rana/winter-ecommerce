@@ -1387,7 +1387,7 @@ Each fiber measures between 14 and 16 microns in diameter—almost six times fin
 
 ### Crafting 450 GSM Knitwear
 
-Standard commercial knitwear typically weighs between 200 and 280 grams per square meter. At WARDROBE, our heavyweight sweaters are woven at 450 GSM, resulting in garments that drape with substantial presence and resist the biting winds of northern winters without requiring artificial synthetic blends.`,
+Standard commercial knitwear typically weighs between 200 and 280 grams per square meter. At MAULI FASHION, our heavyweight sweaters are woven at 450 GSM, resulting in garments that drape with substantial presence and resist the biting winds of northern winters without requiring artificial synthetic blends.`,
       author: "Astrid Lind",
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 18).toISOString(),
       isPublished: true,
@@ -3036,7 +3036,7 @@ export const AdminStore = {
       readTime: data.readTime?.trim() || "5 min read",
       image:
         data.image?.trim() || "/images/wardrobe/AFa3pXi6rgIjU1cTtgBzlijk5o.jpg",
-      author: data.author?.trim() || actor?.name || "WARDROBE Editorial",
+      author: data.author?.trim() || actor?.name || "MAULI FASHION Editorial",
       publishedAt: data.publishedAt || new Date().toISOString(),
       isPublished: data.isPublished !== undefined ? data.isPublished : true,
       order: data.order ?? state.journalArticles.length + 1,

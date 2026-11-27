@@ -114,7 +114,7 @@ export default function JournalPage() {
         <section className="border-b border-[#EFEFEF] py-14 sm:py-20 bg-[#FAFAFA]">
           <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 text-center">
             <span className="text-2xs font-mono uppercase tracking-[0.2em] text-[#777] block mb-2">
-              WARDROBE Editorial Archive
+              MAULI FASHION Editorial Archive
             </span>
             <h1 className="font-editorial text-4xl sm:text-6xl text-[#111] font-normal tracking-tight max-w-3xl mx-auto leading-tight">
               Stories of Cold, Craft &amp; Quiet Elegance
@@ -193,7 +193,7 @@ export default function JournalPage() {
                   </p>
 
                   <div className="pt-2 text-2xs font-mono text-[#888]">
-                    By {featured.author || "WARDROBE Editorial"} •{" "}
+                    By {featured.author || "MAULI FASHION Editorial"} •{" "}
                     {new Date(featured.publishedAt).toLocaleDateString("en-US", {
                       month: "long",
                       day: "numeric",

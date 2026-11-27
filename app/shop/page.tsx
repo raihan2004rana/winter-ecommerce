@@ -4,7 +4,7 @@ import { ProductListingView } from "@/components/storefront/product-listing-view
 import { StoreLayoutWrapper } from "@/components/storefront/store-layout-wrapper";
 
 export const metadata: Metadata = {
-  title: "Shop All Winter Outerwear & Apparel | VALLIS & ORE",
+  title: "Shop All Winter Outerwear & Apparel | MAULI FASHION",
   description: "Browse the complete winter catalog: down parkas, double-faced wool overcoats, pure cashmere knits, and alpine boots.",
 };
 

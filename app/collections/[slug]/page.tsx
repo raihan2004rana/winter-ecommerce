@@ -36,11 +36,11 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   const config = COLLECTION_METADATA[slug];
 
   if (!config) {
-    return { title: "Collection | VALLIS & ORE" };
+    return { title: "Collection | MAULI FASHION" };
   }
 
   return {
-    title: `${config.title} | VALLIS & ORE`,
+    title: `${config.title} | MAULI FASHION`,
     description: config.subtitle,
   };
 }

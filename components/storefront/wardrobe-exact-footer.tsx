@@ -67,7 +67,7 @@ export function WardrobeExactFooter() {
           {/* Left Column: Logo + Newsletter */}
           <div className="lg:col-span-5 space-y-5">
             <h2 className="font-sans text-xl font-bold tracking-[0.14em] uppercase text-[#111]">
-              WARDROBE
+              MAULI FASHION
             </h2>
             <p className="text-xs sm:text-sm text-[#555] font-sans max-w-sm">
               Join our newsletter and save 10% on your first order
@@ -188,7 +188,7 @@ export function WardrobeExactFooter() {
 
         {/* Bottom Bar: Copyright & Payment Icons */}
         <div className="pt-10 sm:pt-14 mt-10 sm:mt-14 border-t border-[#F0F0F0] flex flex-col sm:flex-row items-center justify-between gap-4 text-2xs text-[#888] font-mono">
-          <p>© 2026 WARDROBE. Powered by Framer.</p>
+          <p>© 2026 MAULI FASHION. Powered by Framer.</p>
 
           {/* High-Fidelity Official Payment Badges */}
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">

@@ -26,9 +26,9 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const article = AdminStore.getJournalArticleBySlug(slug);
-  if (!article) return { title: "Journal Story | WARDROBE" };
+  if (!article) return { title: "Journal Story | MAULI FASHION" };
   return {
-    title: `${article.title} | WARDROBE Journal`,
+    title: `${article.title} | MAULI FASHION Journal`,
     description: article.excerpt,
   };
 }
@@ -171,7 +171,7 @@ export default async function JournalArticlePage({ params }: PageProps) {
           </div>
           <div className="flex items-center justify-between mt-2.5 text-2xs font-mono text-[#888] uppercase tracking-wider">
             <span>Cover Photography • Swiss Alps Winter Archive</span>
-            <span>WARDROBE LOOKBOOK N° 26</span>
+            <span>MAULI FASHION LOOKBOOK N° 26</span>
           </div>
         </div>
 
@@ -395,7 +395,7 @@ export default async function JournalArticlePage({ params }: PageProps) {
                   &ldquo;Simplicity in winter apparel is not about absence of design—it is the mastery of thermal science executed with invisible seams.&rdquo;
                 </p>
                 <cite className="text-2xs font-mono uppercase tracking-widest text-[#777] mt-3 block not-italic">
-                  — WARDROBE Winter Design Manifesto, Zurich Atelier
+                  — MAULI FASHION Winter Design Manifesto, Zurich Atelier
                 </cite>
               </blockquote>
 
