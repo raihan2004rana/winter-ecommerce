@@ -26,6 +26,8 @@ import {
 } from "lucide-react";
 import { Product } from "@/data/products";
 
+let cachedProductsList: any[] = [];
+
 function AdminProductsContent() {
   const searchParams = useSearchParams();
 
@@ -50,8 +52,8 @@ function AdminProductsContent() {
   const initialStatus = paramStatus || "all";
   const initialSearch = paramSearch || "";
 
-  const [products, setProducts] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [products, setProducts] = React.useState<any[]>(cachedProductsList);
+  const [loading, setLoading] = React.useState(cachedProductsList.length === 0);
   const [search, setSearch] = React.useState(initialSearch);
   const [genderFilter, setGenderFilter] = React.useState(initialGender);
   const [categoryFilter, setCategoryFilter] = React.useState(initialCategory);
@@ -104,7 +106,7 @@ function AdminProductsContent() {
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
 
   const fetchProducts = React.useCallback(() => {
-    setLoading(true);
+    if (cachedProductsList.length === 0) setLoading(true);
     const params = new URLSearchParams();
     if (search) params.set("search", search);
     if (genderFilter !== "all") params.set("gender", genderFilter);
@@ -114,7 +116,10 @@ function AdminProductsContent() {
     fetch(`/api/admin/products?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success") setProducts(data.data);
+        if (data.status === "success" && Array.isArray(data.data)) {
+          cachedProductsList = data.data;
+          setProducts(data.data);
+        }
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));

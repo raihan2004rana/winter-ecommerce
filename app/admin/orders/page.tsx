@@ -24,9 +24,11 @@ import {
 } from "lucide-react";
 import { AdminOrder } from "@/lib/server/admin-store";
 
+let cachedOrders: AdminOrder[] = [];
+
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = React.useState<AdminOrder[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [orders, setOrders] = React.useState<AdminOrder[]>(cachedOrders);
+  const [loading, setLoading] = React.useState(cachedOrders.length === 0);
   const [search, setSearch] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState<string>("all");
   const [selectedOrder, setSelectedOrder] = React.useState<AdminOrder | null>(null);
@@ -36,7 +38,7 @@ export default function AdminOrdersPage() {
 
   const fetchOrders = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedOrders.length === 0) setLoading(true);
       const queryParams = new URLSearchParams();
       if (search) queryParams.set("search", search);
       if (statusFilter !== "all") queryParams.set("status", statusFilter);
@@ -45,6 +47,7 @@ export default function AdminOrdersPage() {
       const data = await res.json();
       const list = data?.orders || data?.data || [];
       if (Array.isArray(list)) {
+        cachedOrders = list;
         setOrders(list);
         setSelectedOrder((current) => {
           if (!current) return null;

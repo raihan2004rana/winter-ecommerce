@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
       <div className="text-center mb-8 space-y-2 z-10">
         <Link href="/" className="inline-block group">
           <span className="font-sans text-2xl font-bold tracking-[0.25em] uppercase text-white group-hover:text-neutral-300 transition-colors">
-            COLD HORIZON
+            MAULI FASHION
           </span>
           <span className="block text-[0.62rem] font-mono uppercase tracking-[0.3em] text-neutral-400 mt-0.5">
             Administration Console

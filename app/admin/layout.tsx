@@ -66,7 +66,7 @@ export default function AdminRootLayout({
   const isLoginPage = pathname === "/admin/login";
 
   React.useEffect(() => {
-    // Read session from me endpoint or cookie
+    // Read session from me endpoint or cookie on mount
     fetch("/api/admin/auth/me")
       .then((res) => res.json())
       .then((data) => {
@@ -75,7 +75,7 @@ export default function AdminRootLayout({
         }
       })
       .catch(() => {});
-  }, [pathname]);
+  }, []);
 
   const handleLogout = async () => {
     await fetch("/api/admin/auth/logout", { method: "POST" });
@@ -122,12 +122,12 @@ export default function AdminRootLayout({
         <div className="flex flex-col">
           <div className="h-16 px-6 flex items-center justify-between border-b border-[#22262E]">
             <Link href="/admin" className="flex items-center space-x-2.5">
-              <div className="h-7 w-7 bg-white text-black flex items-center justify-center font-bold text-xs">
-                CH
+              <div className="h-7 w-7 bg-white text-black flex items-center justify-center font-bold text-xs tracking-tight">
+                MF
               </div>
               <div>
                 <span className="font-sans font-bold tracking-[0.16em] text-white text-sm uppercase block leading-none">
-                  COLD HORIZON
+                  MAULI FASHION
                 </span>
                 <span className="text-[0.62rem] font-mono text-neutral-400 uppercase tracking-widest block mt-0.5">
                   Admin Console
@@ -156,6 +156,7 @@ export default function AdminRootLayout({
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch={true}
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center justify-between px-3 py-2 text-xs font-medium rounded-sm transition-all duration-150 ${
                     isActive

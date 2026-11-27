@@ -871,7 +871,7 @@ function getInitialState(): AdminState {
   ];
 
   const initialSettings: AdminSettings = {
-    storeName: "Cold Horizon — Archival Winter Luxury",
+    storeName: "MAULI FASHION — Archival Winter Luxury",
     storeDomain: "coldhorizon-fashion.com",
     defaultCurrency: "USD",
     supportEmail: "concierge@coldhorizon-fashion.com",
@@ -1664,7 +1664,7 @@ export const AdminStore = {
       id: newId,
       slug: data.slug || data.title?.toLowerCase().replace(/[^a-z0-9]+/g, "-") || `winter-${newId}`,
       title: data.title || "Untitled Winter Garment",
-      subtitle: data.subtitle || "Cold Horizon Archival Collection",
+      subtitle: data.subtitle || "MAULI FASHION Archival Collection",
       description: data.description || "Master-tailored cold weather piece with premium insulation.",
       gender: data.gender || "unisex",
       category: data.category || "jackets-coats",

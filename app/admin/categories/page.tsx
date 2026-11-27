@@ -174,9 +174,11 @@ function ImageUploadField({
   );
 }
 
+let cachedCategories: Category[] = [];
+
 export default function AdminCategoriesPage() {
-  const [categories, setCategories] = React.useState<Category[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [categories, setCategories] = React.useState<Category[]>(cachedCategories);
+  const [loading, setLoading] = React.useState(cachedCategories.length === 0);
   const [search, setSearch] = React.useState("");
   const [departmentFilter, setDepartmentFilter] = React.useState("all");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -206,11 +208,14 @@ export default function AdminCategoriesPage() {
 
   const fetchCategories = React.useCallback(async () => {
     try {
-      setLoading(true);
+      if (cachedCategories.length === 0) setLoading(true);
       const res = await fetch("/api/admin/categories");
       const data = await res.json();
       const list = data.data || data.categories || [];
-      setCategories(list);
+      if (Array.isArray(list)) {
+        cachedCategories = list;
+        setCategories(list);
+      }
     } catch (err) {
       console.error("Failed to fetch categories:", err);
     } finally {

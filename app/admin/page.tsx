@@ -58,16 +58,19 @@ const BAR_SOLID_COLORS = [
   },
 ];
 
+let cachedOverviewData: any = null;
+
 export default function AdminOverviewPage() {
-  const [data, setData] = React.useState<any>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = React.useState<any>(cachedOverviewData);
+  const [loading, setLoading] = React.useState(!cachedOverviewData);
 
   const fetchMetrics = () => {
-    setLoading(true);
+    if (!cachedOverviewData) setLoading(true);
     fetch("/api/admin/overview")
       .then((res) => res.json())
       .then((json) => {
         if (json.status === "success") {
+          cachedOverviewData = json.data;
           setData(json.data);
         }
       })
