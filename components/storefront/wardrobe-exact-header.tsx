@@ -451,23 +451,23 @@ export function WardrobeExactHeader({
               <span className="hidden sm:inline uppercase text-gray-500">{language}</span>
             </button>
 
-            {/* Search Icon */}
+            {/* Search Icon - hidden on mobile since it is in the mobile bottom bar */}
             <button
               onClick={() => {
                 closeMenu();
                 onOpenSearch();
               }}
-              className="p-1.5 text-[#222] hover:text-black transition-colors rounded-full hover:bg-neutral-100"
+              className="hidden md:flex p-1.5 text-[#222] hover:text-black transition-colors rounded-full hover:bg-neutral-100"
               aria-label="Search"
             >
               <Search className="h-4 w-4" />
             </button>
 
-            {/* Account Icon */}
+            {/* Account Icon - hidden on mobile since it is in the mobile bottom bar */}
             <Link
               href="/account"
               onClick={closeMenu}
-              className="p-1.5 text-[#222] hover:text-black transition-colors rounded-full hover:bg-neutral-100"
+              className="hidden md:flex p-1.5 text-[#222] hover:text-black transition-colors rounded-full hover:bg-neutral-100"
               aria-label="Account"
             >
               <User className="h-4 w-4" />

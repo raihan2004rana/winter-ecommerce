@@ -24,7 +24,7 @@ export function FloatingSideCart() {
       aria-label="Open Shopping Bag"
       className={`fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[#111111] hover:bg-black text-white rounded-l-2xl shadow-2xl py-3 px-2 sm:px-2.5 border-l-2 border-y border-white/20 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:-translate-x-1 active:scale-95 group select-none ${
         isCartBouncing
-          ? "animate-cart-bounce ring-2 ring-emerald-500 bg-black"
+          ? "animate-cart-bounce ring-2 ring-white/80 bg-black"
           : ""
       }`}
       title="View Shopping Bag"
@@ -33,7 +33,7 @@ export function FloatingSideCart() {
       <div className="relative mb-1">
         <ShoppingBag className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
         {cartCount > 0 && (
-          <span className="absolute -top-1.5 -right-2 bg-emerald-500 text-black font-mono font-bold text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+          <span className="absolute -top-1.5 -right-2 bg-white text-black font-mono font-bold text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
             {cartCount}
           </span>
         )}
@@ -44,8 +44,8 @@ export function FloatingSideCart() {
         {cartCount} {cartCount === 1 ? "Item" : "Items"}
       </span>
 
-      {/* Dynamic Price Pill */}
-      <div className="mt-1 bg-white/10 group-hover:bg-emerald-500 group-hover:text-black px-1.5 py-0.5 rounded text-[11px] font-mono font-bold text-emerald-400 transition-colors">
+      {/* Dynamic Price Pill - Solid crisp white text */}
+      <div className="mt-1 bg-white/10 group-hover:bg-white/25 px-1.5 py-0.5 rounded text-[11px] font-mono font-bold text-white transition-colors">
         {formatCurrency(converted.amount, currency as any)}
       </div>
     </button>
