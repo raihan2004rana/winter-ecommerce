@@ -152,6 +152,20 @@ export function WardrobeExactFooter() {
                     Order tracking
                   </Link>
                 </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(new CustomEvent("open-live-chat"));
+                      }
+                    }}
+                    className="hover:text-black transition-colors text-left flex items-center space-x-1.5"
+                  >
+                    <span>Live concierge</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -180,6 +194,19 @@ export function WardrobeExactFooter() {
                   <a href="#" className="hover:text-black transition-colors">
                     Shipping policy
                   </a>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(new CustomEvent("open-cookie-preferences"));
+                      }
+                    }}
+                    className="hover:text-black transition-colors text-left"
+                  >
+                    Cookie preferences
+                  </button>
                 </li>
               </ul>
             </div>

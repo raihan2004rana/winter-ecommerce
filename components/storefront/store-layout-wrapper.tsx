@@ -10,6 +10,8 @@ import { WardrobeExactFooter } from "@/components/storefront/wardrobe-exact-foot
 import { FlyToCartProvider } from "@/components/storefront/fly-to-cart-provider";
 import { FloatingSideCart } from "@/components/storefront/floating-side-cart";
 import { MobileBottomNav } from "@/components/storefront/mobile-bottom-nav";
+import { CookieConsentBanner } from "@/components/storefront/cookie-consent-banner";
+import { LiveChatWidget } from "@/components/storefront/live-chat-widget";
 import { useCartStore } from "@/lib/store/cart-store";
 
 export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -73,6 +75,12 @@ export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) 
 
         {/* 8. Mobile Bottom Navigation Bar (5 bottom icons) */}
         <MobileBottomNav onOpenSearch={() => setIsSearchOpen(true)} />
+
+        {/* 9. Luxury Cookie Consent & Privacy Preferences Banner */}
+        <CookieConsentBanner />
+
+        {/* 10. Atelier Concierge Live Chat Widget */}
+        <LiveChatWidget />
       </div>
     </FlyToCartProvider>
   );
