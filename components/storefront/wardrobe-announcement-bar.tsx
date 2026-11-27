@@ -8,18 +8,10 @@ import { AdminCampaign } from "@/lib/server/admin-store";
 export function WardrobeAnnouncementBar() {
   const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [isDismissed, setIsDismissed] = React.useState(false);
+  const [dismissedMap, setDismissedMap] = React.useState<Record<string, boolean>>({});
   const [copied, setCopied] = React.useState(false);
 
-  React.useEffect(() => {
-    // Check if dismissed in this session
-    const dismissed = sessionStorage.getItem("wardrobe_announcement_dismissed");
-    if (dismissed === "true") {
-      setIsDismissed(true);
-      return;
-    }
-
-    // Fetch active announcement bar campaigns
+  const fetchCampaigns = React.useCallback(() => {
     fetch(`/api/campaigns?placement=announcement_bar&_t=${Date.now()}`, {
       cache: "no-store",
     })
@@ -44,6 +36,40 @@ export function WardrobeAnnouncementBar() {
       .catch((err) => console.error("Failed to load announcement campaign:", err));
   }, []);
 
+  React.useEffect(() => {
+    fetchCampaigns();
+
+    // 1. Real-time cross-tab synchronization via BroadcastChannel
+    let channel: BroadcastChannel | null = null;
+    try {
+      channel = new BroadcastChannel("wardrobe_campaigns_sync");
+      channel.onmessage = (msg) => {
+        if (msg.data?.type === "CAMPAIGN_UPDATED") {
+          // Reset dismissals for testing/admin updates
+          setDismissedMap({});
+          fetchCampaigns();
+        }
+      };
+    } catch {
+      // BroadcastChannel unsupported fallback
+    }
+
+    // 2. Refetch on window focus / tab visibility change (no manual page refresh needed)
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        fetchCampaigns();
+      }
+    };
+    window.addEventListener("focus", fetchCampaigns);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      window.removeEventListener("focus", fetchCampaigns);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      if (channel) channel.close();
+    };
+  }, [fetchCampaigns]);
+
   // Auto-rotate if 2+ announcement campaigns are active
   React.useEffect(() => {
     if (campaigns.length <= 1) return;
@@ -55,12 +81,21 @@ export function WardrobeAnnouncementBar() {
     return () => clearInterval(interval);
   }, [campaigns.length]);
 
+  const currentCampaign = campaigns[currentIndex] || campaigns[0] || null;
+
   const handleDismiss = () => {
-    setIsDismissed(true);
-    sessionStorage.setItem("wardrobe_announcement_dismissed", "true");
+    if (!currentCampaign) return;
+    setDismissedMap((prev) => ({ ...prev, [currentCampaign.id]: true }));
+    try {
+      sessionStorage.setItem(`wardrobe_announcement_dismissed_${currentCampaign.id}`, "true");
+    } catch {}
   };
 
-  const currentCampaign = campaigns[currentIndex] || campaigns[0] || null;
+  const isCurrentDismissed =
+    currentCampaign &&
+    (dismissedMap[currentCampaign.id] ||
+      (typeof window !== "undefined" &&
+        sessionStorage.getItem(`wardrobe_announcement_dismissed_${currentCampaign.id}`) === "true"));
 
   const handleCtaClick = () => {
     if (!currentCampaign) return;
@@ -77,7 +112,7 @@ export function WardrobeAnnouncementBar() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (isDismissed || !currentCampaign) {
+  if (!currentCampaign || isCurrentDismissed) {
     return null;
   }
 

@@ -97,7 +97,7 @@ export function WardrobeExactUgc() {
 
   return (
     <section
-      className="w-full bg-[#FFFFFF] py-16 sm:py-24 border-b border-[#F0F0F0] overflow-hidden select-none"
+      className="w-full bg-[#FFFFFF] pt-10 sm:pt-14 pb-14 sm:pb-20 border-b border-[#F0F0F0] overflow-hidden select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

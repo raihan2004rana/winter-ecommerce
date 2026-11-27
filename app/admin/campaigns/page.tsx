@@ -272,6 +272,7 @@ export default function AdminCampaignsPage() {
       }
 
       await fetchCampaigns();
+      broadcastSync();
       setIsModalOpen(false);
       setTimeout(() => setSuccessToast(null), 4000);
     } catch (err: any) {
@@ -279,6 +280,14 @@ export default function AdminCampaignsPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const broadcastSync = () => {
+    try {
+      const channel = new BroadcastChannel("wardrobe_campaigns_sync");
+      channel.postMessage({ type: "CAMPAIGN_UPDATED", timestamp: Date.now() });
+      channel.close();
+    } catch {}
   };
 
   // Toggle Active
@@ -290,6 +299,7 @@ export default function AdminCampaignsPage() {
         body: JSON.stringify({ id: c.id, isActive: !c.isActive }),
       });
       await fetchCampaigns();
+      broadcastSync();
       setSuccessToast(`Campaign status changed to ${!c.isActive ? "ACTIVE" : "PAUSED"}`);
       setTimeout(() => setSuccessToast(null), 3000);
     } catch (err) {
@@ -306,6 +316,7 @@ export default function AdminCampaignsPage() {
       });
       setDeletingId(null);
       await fetchCampaigns();
+      broadcastSync();
       setSuccessToast("Campaign permanently deleted.");
       setTimeout(() => setSuccessToast(null), 3000);
     } catch (err) {

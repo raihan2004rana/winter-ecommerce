@@ -11,7 +11,7 @@ export function WardrobeExactCategories() {
   const [womenImage, setWomenImage] = React.useState<string>("/images/wardrobe/new arrival-women.avif");
   const [menImage, setMenImage] = React.useState<string>("/images/wardrobe/new arrival-men.webp");
 
-  React.useEffect(() => {
+  const loadCategoryCampaign = React.useCallback(() => {
     fetch(`/api/campaigns?placement=category_header&_t=${Date.now()}`, {
       cache: "no-store",
     })
@@ -27,11 +27,37 @@ export function WardrobeExactCategories() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ campaignId: active.id, event: "impression" }),
           }).catch(() => {});
+        } else {
+          setCampaign(null);
         }
       })
       .catch((err) => console.error("Failed to load category campaign:", err));
+  }, []);
 
-    // Load dynamic category images from admin
+  React.useEffect(() => {
+    loadCategoryCampaign();
+
+    // 1. Cross-tab synchronization via BroadcastChannel
+    let channel: BroadcastChannel | null = null;
+    try {
+      channel = new BroadcastChannel("wardrobe_campaigns_sync");
+      channel.onmessage = (msg) => {
+        if (msg.data?.type === "CAMPAIGN_UPDATED") {
+          loadCategoryCampaign();
+        }
+      };
+    } catch {}
+
+    // 2. Refetch on window focus / tab visibility change
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        loadCategoryCampaign();
+      }
+    };
+    window.addEventListener("focus", loadCategoryCampaign);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    // 3. Load dynamic category images from admin
     fetch(`/api/categories?t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
@@ -48,7 +74,13 @@ export function WardrobeExactCategories() {
         }
       })
       .catch((err) => console.error("Failed to load category images:", err));
-  }, []);
+
+    return () => {
+      window.removeEventListener("focus", loadCategoryCampaign);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      if (channel) channel.close();
+    };
+  }, [loadCategoryCampaign]);
 
   const handleCtaClick = () => {
     if (!campaign) return;

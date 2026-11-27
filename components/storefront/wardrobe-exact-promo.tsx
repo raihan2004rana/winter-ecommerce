@@ -158,7 +158,7 @@ export function WardrobeExactPromo() {
   const [loaded, setLoaded] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string>("all");
 
-  React.useEffect(() => {
+  const loadPromoCampaigns = React.useCallback(() => {
     fetch(`/api/campaigns?placement=promo_section&_t=${Date.now()}`, {
       cache: "no-store",
     })
@@ -183,6 +183,36 @@ export function WardrobeExactPromo() {
         setLoaded(true);
       });
   }, []);
+
+  React.useEffect(() => {
+    loadPromoCampaigns();
+
+    // 1. Cross-tab synchronization via BroadcastChannel
+    let channel: BroadcastChannel | null = null;
+    try {
+      channel = new BroadcastChannel("wardrobe_campaigns_sync");
+      channel.onmessage = (msg) => {
+        if (msg.data?.type === "CAMPAIGN_UPDATED") {
+          loadPromoCampaigns();
+        }
+      };
+    } catch {}
+
+    // 2. Window focus & tab visibility change listener
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        loadPromoCampaigns();
+      }
+    };
+    window.addEventListener("focus", loadPromoCampaigns);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      window.removeEventListener("focus", loadPromoCampaigns);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      if (channel) channel.close();
+    };
+  }, [loadPromoCampaigns]);
 
   const handleCtaClick = (campaignId: string) => {
     fetch("/api/admin/campaigns/track", {

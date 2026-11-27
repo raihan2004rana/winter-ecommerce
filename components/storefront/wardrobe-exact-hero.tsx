@@ -10,7 +10,7 @@ export function WardrobeExactHero() {
   const [campaigns, setCampaigns] = React.useState<AdminCampaign[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
-  React.useEffect(() => {
+  const loadHeroCampaigns = React.useCallback(() => {
     fetch(`/api/campaigns?placement=hero&_t=${Date.now()}`, {
       cache: "no-store",
     })
@@ -34,6 +34,36 @@ export function WardrobeExactHero() {
       })
       .catch((err) => console.error("Failed to load hero campaign:", err));
   }, []);
+
+  React.useEffect(() => {
+    loadHeroCampaigns();
+
+    // 1. Cross-tab synchronization via BroadcastChannel
+    let channel: BroadcastChannel | null = null;
+    try {
+      channel = new BroadcastChannel("wardrobe_campaigns_sync");
+      channel.onmessage = (msg) => {
+        if (msg.data?.type === "CAMPAIGN_UPDATED") {
+          loadHeroCampaigns();
+        }
+      };
+    } catch {}
+
+    // 2. Refetch on window focus / tab visibility change
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        loadHeroCampaigns();
+      }
+    };
+    window.addEventListener("focus", loadHeroCampaigns);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      window.removeEventListener("focus", loadHeroCampaigns);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      if (channel) channel.close();
+    };
+  }, [loadHeroCampaigns]);
 
   // Auto-slide carousel if 2+ hero campaigns are active
   React.useEffect(() => {
