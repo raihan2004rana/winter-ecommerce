@@ -66,16 +66,28 @@ export default function AdminRootLayout({
   const isLoginPage = pathname === "/admin/login";
 
   React.useEffect(() => {
+    if (isLoginPage) return;
+
     // Read session from me endpoint or cookie on mount
     fetch("/api/admin/auth/me")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          router.push("/admin/login");
+          return null;
+        }
+        return res.json();
+      })
       .then((data) => {
         if (data && data.session) {
           setAdminUser(data.session);
+        } else if (data) {
+          router.push("/admin/login");
         }
       })
-      .catch(() => {});
-  }, []);
+      .catch(() => {
+        router.push("/admin/login");
+      });
+  }, [isLoginPage, router]);
 
   const handleLogout = async () => {
     await fetch("/api/admin/auth/logout", { method: "POST" });
